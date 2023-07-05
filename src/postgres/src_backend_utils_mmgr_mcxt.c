@@ -15,7 +15,7 @@
  * - MemoryContextStatsInternal
  * - MemoryContextStatsPrint
  * - pgq_pfree
- * - pstrdup
+ * - pgq_pstrdup
  * - MemoryContextStrdup
  * - MemoryContextAlloc
  * - palloc
@@ -1119,7 +1119,7 @@ pgq_pstrdup(const char *in)
 
 /*
  * pnstrdup
- *		Like pstrdup(), but append null byte to a
+ *		Like pgq_pstrdup(), but append null byte to a
  *		not-necessarily-null-terminated input string.
  */
 

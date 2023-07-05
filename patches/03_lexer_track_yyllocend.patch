@@ -14,7 +14,7 @@ index a0dfcf3b99..768170bb30 100644
 @@ -513,6 +513,7 @@ other			.
  					{
  						/* If NCHAR isn't a keyword, just return "n" */
- 						yylval->str = pstrdup("n");
+ 						yylval->str = pgq_pstrdup("n");
 +						yyextra->yyllocend = yytext - yyextra->scanbuf + yyleng;
  						return IDENT;
  					}
