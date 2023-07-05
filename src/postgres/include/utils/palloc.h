@@ -88,13 +88,13 @@ extern void pgq_pfree(void *pointer);
  * Allocate space for one object of type "type"
  */
 #define palloc_object(type) ((type *) pgq_palloc(sizeof(type)))
-#define palloc0_object(type) ((type *) palloc0(sizeof(type)))
+#define palloc0_object(type) ((type *) pgq_palloc0(sizeof(type)))
 
 /*
  * Allocate space for "count" objects of type "type"
  */
 #define palloc_array(type, count) ((type *) pgq_palloc(sizeof(type) * (count)))
-#define palloc0_array(type, count) ((type *) palloc0(sizeof(type) * (count)))
+#define palloc0_array(type, count) ((type *) pgq_palloc0(sizeof(type) * (count)))
 
 /*
  * Change size of allocation pointed to by "pointer" to have space for "count"
