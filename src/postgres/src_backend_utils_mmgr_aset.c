@@ -47,7 +47,7 @@
  *	sizes, we do want to be able to give the memory back to free() as soon
  *	as it is pgq_pfree()'d.  Otherwise we risk tying up a lot of memory in
  *	freelist entries that might never be usable.  This is specially needed
- *	when the caller is repeatedly repalloc()'ing a block bigger and bigger;
+ *	when the caller is repeatedly pgq_repalloc()'ing a block bigger and bigger;
  *	the previous instances of the block were guaranteed to be wasted until
  *	AllocSetReset() under the old way.
  *
@@ -1273,7 +1273,7 @@ AllocSetRealloc(MemoryContext context, void *pointer, Size size)
 		 * it's not worth being smarter.  (At one time we tried to avoid
 		 * memcpy when it was possible to enlarge the chunk in-place, but that
 		 * turns out to misbehave unpleasantly for repeated cycles of
-		 * pgq_palloc/repalloc/pgq_pfree: the eventually freed chunks go into the
+		 * pgq_palloc/pgq_repalloc/pgq_pfree: the eventually freed chunks go into the
 		 * wrong freelist for the next initial pgq_palloc request, and so we leak
 		 * memory indefinitely.  See pgsql-hackers archives for 2007-08-11.)
 		 */

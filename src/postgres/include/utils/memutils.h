@@ -107,7 +107,7 @@ extern bool MemoryContextContains(MemoryContext context, void *pointer);
  * preceded by the corresponding MemoryContext stored, without padding, in the
  * preceding sizeof(void*) bytes.  A currently-allocated chunk must contain a
  * backpointer to its owning context.  The backpointer is used by pgq_pfree() and
- * repalloc() to find the context to call.
+ * pgq_repalloc() to find the context to call.
  */
 #ifndef FRONTEND
 static inline MemoryContext

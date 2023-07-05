@@ -385,7 +385,7 @@ str_udeescape(const char *str, char escape,
 		if (out_dist > new_len - (MAX_UNICODE_EQUIVALENT_STRING + 1))
 		{
 			new_len *= 2;
-			new = repalloc(new, new_len);
+			new = pgq_repalloc(new, new_len);
 			out = new + out_dist;
 		}
 

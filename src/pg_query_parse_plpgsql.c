@@ -416,7 +416,7 @@ static bool stmts_walker(Node *node, plStmts *state)
 		if (state->stmts_count >= state->stmts_buf_size)
 		{
 			state->stmts_buf_size *= 2;
-			state->stmts = (Node**) repalloc(state->stmts, state->stmts_buf_size * sizeof(Node*));
+			state->stmts = (Node**) pgq_repalloc(state->stmts, state->stmts_buf_size * sizeof(Node*));
 		}
 		state->stmts[state->stmts_count] = (Node *) node;
 		state->stmts_count++;

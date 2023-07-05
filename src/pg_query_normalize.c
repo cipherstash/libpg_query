@@ -310,7 +310,7 @@ static void RecordConstLocation(pgssConstLocations *jstate, int location)
 		{
 			jstate->clocations_buf_size *= 2;
 			jstate->clocations = (pgssLocationLen *)
-				repalloc(jstate->clocations,
+				pgq_repalloc(jstate->clocations,
 						 jstate->clocations_buf_size *
 						 sizeof(pgssLocationLen));
 		}
@@ -326,7 +326,7 @@ static void RecordConstLocation(pgssConstLocations *jstate, int location)
 			jstate->param_refs_count++;
 			if (jstate->param_refs_count >= jstate->param_refs_buf_size) {
 				jstate->param_refs_buf_size *= 2;
-				jstate->param_refs = (int *) repalloc(jstate->param_refs, jstate->param_refs_buf_size * sizeof(int));
+				jstate->param_refs = (int *) pgq_repalloc(jstate->param_refs, jstate->param_refs_buf_size * sizeof(int));
 			}
 		}
 		jstate->clocations_count++;
@@ -377,7 +377,7 @@ static bool const_record_walker(Node *node, pgssConstLocations *jstate)
 					jstate->param_refs_count++;
 					if (jstate->param_refs_count >= jstate->param_refs_buf_size) {
 						jstate->param_refs_buf_size *= 2;
-						jstate->param_refs = (int *) repalloc(jstate->param_refs, jstate->param_refs_buf_size * sizeof(int));
+						jstate->param_refs = (int *) pgq_repalloc(jstate->param_refs, jstate->param_refs_buf_size * sizeof(int));
 					}
 				}
 			}

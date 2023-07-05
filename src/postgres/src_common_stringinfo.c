@@ -330,7 +330,7 @@ enlargeStringInfo(StringInfo str, int needed)
 	if (newlen > (int) MaxAllocSize)
 		newlen = (int) MaxAllocSize;
 
-	str->data = (char *) repalloc(str->data, newlen);
+	str->data = (char *) pgq_repalloc(str->data, newlen);
 
 	str->maxlen = newlen;
 }

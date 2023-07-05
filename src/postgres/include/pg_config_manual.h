@@ -298,7 +298,7 @@
  * exclude other known false positives.
  *
  * You should normally use MEMORY_CONTEXT_CHECKING with USE_VALGRIND;
- * instrumentation of repalloc() is inferior without it.
+ * instrumentation of pgq_repalloc() is inferior without it.
  */
 /* #define USE_VALGRIND */
 

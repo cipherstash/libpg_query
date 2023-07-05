@@ -7126,7 +7126,7 @@ addlit(char *ytext, int yleng, core_yyscan_t yyscanner)
 	if ((yyextra->literallen + yleng) >= yyextra->literalalloc)
 	{
 		yyextra->literalalloc = pg_nextpower2_32(yyextra->literallen + yleng + 1);
-		yyextra->literalbuf = (char *) repalloc(yyextra->literalbuf,
+		yyextra->literalbuf = (char *) pgq_repalloc(yyextra->literalbuf,
 												yyextra->literalalloc);
 	}
 	/* append new data */
@@ -7142,7 +7142,7 @@ addlitchar(unsigned char ychar, core_yyscan_t yyscanner)
 	if ((yyextra->literallen + 1) >= yyextra->literalalloc)
 	{
 		yyextra->literalalloc *= 2;
-		yyextra->literalbuf = (char *) repalloc(yyextra->literalbuf,
+		yyextra->literalbuf = (char *) pgq_repalloc(yyextra->literalbuf,
 												yyextra->literalalloc);
 	}
 	/* append new data */
@@ -7285,7 +7285,7 @@ void *
 core_yyrealloc(void *ptr, yy_size_t bytes, core_yyscan_t yyscanner)
 {
 	if (ptr)
-		return repalloc(ptr, bytes);
+		return pgq_repalloc(ptr, bytes);
 	else
 		return pgq_palloc(bytes);
 }

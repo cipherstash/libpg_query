@@ -9,12 +9,12 @@
  * - MemoryContextSetParent
  * - MemoryContextCallResetCallbacks
  * - MemoryContextResetOnly
- * - repalloc
+ * - pgq_repalloc
  * - MemoryContextStats
  * - MemoryContextStatsDetail
  * - MemoryContextStatsInternal
  * - MemoryContextStatsPrint
- * - pfree
+ * - pgq_pfree
  * - pstrdup
  * - MemoryContextStrdup
  * - MemoryContextAlloc
@@ -1033,7 +1033,7 @@ pgq_palloc0(Size size)
 
 
 /*
- * pfree
+ * pgq_pfree
  *		Release an allocated chunk.
  */
 void
@@ -1046,11 +1046,11 @@ pgq_pfree(void *pointer)
 }
 
 /*
- * repalloc
+ * pgq_repalloc
  *		Adjust the size of a previously allocated chunk.
  */
 void *
-repalloc(void *pointer, Size size)
+pgq_repalloc(void *pointer, Size size)
 {
 	MemoryContext context = GetMemoryChunkContext(pointer);
 	void	   *ret;
