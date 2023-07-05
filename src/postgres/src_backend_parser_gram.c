@@ -1229,7 +1229,7 @@
  * if possible, so there's not really much problem anyhow, at least if
  * you're building with gcc.
  */
-#define YYMALLOC palloc
+#define YYMALLOC pgq_palloc
 #define YYFREE   pfree
 
 /* Private struct for the result of privilege_target production */
