@@ -21,13 +21,13 @@
  * - palloc
  * - MemoryContextAllocZeroAligned
  * - MemoryContextAllocZero
- * - palloc0
+ * - pgq_palloc0
  * - MemoryContextCreate
  * - MemoryContextInit
  * - MemoryContextAllowInCriticalSection
  * - CurrentMemoryContext
  * - MemoryContextDelete
- * - palloc0
+ * - pgq_palloc0
  * - MemoryContextAllocExtended
  *--------------------------------------------------------------------
  */
@@ -998,7 +998,7 @@ pgq_palloc(Size size)
 }
 
 void *
-palloc0(Size size)
+pgq_palloc0(Size size)
 {
 	/* duplicates MemoryContextAllocZero to avoid increased overhead */
 	void	   *ret;

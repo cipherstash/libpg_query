@@ -268,7 +268,7 @@ _fingerprintRangeVar(FingerprintContext *ctx, const RangeVar *node, const void *
 
   if (node->relname != NULL && node->relpersistence != 't') {
     int len = strlen(node->relname);
-    char *r = palloc0((len + 1) * sizeof(char));
+    char *r = pgq_palloc0((len + 1) * sizeof(char));
     char *p = r;
     for (int i = 0; i < len; i++) {
       if (node->relname[i] >= '0' && node->relname[i] <= '9' &&

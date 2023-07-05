@@ -31,7 +31,7 @@ static void add_dummy_return(PLpgSQL_function *function)
 	{
 		PLpgSQL_stmt_block *new;
 
-		new = palloc0(sizeof(PLpgSQL_stmt_block));
+		new = pgq_palloc0(sizeof(PLpgSQL_stmt_block));
 		new->cmd_type = PLPGSQL_STMT_BLOCK;
 		new->body = list_make1(function->action);
 
@@ -42,7 +42,7 @@ static void add_dummy_return(PLpgSQL_function *function)
 	{
 		PLpgSQL_stmt_return *new;
 
-		new = palloc0(sizeof(PLpgSQL_stmt_return));
+		new = pgq_palloc0(sizeof(PLpgSQL_stmt_return));
 		new->cmd_type = PLPGSQL_STMT_RETURN;
 		new->expr = NULL;
 		new->retvarno = function->out_param_varno;
@@ -97,7 +97,7 @@ static PLpgSQL_function *compile_do_stmt(DoStmt* stmt)
 	assert(proc_source != NULL);
 
 	if(strcmp(language, "plpgsql") != 0) {
-		return (PLpgSQL_function *) palloc0(sizeof(PLpgSQL_function));
+		return (PLpgSQL_function *) pgq_palloc0(sizeof(PLpgSQL_function));
 	}
 	return plpgsql_compile_inline(proc_source);
 
@@ -144,7 +144,7 @@ static PLpgSQL_function *compile_create_function_stmt(CreateFunctionStmt* stmt)
 	assert(proc_source != NULL);
 
 	if(strcmp(language, "plpgsql") != 0) { 
-		return (PLpgSQL_function *) palloc0(sizeof(PLpgSQL_function));
+		return (PLpgSQL_function *) pgq_palloc0(sizeof(PLpgSQL_function));
 	}
 
 	if (stmt->returnType != NULL) {
@@ -183,7 +183,7 @@ static PLpgSQL_function *compile_create_function_stmt(CreateFunctionStmt* stmt)
 	plpgsql_check_syntax = true;
 
 	/* Function struct does not live past current statement */
-	function = (PLpgSQL_function *) palloc0(sizeof(PLpgSQL_function));
+	function = (PLpgSQL_function *) pgq_palloc0(sizeof(PLpgSQL_function));
 
 	plpgsql_curr_compile = function;
 

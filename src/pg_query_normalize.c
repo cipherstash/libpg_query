@@ -439,10 +439,10 @@ static bool const_record_walker(Node *node, pgssConstLocations *jstate)
 				foreach(lc, stmt->targetList)
 				{
 					ResTarget *res_target = lfirst_node(ResTarget, lc);
-					FpAndParamRefs *fp_and_param_refs = palloc0(sizeof(FpAndParamRefs));
+					FpAndParamRefs *fp_and_param_refs = pgq_palloc0(sizeof(FpAndParamRefs));
 
 					/* Save all param refs we encounter or assign */
-					jstate->param_refs = palloc0(1 * sizeof(int));
+					jstate->param_refs = pgq_palloc0(1 * sizeof(int));
 					jstate->param_refs_buf_size = 1;
 					jstate->param_refs_count = 0;
 

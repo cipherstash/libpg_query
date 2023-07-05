@@ -243,7 +243,7 @@ plpgsql_compile_inline(char *proc_source)
 	plpgsql_check_syntax = check_function_bodies;
 
 	/* Function struct does not live past current statement */
-	function = (PLpgSQL_function *) palloc0(sizeof(PLpgSQL_function));
+	function = (PLpgSQL_function *) pgq_palloc0(sizeof(PLpgSQL_function));
 
 	plpgsql_curr_compile = function;
 
@@ -395,7 +395,7 @@ add_dummy_return(PLpgSQL_function *function)
 	{
 		PLpgSQL_stmt_block *new;
 
-		new = palloc0(sizeof(PLpgSQL_stmt_block));
+		new = pgq_palloc0(sizeof(PLpgSQL_stmt_block));
 		new->cmd_type = PLPGSQL_STMT_BLOCK;
 		new->stmtid = ++function->nstatements;
 		new->body = list_make1(function->action);
@@ -407,7 +407,7 @@ add_dummy_return(PLpgSQL_function *function)
 	{
 		PLpgSQL_stmt_return *new;
 
-		new = palloc0(sizeof(PLpgSQL_stmt_return));
+		new = pgq_palloc0(sizeof(PLpgSQL_stmt_return));
 		new->cmd_type = PLPGSQL_STMT_RETURN;
 		new->stmtid = ++function->nstatements;
 		new->expr = NULL;
@@ -748,7 +748,7 @@ plpgsql_build_variable(const char *refname, int lineno, PLpgSQL_type *dtype,
 				/* Ordinary scalar datatype */
 				PLpgSQL_var *var;
 
-				var = palloc0(sizeof(PLpgSQL_var));
+				var = pgq_palloc0(sizeof(PLpgSQL_var));
 				var->dtype = PLPGSQL_DTYPE_VAR;
 				var->refname = pstrdup(refname);
 				var->lineno = lineno;
@@ -805,7 +805,7 @@ plpgsql_build_record(const char *refname, int lineno,
 {
 	PLpgSQL_rec *rec;
 
-	rec = palloc0(sizeof(PLpgSQL_rec));
+	rec = pgq_palloc0(sizeof(PLpgSQL_rec));
 	rec->dtype = PLPGSQL_DTYPE_REC;
 	rec->refname = pstrdup(refname);
 	rec->lineno = lineno;
@@ -852,7 +852,7 @@ plpgsql_build_recfield(PLpgSQL_rec *rec, const char *fldname)
 	}
 
 	/* nope, so make a new one */
-	recfield = palloc0(sizeof(PLpgSQL_recfield));
+	recfield = pgq_palloc0(sizeof(PLpgSQL_recfield));
 	recfield->dtype = PLPGSQL_DTYPE_RECFIELD;
 	recfield->fieldname = pstrdup(fldname);
 	recfield->recparentno = rec->dno;
@@ -879,7 +879,7 @@ plpgsql_build_recfield(PLpgSQL_rec *rec, const char *fldname)
  * It can be NULL if the type could not be a composite type, or if it was
  * identified by OID to begin with (e.g., it's a function argument type).
  */
-PLpgSQL_type * plpgsql_build_datatype(Oid typeOid, int32 typmod, Oid collation, TypeName *origtypname) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) palloc0(sizeof(PLpgSQL_type)); typ->typname = pstrdup("UNKNOWN"); typ->ttype = PLPGSQL_TTYPE_SCALAR; return typ; }
+PLpgSQL_type * plpgsql_build_datatype(Oid typeOid, int32 typmod, Oid collation, TypeName *origtypname) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) pgq_palloc0(sizeof(PLpgSQL_type)); typ->typname = pstrdup("UNKNOWN"); typ->ttype = PLPGSQL_TTYPE_SCALAR; return typ; }
 
 
 /*

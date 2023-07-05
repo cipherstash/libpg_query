@@ -1059,7 +1059,7 @@ SH_STAT(SH_TYPE * tb)
 	double		fillfactor;
 	uint32		i;
 
-	uint32	   *collisions = (uint32 *) palloc0(tb->size * sizeof(uint32));
+	uint32	   *collisions = (uint32 *) pgq_palloc0(tb->size * sizeof(uint32));
 	uint32		total_collisions = 0;
 	uint32		max_collisions = 0;
 	double		avg_collisions;
