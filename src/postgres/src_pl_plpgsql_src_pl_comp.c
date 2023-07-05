@@ -191,8 +191,8 @@ static void delete_function(PLpgSQL_function *func);
  *
  * Because palloc()'d storage will not be immediately freed, temporary
  * allocations should either be performed in a short-lived memory
- * context or explicitly pfree'd. Since not all backend functions are
- * careful about pfree'ing their allocations, it is also wise to
+ * context or explicitly pgq_pfree'd. Since not all backend functions are
+ * careful about pgq_pfree'ing their allocations, it is also wise to
  * switch into a short-term context before calling into the
  * backend. An appropriate context for performing short-term
  * allocations is the plpgsql_compile_tmp_cxt.

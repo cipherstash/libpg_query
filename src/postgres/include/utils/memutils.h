@@ -106,7 +106,7 @@ extern bool MemoryContextContains(MemoryContext context, void *pointer);
  * All chunks allocated by any memory context manager are required to be
  * preceded by the corresponding MemoryContext stored, without padding, in the
  * preceding sizeof(void*) bytes.  A currently-allocated chunk must contain a
- * backpointer to its owning context.  The backpointer is used by pfree() and
+ * backpointer to its owning context.  The backpointer is used by pgq_pfree() and
  * repalloc() to find the context to call.
  */
 #ifndef FRONTEND

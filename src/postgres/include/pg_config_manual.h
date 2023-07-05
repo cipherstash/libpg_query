@@ -303,7 +303,7 @@
 /* #define USE_VALGRIND */
 
 /*
- * Define this to cause pfree()'d memory to be cleared immediately, to
+ * Define this to cause pgq_pfree()'d memory to be cleared immediately, to
  * facilitate catching bugs that refer to already-freed values.
  * Right now, this gets defined automatically if --enable-cassert.
  */

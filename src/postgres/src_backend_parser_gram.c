@@ -1230,7 +1230,7 @@
  * you're building with gcc.
  */
 #define YYMALLOC pgq_palloc
-#define YYFREE   pfree
+#define YYFREE   pgq_pfree
 
 /* Private struct for the result of privilege_target production */
 typedef struct PrivTarget

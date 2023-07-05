@@ -410,7 +410,7 @@ SH_ALLOCATE(SH_TYPE * type, Size size)
 static inline void
 SH_FREE(SH_TYPE * type, void *pointer)
 {
-	pfree(pointer);
+	pgq_pfree(pointer);
 }
 
 #endif
@@ -458,7 +458,7 @@ SH_SCOPE void
 SH_DESTROY(SH_TYPE * tb)
 {
 	SH_FREE(tb, tb->data);
-	pfree(tb);
+	pgq_pfree(tb);
 }
 
 /* reset the contents of a previously created hash table */

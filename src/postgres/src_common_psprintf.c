@@ -77,7 +77,7 @@ psprintf(const char *fmt,...)
 			return result;		/* success */
 
 		/* Release buffer and loop around to try again with larger len. */
-		pfree(result);
+		pgq_pfree(result);
 		len = newlen;
 	}
 }

@@ -439,7 +439,7 @@ walrcv_clear_result(WalRcvExecResult *walres)
 		return;
 
 	if (walres->err)
-		pfree(walres->err);
+		pgq_pfree(walres->err);
 
 	if (walres->tuplestore)
 		tuplestore_end(walres->tuplestore);
@@ -447,7 +447,7 @@ walrcv_clear_result(WalRcvExecResult *walres)
 	if (walres->tupledesc)
 		FreeTupleDesc(walres->tupledesc);
 
-	pfree(walres);
+	pgq_pfree(walres);
 }
 
 /* prototypes for functions in walreceiver.c */

@@ -41,7 +41,7 @@
  * tuples, but resource management is different.  For a tuple in a disk page
  * we need to hold a pin on the buffer until the TupleTableSlot's reference
  * to the tuple is dropped; while for a pgq_palloc'd tuple we usually want the
- * tuple pfree'd when the TupleTableSlot's reference is dropped.
+ * tuple pgq_pfree'd when the TupleTableSlot's reference is dropped.
  *
  * A "minimal" tuple is handled similarly to a pgq_palloc'd regular tuple.
  * At present, minimal tuples never are stored in buffers, so there is no
@@ -96,7 +96,7 @@
 #define			TTS_FLAG_EMPTY			(1 << 1)
 #define TTS_EMPTY(slot)	(((slot)->tts_flags & TTS_FLAG_EMPTY) != 0)
 
-/* should pfree tuple "owned" by the slot? */
+/* should pgq_pfree tuple "owned" by the slot? */
 #define			TTS_FLAG_SHOULDFREE		(1 << 2)
 #define TTS_SHOULDFREE(slot) (((slot)->tts_flags & TTS_FLAG_SHOULDFREE) != 0)
 

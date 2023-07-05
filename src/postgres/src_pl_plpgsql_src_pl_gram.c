@@ -437,7 +437,7 @@
  * you're building with gcc.
  */
 #define YYMALLOC pgq_palloc
-#define YYFREE   pfree
+#define YYFREE   pgq_pfree
 
 
 typedef struct
@@ -5265,7 +5265,7 @@ read_sql_construct(int until,
 	expr->paramnos = NULL;
 	expr->target_param = -1;
 	expr->ns = plpgsql_ns_top();
-	pfree(ds.data);
+	pgq_pfree(ds.data);
 
 	if (valid_sql)
 		check_sql_expr(expr->query, expr->parseMode, startlocation);
@@ -5402,7 +5402,7 @@ read_datatype(int tok)
 
 	result = parse_datatype(type_name, startlocation);
 
-	pfree(ds.data);
+	pgq_pfree(ds.data);
 
 	plpgsql_push_back_token(tok);
 
@@ -5514,7 +5514,7 @@ make_execsql_stmt(int firsttoken, int location)
 	expr->paramnos = NULL;
 	expr->target_param = -1;
 	expr->ns = plpgsql_ns_top();
-	pfree(ds.data);
+	pgq_pfree(ds.data);
 
 	check_sql_expr(expr->query, expr->parseMode, location);
 
@@ -6316,7 +6316,7 @@ read_cursor_args(PLpgSQL_var *cursor, int until)
 	expr->paramnos = NULL;
 	expr->target_param = -1;
 	expr->ns = plpgsql_ns_top();
-	pfree(ds.data);
+	pgq_pfree(ds.data);
 
 	/* Next we'd better find the until token */
 	tok = yylex();
@@ -6493,12 +6493,12 @@ make_case(int location, PLpgSQL_expr *t_expr,
 			appendStringInfo(&ds, "\"%s\" IN (%s)",
 							 varname, expr->query);
 
-			pfree(expr->query);
+			pgq_pfree(expr->query);
 			expr->query = pstrdup(ds.data);
 			/* Adjust expr's namespace to include the case variable */
 			expr->ns = plpgsql_ns_top();
 
-			pfree(ds.data);
+			pgq_pfree(ds.data);
 		}
 	}
 

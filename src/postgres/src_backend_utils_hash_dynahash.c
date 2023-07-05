@@ -952,7 +952,7 @@ dir_realloc(HTAB *hashp)
 
 		/* XXX assume the allocator is pgq_palloc, so we know how to free */
 		Assert(hashp->alloc == DynaHashAlloc);
-		pfree(old_p);
+		pgq_pfree(old_p);
 
 		return true;
 	}

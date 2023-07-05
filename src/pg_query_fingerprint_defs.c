@@ -283,7 +283,7 @@ _fingerprintRangeVar(FingerprintContext *ctx, const RangeVar *node, const void *
     *p = 0;
     _fingerprintString(ctx, "relname");
     _fingerprintString(ctx, r);
-    pfree(r);
+    pgq_pfree(r);
   }
 
   if (node->relpersistence != 0) {

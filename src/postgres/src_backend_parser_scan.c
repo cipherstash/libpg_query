@@ -5603,7 +5603,7 @@ YY_RULE_SETUP
 {
 					if (strcmp(yytext, yyextra->dolqstart) == 0)
 					{
-						pfree(yyextra->dolqstart);
+						pgq_pfree(yyextra->dolqstart);
 						yyextra->dolqstart = NULL;
 						BEGIN(INITIAL);
 						yylval->str = litbufdup(yyscanner);
@@ -7113,9 +7113,9 @@ scanner_finish(core_yyscan_t yyscanner)
 	 * represent a nontrivial amount of space.  The 8K cutoff is arbitrary.
 	 */
 	if (yyextra->scanbuflen >= 8192)
-		pfree(yyextra->scanbuf);
+		pgq_pfree(yyextra->scanbuf);
 	if (yyextra->literalalloc >= 8192)
-		pfree(yyextra->literalbuf);
+		pgq_pfree(yyextra->literalbuf);
 }
 
 

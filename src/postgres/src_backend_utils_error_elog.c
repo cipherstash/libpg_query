@@ -631,29 +631,29 @@ errfinish(const char *filename, int lineno, const char *funcname)
 
 	/* Now free up subsidiary data attached to stack entry, and release it */
 	if (edata->message)
-		pfree(edata->message);
+		pgq_pfree(edata->message);
 	if (edata->detail)
-		pfree(edata->detail);
+		pgq_pfree(edata->detail);
 	if (edata->detail_log)
-		pfree(edata->detail_log);
+		pgq_pfree(edata->detail_log);
 	if (edata->hint)
-		pfree(edata->hint);
+		pgq_pfree(edata->hint);
 	if (edata->context)
-		pfree(edata->context);
+		pgq_pfree(edata->context);
 	if (edata->backtrace)
-		pfree(edata->backtrace);
+		pgq_pfree(edata->backtrace);
 	if (edata->schema_name)
-		pfree(edata->schema_name);
+		pgq_pfree(edata->schema_name);
 	if (edata->table_name)
-		pfree(edata->table_name);
+		pgq_pfree(edata->table_name);
 	if (edata->column_name)
-		pfree(edata->column_name);
+		pgq_pfree(edata->column_name);
 	if (edata->datatype_name)
-		pfree(edata->datatype_name);
+		pgq_pfree(edata->datatype_name);
 	if (edata->constraint_name)
-		pfree(edata->constraint_name);
+		pgq_pfree(edata->constraint_name);
 	if (edata->internalquery)
-		pfree(edata->internalquery);
+		pgq_pfree(edata->internalquery);
 
 	errordata_stack_depth--;
 
@@ -805,9 +805,9 @@ errcode(int sqlerrcode)
 		} \
 		/* Save the completed message into the stack item */ \
 		if (edata->targetfield) \
-			pfree(edata->targetfield); \
+			pgq_pfree(edata->targetfield); \
 		edata->targetfield = pstrdup(buf.data); \
-		pfree(buf.data); \
+		pgq_pfree(buf.data); \
 	}
 
 /*
@@ -844,9 +844,9 @@ errcode(int sqlerrcode)
 		} \
 		/* Save the completed message into the stack item */ \
 		if (edata->targetfield) \
-			pfree(edata->targetfield); \
+			pgq_pfree(edata->targetfield); \
 		edata->targetfield = pstrdup(buf.data); \
-		pfree(buf.data); \
+		pgq_pfree(buf.data); \
 	}
 
 
@@ -1170,7 +1170,7 @@ internalerrquery(const char *query)
 
 	if (edata->internalquery)
 	{
-		pfree(edata->internalquery);
+		pgq_pfree(edata->internalquery);
 		edata->internalquery = NULL;
 	}
 

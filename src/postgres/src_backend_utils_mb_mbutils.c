@@ -811,12 +811,12 @@ pgwin32_message_to_UTF16(const char *str, int len, int *utf16len)
 		utf16[dstlen] = (WCHAR) 0;
 
 		if (utf8 != str)
-			pfree(utf8);
+			pgq_pfree(utf8);
 	}
 
 	if (dstlen == 0 && len > 0)
 	{
-		pfree(utf16);
+		pgq_pfree(utf16);
 		return NULL;			/* error */
 	}
 

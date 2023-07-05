@@ -171,7 +171,7 @@ void
 bms_free(Bitmapset *a)
 {
 	if (a)
-		pfree(a);
+		pgq_pfree(a);
 }
 
 

@@ -100,7 +100,7 @@ PgQueryParseResult pg_query_parse(const char* input)
 
 	tree_json = pg_query_nodes_to_json(parsetree_and_error.tree);
 	result.parse_tree = strdup(tree_json);
-	pfree(tree_json);
+	pgq_pfree(tree_json);
 
 	pg_query_exit_memory_context(ctx);
 

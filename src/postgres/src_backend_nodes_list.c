@@ -864,11 +864,11 @@ list_free_private(List *list, bool deep)
 	if (deep)
 	{
 		for (int i = 0; i < list->length; i++)
-			pfree(lfirst(&list->elements[i]));
+			pgq_pfree(lfirst(&list->elements[i]));
 	}
 	if (list->elements != list->initial_elements)
-		pfree(list->elements);
-	pfree(list);
+		pgq_pfree(list->elements);
+	pgq_pfree(list);
 }
 
 /*

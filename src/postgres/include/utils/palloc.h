@@ -78,7 +78,7 @@ extern void *pgq_palloc(Size size);
 extern void *pgq_palloc0(Size size);
 extern void *palloc_extended(Size size, int flags);
 extern pg_nodiscard void *repalloc(void *pointer, Size size);
-extern void pfree(void *pointer);
+extern void pgq_pfree(void *pointer);
 
 /*
  * Variants with easier notation and more type safety

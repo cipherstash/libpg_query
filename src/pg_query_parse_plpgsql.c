@@ -500,7 +500,7 @@ PgQueryPlpgsqlParseResult pg_query_parse_plpgsql(const char* input)
 				result.plpgsql_funcs = new_out;
 			}
 
-			pfree(func_json);
+			pgq_pfree(func_json);
 		}
 	}
 

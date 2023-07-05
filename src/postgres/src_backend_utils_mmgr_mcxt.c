@@ -1037,7 +1037,7 @@ pgq_palloc0(Size size)
  *		Release an allocated chunk.
  */
 void
-pfree(void *pointer)
+pgq_pfree(void *pointer)
 {
 	MemoryContext context = GetMemoryChunkContext(pointer);
 

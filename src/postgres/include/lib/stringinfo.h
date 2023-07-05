@@ -56,7 +56,7 @@ typedef StringInfoData *StringInfo;
  *		This is the easiest approach for a StringInfo object that will
  *		only live as long as the current routine.
  *
- * To destroy a StringInfo, pfree() the data buffer, and then pfree() the
+ * To destroy a StringInfo, pgq_pfree() the data buffer, and then pgq_pfree() the
  * StringInfoData if it was pgq_palloc'd.  There's no special support for this.
  *
  * NOTE: some routines build up a string using StringInfo, and then

@@ -44,7 +44,7 @@
  * Note that we do not treat "toasted" datums specially; therefore what
  * will be copied or compared is the compressed data or toast reference.
  * An exception is made for datumCopy() of an expanded object, however,
- * because most callers expect to get a simple contiguous (and pfree'able)
+ * because most callers expect to get a simple contiguous (and pgq_pfree'able)
  * result from datumCopy().  See also datumTransfer().
  */
 
@@ -133,7 +133,7 @@ datumGetSize(Datum value, bool typByVal, int typLen)
  * this function is to copy a datum out of a transient memory context that's
  * about to be destroyed, and the expanded object is probably in a child
  * context that will also go away.  Moreover, many callers assume that the
- * result is a single pfree-able chunk.
+ * result is a single pgq_pfree-able chunk.
  *-------------------------------------------------------------------------
  */
 Datum
