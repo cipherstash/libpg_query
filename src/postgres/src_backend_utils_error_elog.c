@@ -1348,7 +1348,7 @@ CopyErrorData(void)
 	Assert(CurrentMemoryContext != ErrorContext);
 
 	/* Copy the struct itself */
-	newedata = (ErrorData *) palloc(sizeof(ErrorData));
+	newedata = (ErrorData *) pgq_palloc(sizeof(ErrorData));
 	memcpy(newedata, edata, sizeof(ErrorData));
 
 	/* Make copies of separately-allocated fields */

@@ -159,9 +159,9 @@ typedef AllocSetContext *AllocSet;
  * AllocBlock
  *		An AllocBlock is the unit of memory that is obtained by aset.c
  *		from malloc().  It contains one or more AllocChunks, which are
- *		the units requested by palloc() and freed by pfree().  AllocChunks
+ *		the units requested by pgq_palloc() and freed by pfree().  AllocChunks
  *		cannot be returned to malloc() individually, instead they are put
- *		on freelists by pfree() and re-used by the next palloc() that has
+ *		on freelists by pfree() and re-used by the next pgq_palloc() that has
  *		a matching request size.
  *
  *		AllocBlockData is the header data for a block --- the usable space
@@ -1273,8 +1273,8 @@ AllocSetRealloc(MemoryContext context, void *pointer, Size size)
 		 * it's not worth being smarter.  (At one time we tried to avoid
 		 * memcpy when it was possible to enlarge the chunk in-place, but that
 		 * turns out to misbehave unpleasantly for repeated cycles of
-		 * palloc/repalloc/pfree: the eventually freed chunks go into the
-		 * wrong freelist for the next initial palloc request, and so we leak
+		 * pgq_palloc/repalloc/pfree: the eventually freed chunks go into the
+		 * wrong freelist for the next initial pgq_palloc request, and so we leak
 		 * memory indefinitely.  See pgsql-hackers archives for 2007-08-11.)
 		 */
 		AllocPointer newPointer;
@@ -1501,7 +1501,7 @@ AllocSetCheck(MemoryContext context)
 			/*
 			 * If chunk is allocated, check for correct aset pointer. (If it's
 			 * free, the aset is the freelist pointer, which we can't check as
-			 * easily...)  Note this is an incomplete test, since palloc(0)
+			 * easily...)  Note this is an incomplete test, since pgq_palloc(0)
 			 * produces an allocated chunk with requested_size == 0.
 			 */
 			if (dsize > 0 && chunk->aset != (void *) set)

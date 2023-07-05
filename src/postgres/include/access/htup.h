@@ -39,12 +39,12 @@ typedef MinimalTupleData *MinimalTuple;
  * * Pointer to nothing: t_data is NULL.  This is used as a failure indication
  *	 in some functions.
  *
- * * Part of a palloc'd tuple: the HeapTupleData itself and the tuple
- *	 form a single palloc'd chunk.  t_data points to the memory location
+ * * Part of a pgq_palloc'd tuple: the HeapTupleData itself and the tuple
+ *	 form a single pgq_palloc'd chunk.  t_data points to the memory location
  *	 immediately following the HeapTupleData struct (at offset HEAPTUPLESIZE).
  *	 This is the output format of heap_form_tuple and related routines.
  *
- * * Separately allocated tuple: t_data points to a palloc'd chunk that
+ * * Separately allocated tuple: t_data points to a pgq_palloc'd chunk that
  *	 is not adjacent to the HeapTupleData.  (This case is deprecated since
  *	 it's difficult to tell apart from case #1.  It should be used only in
  *	 limited contexts where the code knows that case #1 will never apply.)

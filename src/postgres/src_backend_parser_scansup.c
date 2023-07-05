@@ -58,7 +58,7 @@ downcase_identifier(const char *ident, int len, bool warn, bool truncate)
 	int			i;
 	bool		enc_is_single_byte;
 
-	result = palloc(len + 1);
+	result = pgq_palloc(len + 1);
 	enc_is_single_byte = pg_database_encoding_max_length() == 1;
 
 	/*

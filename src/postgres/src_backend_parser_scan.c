@@ -7081,7 +7081,7 @@ scanner_init(const char *str,
 	/*
 	 * Make a scan buffer with special termination needed by flex.
 	 */
-	yyext->scanbuf = (char *) palloc(slen + 2);
+	yyext->scanbuf = (char *) pgq_palloc(slen + 2);
 	yyext->scanbuflen = slen;
 	memcpy(yyext->scanbuf, str, slen);
 	yyext->scanbuf[slen] = yyext->scanbuf[slen + 1] = YY_END_OF_BUFFER_CHAR;
@@ -7089,7 +7089,7 @@ scanner_init(const char *str,
 
 	/* initialize literal buffer to a reasonable but expansible size */
 	yyext->literalalloc = 1024;
-	yyext->literalbuf = (char *) palloc(yyext->literalalloc);
+	yyext->literalbuf = (char *) pgq_palloc(yyext->literalalloc);
 	yyext->literallen = 0;
 
 	return scanner;
@@ -7160,7 +7160,7 @@ litbufdup(core_yyscan_t yyscanner)
 	int			llen = yyextra->literallen;
 	char	   *new;
 
-	new = palloc(llen + 1);
+	new = pgq_palloc(llen + 1);
 	memcpy(new, yyextra->literalbuf, llen);
 	new[llen] = '\0';
 	return new;
@@ -7278,7 +7278,7 @@ check_escape_warning(core_yyscan_t yyscanner)
 void *
 core_yyalloc(yy_size_t bytes, core_yyscan_t yyscanner)
 {
-	return palloc(bytes);
+	return pgq_palloc(bytes);
 }
 
 void *
@@ -7287,7 +7287,7 @@ core_yyrealloc(void *ptr, yy_size_t bytes, core_yyscan_t yyscanner)
 	if (ptr)
 		return repalloc(ptr, bytes);
 	else
-		return palloc(bytes);
+		return pgq_palloc(bytes);
 }
 
 

@@ -967,7 +967,7 @@ MemoryContextAllocExtended(MemoryContext context, Size size, int flags)
 
 
 void *
-palloc(Size size)
+pgq_palloc(Size size)
 {
 	/* duplicates MemoryContextAlloc to avoid increased overhead */
 	void	   *ret;

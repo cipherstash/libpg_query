@@ -419,7 +419,7 @@ static bool MatchNamedCall(HeapTuple proctup, int nargs, List *argnames,
  * The number of positional arguments is nargs - list_length(argnames).
  * Note caller has already done basic checks on argument count.
  *
- * On match, return true and fill *argnumbers with a palloc'd array showing
+ * On match, return true and fill *argnumbers with a pgq_palloc'd array showing
  * the mapping from call argument positions to actual function argument
  * numbers.  Defaulted arguments are included in this map, at positions
  * after the last supplied argument.
@@ -994,7 +994,7 @@ Oid get_collation_oid(List *name, bool missing_ok) { return -1; }
 
 
 /*
- * Fetch the active search path. The return value is a palloc'ed list
+ * Fetch the active search path. The return value is a pgq_palloc'ed list
  * of OIDs; the caller is responsible for freeing this storage as
  * appropriate.
  *

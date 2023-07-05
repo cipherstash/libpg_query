@@ -1620,7 +1620,7 @@ quote_identifier(const char *ident)
 	if (safe)
 		return ident;			/* no change needed */
 
-	result = (char *) palloc(strlen(ident) + nquotes + 2 + 1);
+	result = (char *) pgq_palloc(strlen(ident) + nquotes + 2 + 1);
 
 	optr = result;
 	*optr++ = '"';

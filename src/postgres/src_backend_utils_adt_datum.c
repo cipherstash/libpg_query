@@ -156,7 +156,7 @@ datumCopy(Datum value, bool typByVal, int typLen)
 			char	   *resultptr;
 
 			resultsize = EOH_get_flat_size(eoh);
-			resultptr = (char *) palloc(resultsize);
+			resultptr = (char *) pgq_palloc(resultsize);
 			EOH_flatten_into(eoh, (void *) resultptr, resultsize);
 			res = PointerGetDatum(resultptr);
 		}
@@ -167,7 +167,7 @@ datumCopy(Datum value, bool typByVal, int typLen)
 			char	   *resultptr;
 
 			realSize = (Size) VARSIZE_ANY(vl);
-			resultptr = (char *) palloc(realSize);
+			resultptr = (char *) pgq_palloc(realSize);
 			memcpy(resultptr, vl, realSize);
 			res = PointerGetDatum(resultptr);
 		}
@@ -180,7 +180,7 @@ datumCopy(Datum value, bool typByVal, int typLen)
 
 		realSize = datumGetSize(value, typByVal, typLen);
 
-		resultptr = (char *) palloc(realSize);
+		resultptr = (char *) pgq_palloc(realSize);
 		memcpy(resultptr, DatumGetPointer(value), realSize);
 		res = PointerGetDatum(resultptr);
 	}

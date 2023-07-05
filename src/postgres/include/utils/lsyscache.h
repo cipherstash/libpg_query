@@ -57,8 +57,8 @@ typedef struct AttStatsSlot
 	int			nnumbers;		/* length of numbers[], or 0 */
 
 	/* Remaining fields are private to get_attstatsslot/free_attstatsslot */
-	void	   *values_arr;		/* palloc'd values array, if any */
-	void	   *numbers_arr;	/* palloc'd numbers array, if any */
+	void	   *values_arr;		/* pgq_palloc'd values array, if any */
+	void	   *numbers_arr;	/* pgq_palloc'd numbers array, if any */
 } AttStatsSlot;
 
 /* Hook for plugins to get control in get_attavgwidth() */

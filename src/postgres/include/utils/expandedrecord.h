@@ -29,7 +29,7 @@
  * have both forms, if we've deconstructed the original tuple for access
  * purposes but not yet changed it.  For pass-by-reference field types, the
  * Datums would point into the flat tuple in this situation.  Once we start
- * modifying tuple fields, new pass-by-ref fields are separately palloc'd
+ * modifying tuple fields, new pass-by-ref fields are separately pgq_palloc'd
  * within the memory context.
  *
  * It's possible to build an expanded record that references a "flat" tuple
@@ -92,10 +92,10 @@ typedef struct ExpandedRecordHeader
 	 * If we have a Datum-array representation of the record, it's kept here;
 	 * else ER_FLAG_DVALUES_VALID is not set, and dvalues/dnulls may be NULL
 	 * if they've not yet been allocated.  If allocated, the dvalues and
-	 * dnulls arrays are palloc'd within the object private context, and are
+	 * dnulls arrays are pgq_palloc'd within the object private context, and are
 	 * of length matching er_tupdesc->natts.  For pass-by-ref field types,
 	 * dvalues entries might point either into the fstartptr..fendptr area, or
-	 * to separately palloc'd chunks.
+	 * to separately pgq_palloc'd chunks.
 	 */
 	Datum	   *dvalues;		/* array of Datums */
 	bool	   *dnulls;			/* array of is-null flags for Datums */
@@ -121,7 +121,7 @@ typedef struct ExpandedRecordHeader
 	 * fetch system column values.  If we have a flat representation then
 	 * fstartptr/fendptr point to the start and end+1 of its data area; this
 	 * is so that we can tell which Datum pointers point into the flat
-	 * representation rather than being pointers to separately palloc'd data.
+	 * representation rather than being pointers to separately pgq_palloc'd data.
 	 */
 	HeapTuple	fvalue;			/* might or might not be private storage */
 	char	   *fstartptr;		/* start of its data area */

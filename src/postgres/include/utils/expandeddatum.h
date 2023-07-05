@@ -89,7 +89,7 @@ typedef struct ExpandedObjectMethods
  * We set up two TOAST pointers within the standard header, one read-write
  * and one read-only.  This allows functions to return either kind of pointer
  * without making an additional allocation, and in particular without worrying
- * whether a separately palloc'd object would have sufficient lifespan.
+ * whether a separately pgq_palloc'd object would have sufficient lifespan.
  * But note that these pointers are just a convenience; a pointer object
  * appearing somewhere else would still be legal.
  *

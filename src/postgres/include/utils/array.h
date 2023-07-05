@@ -101,7 +101,7 @@ typedef struct ArrayType
  * the original array for access purposes but not yet changed it.  For pass-
  * by-reference element types, the Datums would point into the flat array in
  * this situation.  Once we start modifying array elements, new pass-by-ref
- * elements are separately palloc'd within the memory context.
+ * elements are separately pgq_palloc'd within the memory context.
  */
 #define EA_MAGIC 689375833		/* ID for debugging crosschecks */
 
@@ -127,10 +127,10 @@ typedef struct ExpandedArrayHeader
 	/*
 	 * If we have a Datum-array representation of the array, it's kept here;
 	 * else dvalues/dnulls are NULL.  The dvalues and dnulls arrays are always
-	 * palloc'd within the object private context, but may change size from
+	 * pgq_palloc'd within the object private context, but may change size from
 	 * time to time.  For pass-by-ref element types, dvalues entries might
 	 * point either into the fstartptr..fendptr area, or to separately
-	 * palloc'd chunks.  Elements should always be fully detoasted, as they
+	 * pgq_palloc'd chunks.  Elements should always be fully detoasted, as they
 	 * are in the standard flat representation.
 	 *
 	 * Even when dvalues is valid, dnulls can be NULL if there are no null
@@ -153,7 +153,7 @@ typedef struct ExpandedArrayHeader
 	 * NULL.  If we have or ever had a flat representation then
 	 * fstartptr/fendptr point to the start and end+1 of its data area; this
 	 * is so that we can tell which Datum pointers point into the flat
-	 * representation rather than being pointers to separately palloc'd data.
+	 * representation rather than being pointers to separately pgq_palloc'd data.
 	 */
 	ArrayType  *fvalue;			/* must be a fully detoasted array */
 	char	   *fstartptr;		/* start of its data area */

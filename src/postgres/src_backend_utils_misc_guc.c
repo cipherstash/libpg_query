@@ -862,7 +862,7 @@ static void replace_auto_config_value(ConfigVariable **head_p, ConfigVariable **
  * any obsolete names will be converted when stored in a new PG version.
  * Note however that this function does not verify legality of the name.
  *
- * The result is a palloc'd string.
+ * The result is a pgq_palloc'd string.
  */
 
 
@@ -1232,7 +1232,7 @@ static void replace_auto_config_value(ConfigVariable **head_p, ConfigVariable **
  * the flattening rules vary (ugh).
  *
  * The result is NULL if args is NIL (i.e., SET ... TO DEFAULT), otherwise
- * a palloc'd string.
+ * a pgq_palloc'd string.
  */
 
 
@@ -1271,7 +1271,7 @@ static void replace_auto_config_value(ConfigVariable **head_p, ConfigVariable **
 
 /*
  * Get the value to assign for a VariableSetStmt, or NULL if it's RESET.
- * The result is palloc'd.
+ * The result is pgq_palloc'd.
  *
  * This is exported for use by actions such as ALTER ROLE SET.
  */
@@ -1365,7 +1365,7 @@ static void replace_auto_config_value(ConfigVariable **head_p, ConfigVariable **
 /*
  * Return GUC variable value by name; optionally return canonical form of
  * name.  If the GUC is unset, then throw an error unless missing_ok is true,
- * in which case return NULL.  Return value is palloc'd (but *varname isn't).
+ * in which case return NULL.  Return value is pgq_palloc'd (but *varname isn't).
  */
 
 
@@ -1378,7 +1378,7 @@ static void replace_auto_config_value(ConfigVariable **head_p, ConfigVariable **
 
 /*
  * Return GUC variable value by variable number; optionally return canonical
- * form of name.  Return value is palloc'd.
+ * form of name.  Return value is pgq_palloc'd.
  */
 
 
@@ -1935,7 +1935,7 @@ read_nondefault_variables(void)
  * \0\0-terminated) list of function names.  This formulation allows
  * easy scanning when an error is thrown while avoiding the use of
  * non-reentrant strtok(), as well as keeping the output data in a
- * single palloc() chunk.
+ * single pgq_palloc() chunk.
  */
 
 

@@ -43,7 +43,7 @@
  *
  * For hash tables in shared memory, the memory allocator function should
  * match malloc's semantics of returning NULL on failure.  For hash tables
- * in local memory, we typically use palloc() which will throw error on
+ * in local memory, we typically use pgq_palloc() which will throw error on
  * failure.  The code in this file has to cope with both cases.
  *
  * dynahash.c provides support for these types of lookup keys:
@@ -459,8 +459,8 @@ calc_bucket(HASHHDR *hctl, uint32 hash_val)
  * HASH_ENTER will normally ereport a generic "out of memory" error if
  * it is unable to create a new entry.  The HASH_ENTER_NULL operation is
  * the same except it will return NULL if out of memory.  Note that
- * HASH_ENTER_NULL cannot be used with the default palloc-based allocator,
- * since palloc internally ereports on out-of-memory.
+ * HASH_ENTER_NULL cannot be used with the default pgq_palloc-based allocator,
+ * since pgq_palloc internally ereports on out-of-memory.
  *
  * If foundPtr isn't NULL, then *foundPtr is set true if we found an
  * existing entry in the table, false otherwise.  This is needed in the
@@ -510,7 +510,7 @@ hash_search_with_hash_value(HTAB *hashp,
 	 *
 	 * NOTE: failure to expand table is not a fatal error, it just means we
 	 * have to run at higher fill factor than we wanted.  However, if we're
-	 * using the palloc allocator then it will throw error anyway on
+	 * using the pgq_palloc allocator then it will throw error anyway on
 	 * out-of-memory, so we must do this before modifying the table.
 	 */
 	if (action == HASH_ENTER || action == HASH_ENTER_NULL)
@@ -604,7 +604,7 @@ hash_search_with_hash_value(HTAB *hashp,
 			return NULL;
 
 		case HASH_ENTER_NULL:
-			/* ENTER_NULL does not work with palloc-based allocator */
+			/* ENTER_NULL does not work with pgq_palloc-based allocator */
 			Assert(hashp->alloc != DynaHashAlloc);
 			/* FALL THRU */
 
@@ -950,7 +950,7 @@ dir_realloc(HTAB *hashp)
 		hashp->dir = p;
 		hashp->hctl->dsize = new_dsize;
 
-		/* XXX assume the allocator is palloc, so we know how to free */
+		/* XXX assume the allocator is pgq_palloc, so we know how to free */
 		Assert(hashp->alloc == DynaHashAlloc);
 		pfree(old_p);
 

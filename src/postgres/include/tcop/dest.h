@@ -43,11 +43,11 @@
  *
  * The DestReceiver object returned by CreateDestReceiver may be a statically
  * allocated object (for destination types that require no local state),
- * in which case rDestroy is a no-op.  Alternatively it can be a palloc'd
+ * in which case rDestroy is a no-op.  Alternatively it can be a pgq_palloc'd
  * object that has DestReceiver as its first field and contains additional
  * fields (see printtup.c for an example).  These additional fields are then
  * accessible to the DestReceiver functions by casting the DestReceiver*
- * pointer passed to them.  The palloc'd object is pfree'd by the rDestroy
+ * pointer passed to them.  The pgq_palloc'd object is pfree'd by the rDestroy
  * method.  Note that the caller of CreateDestReceiver should take care to
  * do so in a memory context that is long-lived enough for the receiver
  * object not to disappear while still needed.

@@ -91,7 +91,7 @@ bms_copy(const Bitmapset *a)
 	if (a == NULL)
 		return NULL;
 	size = BITMAPSET_SIZE(a->nwords);
-	result = (Bitmapset *) palloc(size);
+	result = (Bitmapset *) pgq_palloc(size);
 	memcpy(result, a, size);
 	return result;
 }

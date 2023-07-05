@@ -33597,10 +33597,10 @@ yyreduce:
   case 549:
 #line 4258 "gram.y"
     {
-					KeyActions *n = palloc(sizeof(KeyActions));
+					KeyActions *n = pgq_palloc(sizeof(KeyActions));
 
 					n->updateAction = (yyvsp[(1) - (1)].keyaction);
-					n->deleteAction = palloc(sizeof(KeyAction));
+					n->deleteAction = pgq_palloc(sizeof(KeyAction));
 					n->deleteAction->action = FKCONSTR_ACTION_NOACTION;
 					n->deleteAction->cols = NIL;
 					(yyval.keyactions) = n;
@@ -33610,9 +33610,9 @@ yyreduce:
   case 550:
 #line 4268 "gram.y"
     {
-					KeyActions *n = palloc(sizeof(KeyActions));
+					KeyActions *n = pgq_palloc(sizeof(KeyActions));
 
-					n->updateAction = palloc(sizeof(KeyAction));
+					n->updateAction = pgq_palloc(sizeof(KeyAction));
 					n->updateAction->action = FKCONSTR_ACTION_NOACTION;
 					n->updateAction->cols = NIL;
 					n->deleteAction = (yyvsp[(1) - (1)].keyaction);
@@ -33623,7 +33623,7 @@ yyreduce:
   case 551:
 #line 4278 "gram.y"
     {
-					KeyActions *n = palloc(sizeof(KeyActions));
+					KeyActions *n = pgq_palloc(sizeof(KeyActions));
 
 					n->updateAction = (yyvsp[(1) - (2)].keyaction);
 					n->deleteAction = (yyvsp[(2) - (2)].keyaction);
@@ -33634,7 +33634,7 @@ yyreduce:
   case 552:
 #line 4286 "gram.y"
     {
-					KeyActions *n = palloc(sizeof(KeyActions));
+					KeyActions *n = pgq_palloc(sizeof(KeyActions));
 
 					n->updateAction = (yyvsp[(2) - (2)].keyaction);
 					n->deleteAction = (yyvsp[(1) - (2)].keyaction);
@@ -33645,12 +33645,12 @@ yyreduce:
   case 553:
 #line 4294 "gram.y"
     {
-					KeyActions *n = palloc(sizeof(KeyActions));
+					KeyActions *n = pgq_palloc(sizeof(KeyActions));
 
-					n->updateAction = palloc(sizeof(KeyAction));
+					n->updateAction = pgq_palloc(sizeof(KeyAction));
 					n->updateAction->action = FKCONSTR_ACTION_NOACTION;
 					n->updateAction->cols = NIL;
-					n->deleteAction = palloc(sizeof(KeyAction));
+					n->deleteAction = pgq_palloc(sizeof(KeyAction));
 					n->deleteAction->action = FKCONSTR_ACTION_NOACTION;
 					n->deleteAction->cols = NIL;
 					(yyval.keyactions) = n;
@@ -33680,7 +33680,7 @@ yyreduce:
   case 556:
 #line 4327 "gram.y"
     {
-					KeyAction *n = palloc(sizeof(KeyAction));
+					KeyAction *n = pgq_palloc(sizeof(KeyAction));
 
 					n->action = FKCONSTR_ACTION_NOACTION;
 					n->cols = NIL;
@@ -33691,7 +33691,7 @@ yyreduce:
   case 557:
 #line 4335 "gram.y"
     {
-					KeyAction *n = palloc(sizeof(KeyAction));
+					KeyAction *n = pgq_palloc(sizeof(KeyAction));
 
 					n->action = FKCONSTR_ACTION_RESTRICT;
 					n->cols = NIL;
@@ -33702,7 +33702,7 @@ yyreduce:
   case 558:
 #line 4343 "gram.y"
     {
-					KeyAction *n = palloc(sizeof(KeyAction));
+					KeyAction *n = pgq_palloc(sizeof(KeyAction));
 
 					n->action = FKCONSTR_ACTION_CASCADE;
 					n->cols = NIL;
@@ -33713,7 +33713,7 @@ yyreduce:
   case 559:
 #line 4351 "gram.y"
     {
-					KeyAction *n = palloc(sizeof(KeyAction));
+					KeyAction *n = pgq_palloc(sizeof(KeyAction));
 
 					n->action = FKCONSTR_ACTION_SETNULL;
 					n->cols = (yyvsp[(3) - (3)].list);
@@ -33724,7 +33724,7 @@ yyreduce:
   case 560:
 #line 4359 "gram.y"
     {
-					KeyAction *n = palloc(sizeof(KeyAction));
+					KeyAction *n = pgq_palloc(sizeof(KeyAction));
 
 					n->action = FKCONSTR_ACTION_SETDEFAULT;
 					n->cols = (yyvsp[(3) - (3)].list);
@@ -35100,7 +35100,7 @@ yyreduce:
   case 725:
 #line 5547 "gram.y"
     {
-				ImportQual *n = (ImportQual *) palloc(sizeof(ImportQual));
+				ImportQual *n = (ImportQual *) pgq_palloc(sizeof(ImportQual));
 
 				n->type = (yyvsp[(1) - (4)].ival);
 				n->table_names = (yyvsp[(3) - (4)].list);
@@ -35111,7 +35111,7 @@ yyreduce:
   case 726:
 #line 5555 "gram.y"
     {
-				ImportQual *n = (ImportQual *) palloc(sizeof(ImportQual));
+				ImportQual *n = (ImportQual *) pgq_palloc(sizeof(ImportQual));
 				n->type = FDW_IMPORT_SCHEMA_ALL;
 				n->table_names = NIL;
 				(yyval.importqual) = n;
@@ -37595,7 +37595,7 @@ yyreduce:
   case 1017:
 #line 7542 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_TABLE;
@@ -37607,7 +37607,7 @@ yyreduce:
   case 1018:
 #line 7551 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_TABLE;
@@ -37619,7 +37619,7 @@ yyreduce:
   case 1019:
 #line 7560 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_SEQUENCE;
@@ -37631,7 +37631,7 @@ yyreduce:
   case 1020:
 #line 7569 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_FDW;
@@ -37643,7 +37643,7 @@ yyreduce:
   case 1021:
 #line 7578 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_FOREIGN_SERVER;
@@ -37655,7 +37655,7 @@ yyreduce:
   case 1022:
 #line 7587 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_FUNCTION;
@@ -37667,7 +37667,7 @@ yyreduce:
   case 1023:
 #line 7596 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_PROCEDURE;
@@ -37679,7 +37679,7 @@ yyreduce:
   case 1024:
 #line 7605 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_ROUTINE;
@@ -37691,7 +37691,7 @@ yyreduce:
   case 1025:
 #line 7614 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_DATABASE;
@@ -37703,7 +37703,7 @@ yyreduce:
   case 1026:
 #line 7623 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_DOMAIN;
@@ -37715,7 +37715,7 @@ yyreduce:
   case 1027:
 #line 7632 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_LANGUAGE;
@@ -37727,7 +37727,7 @@ yyreduce:
   case 1028:
 #line 7641 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_LARGEOBJECT;
@@ -37739,7 +37739,7 @@ yyreduce:
   case 1029:
 #line 7650 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_PARAMETER_ACL;
 					n->objs = (yyvsp[(2) - (2)].list);
@@ -37750,7 +37750,7 @@ yyreduce:
   case 1030:
 #line 7658 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_SCHEMA;
@@ -37762,7 +37762,7 @@ yyreduce:
   case 1031:
 #line 7667 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_TABLESPACE;
@@ -37774,7 +37774,7 @@ yyreduce:
   case 1032:
 #line 7676 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_OBJECT;
 					n->objtype = OBJECT_TYPE;
@@ -37786,7 +37786,7 @@ yyreduce:
   case 1033:
 #line 7685 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_ALL_IN_SCHEMA;
 					n->objtype = OBJECT_TABLE;
@@ -37798,7 +37798,7 @@ yyreduce:
   case 1034:
 #line 7694 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_ALL_IN_SCHEMA;
 					n->objtype = OBJECT_SEQUENCE;
@@ -37810,7 +37810,7 @@ yyreduce:
   case 1035:
 #line 7703 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_ALL_IN_SCHEMA;
 					n->objtype = OBJECT_FUNCTION;
@@ -37822,7 +37822,7 @@ yyreduce:
   case 1036:
 #line 7712 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_ALL_IN_SCHEMA;
 					n->objtype = OBJECT_PROCEDURE;
@@ -37834,7 +37834,7 @@ yyreduce:
   case 1037:
 #line 7721 "gram.y"
     {
-					PrivTarget *n = (PrivTarget *) palloc(sizeof(PrivTarget));
+					PrivTarget *n = (PrivTarget *) pgq_palloc(sizeof(PrivTarget));
 
 					n->targtype = ACL_TARGET_ALL_IN_SCHEMA;
 					n->objtype = OBJECT_ROUTINE;
@@ -43904,7 +43904,7 @@ yyreduce:
   case 1732:
 #line 12916 "gram.y"
     {
-					SelectLimit *n = (SelectLimit *) palloc(sizeof(SelectLimit));
+					SelectLimit *n = (SelectLimit *) pgq_palloc(sizeof(SelectLimit));
 
 					n->limitOffset = (yyvsp[(1) - (1)].node);
 					n->limitCount = NULL;
@@ -43926,7 +43926,7 @@ yyreduce:
   case 1735:
 #line 12933 "gram.y"
     {
-					SelectLimit *n = (SelectLimit *) palloc(sizeof(SelectLimit));
+					SelectLimit *n = (SelectLimit *) pgq_palloc(sizeof(SelectLimit));
 
 					n->limitOffset = NULL;
 					n->limitCount = (yyvsp[(2) - (2)].node);
@@ -43950,7 +43950,7 @@ yyreduce:
   case 1737:
 #line 12958 "gram.y"
     {
-					SelectLimit *n = (SelectLimit *) palloc(sizeof(SelectLimit));
+					SelectLimit *n = (SelectLimit *) pgq_palloc(sizeof(SelectLimit));
 
 					n->limitOffset = NULL;
 					n->limitCount = (yyvsp[(3) - (5)].node);
@@ -43962,7 +43962,7 @@ yyreduce:
   case 1738:
 #line 12967 "gram.y"
     {
-					SelectLimit *n = (SelectLimit *) palloc(sizeof(SelectLimit));
+					SelectLimit *n = (SelectLimit *) pgq_palloc(sizeof(SelectLimit));
 
 					n->limitOffset = NULL;
 					n->limitCount = (yyvsp[(3) - (6)].node);
@@ -43974,7 +43974,7 @@ yyreduce:
   case 1739:
 #line 12976 "gram.y"
     {
-					SelectLimit *n = (SelectLimit *) palloc(sizeof(SelectLimit));
+					SelectLimit *n = (SelectLimit *) pgq_palloc(sizeof(SelectLimit));
 
 					n->limitOffset = NULL;
 					n->limitCount = makeIntConst(1, -1);
@@ -43986,7 +43986,7 @@ yyreduce:
   case 1740:
 #line 12985 "gram.y"
     {
-					SelectLimit *n = (SelectLimit *) palloc(sizeof(SelectLimit));
+					SelectLimit *n = (SelectLimit *) pgq_palloc(sizeof(SelectLimit));
 
 					n->limitOffset = NULL;
 					n->limitCount = makeIntConst(1, -1);
@@ -44071,7 +44071,7 @@ yyreduce:
   case 1755:
 #line 13077 "gram.y"
     {
-					GroupClause *n = (GroupClause *) palloc(sizeof(GroupClause));
+					GroupClause *n = (GroupClause *) pgq_palloc(sizeof(GroupClause));
 
 					n->distinct = (yyvsp[(3) - (4)].setquantifier) == SET_QUANTIFIER_DISTINCT;
 					n->list = (yyvsp[(4) - (4)].list);
@@ -44082,7 +44082,7 @@ yyreduce:
   case 1756:
 #line 13085 "gram.y"
     {
-					GroupClause *n = (GroupClause *) palloc(sizeof(GroupClause));
+					GroupClause *n = (GroupClause *) pgq_palloc(sizeof(GroupClause));
 
 					n->distinct = false;
 					n->list = NIL;

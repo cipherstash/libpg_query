@@ -373,7 +373,7 @@ str_udeescape(const char *str, char escape,
 	 * padding for Unicode conversion.
 	 */
 	new_len = strlen(str) + MAX_UNICODE_EQUIVALENT_STRING + 1;
-	new = palloc(new_len);
+	new = pgq_palloc(new_len);
 
 	in = str;
 	out = new;

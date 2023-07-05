@@ -457,7 +457,7 @@ PgQueryPlpgsqlParseResult pg_query_parse_plpgsql(const char* input)
 	}
 
 	statements.stmts_buf_size = 100;
-	statements.stmts = (Node**) palloc(statements.stmts_buf_size * sizeof(Node*));
+	statements.stmts = (Node**) pgq_palloc(statements.stmts_buf_size * sizeof(Node*));
 	statements.stmts_count = 0;
 
 	stmts_walker((Node*) parse_result.tree, &statements);

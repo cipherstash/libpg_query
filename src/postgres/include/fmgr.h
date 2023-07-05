@@ -211,8 +211,8 @@ extern void fmgr_symbol(Oid functionId, char **mod, char **fn);
 /*
  * Support for fetching detoasted copies of toastable datatypes (all of
  * which are varlena types).  pg_detoast_datum() gives you either the input
- * datum (if not toasted) or a detoasted copy allocated with palloc().
- * pg_detoast_datum_copy() always gives you a palloc'd copy --- use it
+ * datum (if not toasted) or a detoasted copy allocated with pgq_palloc().
+ * pg_detoast_datum_copy() always gives you a pgq_palloc'd copy --- use it
  * if you need a modifiable copy of the input.  Caller is expected to have
  * checked for null inputs first, if necessary.
  *
@@ -252,7 +252,7 @@ extern struct varlena *pg_detoast_datum_packed(struct varlena *datum);
  * Support for cleaning up detoasted copies of inputs.  This must only
  * be used for pass-by-ref datatypes, and normally would only be used
  * for toastable types.  If the given pointer is different from the
- * original argument, assume it's a palloc'd detoasted copy, and pfree it.
+ * original argument, assume it's a pgq_palloc'd detoasted copy, and pfree it.
  * NOTE: most functions on toastable types do not have to worry about this,
  * but we currently require that support functions for indexes not leak
  * memory.

@@ -321,7 +321,7 @@
 #endif
 
 /*
- * Define this to cause palloc()'d memory to be filled with random data, to
+ * Define this to cause pgq_palloc()'d memory to be filled with random data, to
  * facilitate catching code that depends on the contents of uninitialized
  * memory.  Caution: this is horrendously expensive.
  */

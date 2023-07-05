@@ -215,7 +215,7 @@ fill_in_constant_lengths(pgssConstLocations *jstate, const char *query)
  * *query_len_p contains the input string length, and is updated with
  * the result string length (which cannot be longer) on exit.
  *
- * Returns a palloc'd string.
+ * Returns a pgq_palloc'd string.
  */
 static char *
 generate_normalized_query(pgssConstLocations *jstate, int query_loc, int* query_len_p, int encoding)
@@ -247,7 +247,7 @@ generate_normalized_query(pgssConstLocations *jstate, int query_loc, int* query_
 	norm_query_buflen = query_len + jstate->clocations_count * 10;
 
 	/* Allocate result buffer */
-	norm_query = palloc(norm_query_buflen + 1);
+	norm_query = pgq_palloc(norm_query_buflen + 1);
 
 	for (i = 0; i < jstate->clocations_count; i++)
 	{
@@ -579,7 +579,7 @@ PgQueryNormalizeResult pg_query_normalize(const char* input)
 		/* Set up workspace for constant recording */
 		jstate.clocations_buf_size = 32;
 		jstate.clocations = (pgssLocationLen *)
-			palloc(jstate.clocations_buf_size * sizeof(pgssLocationLen));
+			pgq_palloc(jstate.clocations_buf_size * sizeof(pgssLocationLen));
 		jstate.clocations_count = 0;
 		jstate.highest_normalize_param_id = 1;
 		jstate.highest_extern_param_id = 0;

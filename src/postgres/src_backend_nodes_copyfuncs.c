@@ -368,7 +368,7 @@
 		Size	_size = (sz); \
 		if (_size > 0) \
 		{ \
-			newnode->fldname = palloc(_size); \
+			newnode->fldname = pgq_palloc(_size); \
 			memcpy(newnode->fldname, from->fldname, _size); \
 		} \
 	} while (0)

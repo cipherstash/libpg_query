@@ -98,7 +98,7 @@ extern Datum fmgr_security_definer(PG_FUNCTION_ARGS);
  * will be allocated in that context.  The caller must ensure that this
  * context is at least as long-lived as the info struct itself.  This is
  * not a problem in typical cases where the info struct is on the stack or
- * in freshly-palloc'd space.  However, if one intends to store an info
+ * in freshly-pgq_palloc'd space.  However, if one intends to store an info
  * struct in a long-lived table, it's better to use fmgr_info_cxt.
  */
 
@@ -427,7 +427,7 @@ FunctionCall6Coll(FmgrInfo *flinfo, Oid collation, Datum arg1, Datum arg2,
 Datum
 Int64GetDatum(int64 X)
 {
-	int64	   *retval = (int64 *) palloc(sizeof(int64));
+	int64	   *retval = (int64 *) pgq_palloc(sizeof(int64));
 
 	*retval = X;
 	return PointerGetDatum(retval);
@@ -436,7 +436,7 @@ Int64GetDatum(int64 X)
 Datum
 Float8GetDatum(float8 X)
 {
-	float8	   *retval = (float8 *) palloc(sizeof(float8));
+	float8	   *retval = (float8 *) pgq_palloc(sizeof(float8));
 
 	*retval = X;
 	return PointerGetDatum(retval);

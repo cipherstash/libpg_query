@@ -26,7 +26,7 @@ extern Size datumGetSize(Datum value, bool typByVal, int typLen);
 /*
  * datumCopy - make a copy of a non-NULL datum.
  *
- * If the datatype is pass-by-reference, memory is obtained with palloc().
+ * If the datatype is pass-by-reference, memory is obtained with pgq_palloc().
  */
 extern Datum datumCopy(Datum value, bool typByVal, int typLen);
 

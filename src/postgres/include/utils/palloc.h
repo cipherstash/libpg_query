@@ -1,6 +1,6 @@
 /*-------------------------------------------------------------------------
  *
- * palloc.h
+ * pgq_palloc.h
  *	  POSTGRES memory allocator definitions.
  *
  * This file contains the basic memory allocation interface that is
@@ -9,7 +9,7 @@
  * everywhere.  Keep it lean!
  *
  * Memory allocation occurs within "contexts".  Every chunk obtained from
- * palloc()/MemoryContextAlloc() is allocated within a specific context.
+ * pgq_palloc()/MemoryContextAlloc() is allocated within a specific context.
  * The entire contents of a context can be freed easily and quickly by
  * resetting or deleting the context --- this is both faster and less
  * prone to memory-leakage bugs than releasing chunks individually.
@@ -21,7 +21,7 @@
  * Portions Copyright (c) 1996-2022, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * src/include/utils/palloc.h
+ * src/include/utils/pgq_palloc.h
  *
  *-------------------------------------------------------------------------
  */
@@ -52,7 +52,7 @@ typedef struct MemoryContextCallback
 } MemoryContextCallback;
 
 /*
- * CurrentMemoryContext is the default allocation context for palloc().
+ * CurrentMemoryContext is the default allocation context for pgq_palloc().
  * Avoid accessing it directly!  Instead, use MemoryContextSwitchTo()
  * to change the setting.
  */
@@ -74,7 +74,7 @@ extern void *MemoryContextAllocZeroAligned(MemoryContext context, Size size);
 extern void *MemoryContextAllocExtended(MemoryContext context,
 										Size size, int flags);
 
-extern void *palloc(Size size);
+extern void *pgq_palloc(Size size);
 extern void *palloc0(Size size);
 extern void *palloc_extended(Size size, int flags);
 extern pg_nodiscard void *repalloc(void *pointer, Size size);
@@ -103,7 +103,7 @@ extern void pfree(void *pointer);
 #define repalloc_array(pointer, type, count) ((type *) repalloc(pointer, sizeof(type) * (count)))
 
 /*
- * The result of palloc() is always word-aligned, so we can skip testing
+ * The result of pgq_palloc() is always word-aligned, so we can skip testing
  * alignment of the pointer when deciding which MemSet variant to use.
  * Note that this variant does not offer any advantage, and should not be
  * used, unless its "sz" argument is a compile-time constant; therefore, the
@@ -151,7 +151,7 @@ extern char *pnstrdup(const char *in, Size len);
 
 extern char *pchomp(const char *in);
 
-/* sprintf into a palloc'd buffer --- these are in psprintf.c */
+/* sprintf into a pgq_palloc'd buffer --- these are in psprintf.c */
 extern char *psprintf(const char *fmt,...) pg_attribute_printf(1, 2);
 extern size_t pvsnprintf(char *buf, size_t len, const char *fmt, va_list args) pg_attribute_printf(3, 0);
 

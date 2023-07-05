@@ -949,7 +949,7 @@ plpgsql_parse_err_condition(char *condname)
 	 */
 	if (strcmp(condname, "others") == 0)
 	{
-		new = palloc(sizeof(PLpgSQL_condition));
+		new = pgq_palloc(sizeof(PLpgSQL_condition));
 		new->sqlerrstate = 0;
 		new->condname = condname;
 		new->next = NULL;
@@ -961,7 +961,7 @@ plpgsql_parse_err_condition(char *condname)
 	{
 		if (strcmp(condname, exception_label_map[i].label) == 0)
 		{
-			new = palloc(sizeof(PLpgSQL_condition));
+			new = pgq_palloc(sizeof(PLpgSQL_condition));
 			new->sqlerrstate = exception_label_map[i].sqlerrstate;
 			new->condname = condname;
 			new->next = prev;
@@ -1023,7 +1023,7 @@ plpgsql_finish_datums(PLpgSQL_function *function)
 	int			i;
 
 	function->ndatums = plpgsql_nDatums;
-	function->datums = palloc(sizeof(PLpgSQL_datum *) * plpgsql_nDatums);
+	function->datums = pgq_palloc(sizeof(PLpgSQL_datum *) * plpgsql_nDatums);
 	for (i = 0; i < plpgsql_nDatums; i++)
 	{
 		function->datums[i] = plpgsql_Datums[i];
@@ -1088,7 +1088,7 @@ plpgsql_add_initdatums(int **varnos)
 	{
 		if (n > 0)
 		{
-			*varnos = (int *) palloc(sizeof(int) * n);
+			*varnos = (int *) pgq_palloc(sizeof(int) * n);
 
 			n = 0;
 			for (i = datums_last; i < plpgsql_nDatums; i++)

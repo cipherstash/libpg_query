@@ -1269,7 +1269,7 @@ retry:
 	 * Queue a waiter to signal when this child dies. The wait will be handled
 	 * automatically by an operating system thread pool.
 	 *
-	 * Note: use malloc instead of palloc, since it needs to be thread-safe.
+	 * Note: use malloc instead of pgq_palloc, since it needs to be thread-safe.
 	 * Struct will be free():d from the callback function that runs on a
 	 * different thread.
 	 */

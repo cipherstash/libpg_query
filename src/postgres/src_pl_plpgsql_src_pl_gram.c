@@ -2731,8 +2731,8 @@ yyreduce:
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->rowtupdesc = NULL;
 						new->nfields = list_length((yyvsp[(2) - (3)].list));
-						new->fieldnames = palloc(new->nfields * sizeof(char *));
-						new->varnos = palloc(new->nfields * sizeof(int));
+						new->fieldnames = pgq_palloc(new->nfields * sizeof(char *));
+						new->varnos = pgq_palloc(new->nfields * sizeof(int));
 
 						i = 0;
 						foreach (l, (yyvsp[(2) - (3)].list))
@@ -3331,7 +3331,7 @@ yyreduce:
     {
 						PLpgSQL_diag_item *new;
 
-						new = palloc(sizeof(PLpgSQL_diag_item));
+						new = pgq_palloc(sizeof(PLpgSQL_diag_item));
 						new->target = (yyvsp[(1) - (3)].datum)->dno;
 						new->kind = (yyvsp[(3) - (3)].ival);
 
@@ -3515,7 +3515,7 @@ yyreduce:
   case 109:
 #line 1268 "pl_gram.y"
     {
-						PLpgSQL_case_when *new = palloc(sizeof(PLpgSQL_case_when));
+						PLpgSQL_case_when *new = pgq_palloc(sizeof(PLpgSQL_case_when));
 
 						new->lineno	= plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->expr = (yyvsp[(2) - (3)].expr);
@@ -4071,7 +4071,7 @@ yyreduce:
 						PLpgSQL_stmt_raise *new;
 						int			tok;
 
-						new = palloc(sizeof(PLpgSQL_stmt_raise));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_raise));
 
 						new->cmd_type = PLPGSQL_STMT_RAISE;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
@@ -4217,7 +4217,7 @@ yyreduce:
 						PLpgSQL_stmt_assert	*new;
 						int			tok;
 
-						new = palloc(sizeof(PLpgSQL_stmt_assert));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_assert));
 
 						new->cmd_type = PLPGSQL_STMT_ASSERT;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
@@ -4307,7 +4307,7 @@ yyreduce:
 												  true, true, true,
 												  NULL, &endtoken);
 
-						new = palloc(sizeof(PLpgSQL_stmt_dynexecute));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_dynexecute));
 						new->cmd_type = PLPGSQL_STMT_DYNEXECUTE;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -4493,7 +4493,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_close *new;
 
-						new = palloc(sizeof(PLpgSQL_stmt_close));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_close));
 						new->cmd_type = PLPGSQL_STMT_CLOSE;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -4516,7 +4516,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_commit *new;
 
-						new = palloc(sizeof(PLpgSQL_stmt_commit));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_commit));
 						new->cmd_type = PLPGSQL_STMT_COMMIT;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -4531,7 +4531,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_rollback *new;
 
-						new = palloc(sizeof(PLpgSQL_stmt_rollback));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_rollback));
 						new->cmd_type = PLPGSQL_STMT_ROLLBACK;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -4613,7 +4613,7 @@ yyreduce:
 						 * current block.
 						 */
 						int			lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
-						PLpgSQL_exception_block *new = palloc(sizeof(PLpgSQL_exception_block));
+						PLpgSQL_exception_block *new = pgq_palloc(sizeof(PLpgSQL_exception_block));
 						PLpgSQL_variable *var;
 
 						var = plpgsql_build_variable("sqlstate", lineno,
@@ -4717,7 +4717,7 @@ yyreduce:
 								if (strspn(sqlstatestr, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != 5)
 									yyerror("invalid SQLSTATE code");
 
-								new = palloc(sizeof(PLpgSQL_condition));
+								new = pgq_palloc(sizeof(PLpgSQL_condition));
 								new->sqlerrstate =
 									MAKE_SQLSTATE(sqlstatestr[0],
 												  sqlstatestr[1],
@@ -5992,8 +5992,8 @@ read_into_scalar_list(char *initial_name,
 	row->lineno = plpgsql_location_to_lineno(initial_location);
 	row->rowtupdesc = NULL;
 	row->nfields = nfields;
-	row->fieldnames = palloc(sizeof(char *) * nfields);
-	row->varnos = palloc(sizeof(int) * nfields);
+	row->fieldnames = pgq_palloc(sizeof(char *) * nfields);
+	row->varnos = pgq_palloc(sizeof(int) * nfields);
 	while (--nfields >= 0)
 	{
 		row->fieldnames[nfields] = fieldnames[nfields];
@@ -6027,8 +6027,8 @@ make_scalar_list1(char *initial_name,
 	row->lineno = lineno;
 	row->rowtupdesc = NULL;
 	row->nfields = 1;
-	row->fieldnames = palloc(sizeof(char *));
-	row->varnos = palloc(sizeof(int));
+	row->fieldnames = pgq_palloc(sizeof(char *));
+	row->varnos = pgq_palloc(sizeof(int));
 	row->fieldnames[0] = initial_name;
 	row->varnos[0] = initial_datum->dno;
 
@@ -6342,7 +6342,7 @@ read_raise_options(void)
 		if ((tok = yylex()) == 0)
 			yyerror("unexpected end of function definition");
 
-		opt = (PLpgSQL_raise_option *) palloc(sizeof(PLpgSQL_raise_option));
+		opt = (PLpgSQL_raise_option *) pgq_palloc(sizeof(PLpgSQL_raise_option));
 
 		if (tok_is_keyword(tok, &yylval,
 						   K_ERRCODE, "errcode"))
@@ -6433,7 +6433,7 @@ make_case(int location, PLpgSQL_expr *t_expr,
 {
 	PLpgSQL_stmt_case *new;
 
-	new = palloc(sizeof(PLpgSQL_stmt_case));
+	new = pgq_palloc(sizeof(PLpgSQL_stmt_case));
 	new->cmd_type = PLPGSQL_STMT_CASE;
 	new->lineno = plpgsql_location_to_lineno(location);
 	new->stmtid = ++plpgsql_curr_compile->nstatements;

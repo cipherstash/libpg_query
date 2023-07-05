@@ -41,7 +41,7 @@ makeInteger(int i)
 /*
  *	makeFloat
  *
- * Caller is responsible for passing a palloc'd string.
+ * Caller is responsible for passing a pgq_palloc'd string.
  */
 Float *
 makeFloat(char *numericStr)
@@ -67,7 +67,7 @@ makeBoolean(bool val)
 /*
  *	makeString
  *
- * Caller is responsible for passing a palloc'd string.
+ * Caller is responsible for passing a pgq_palloc'd string.
  */
 String *
 makeString(char *str)
@@ -81,7 +81,7 @@ makeString(char *str)
 /*
  *	makeBitString
  *
- * Caller is responsible for passing a palloc'd string.
+ * Caller is responsible for passing a pgq_palloc'd string.
  */
 BitString *
 makeBitString(char *str)

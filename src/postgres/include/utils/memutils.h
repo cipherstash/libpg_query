@@ -3,7 +3,7 @@
  * memutils.h
  *	  This file contains declarations for memory allocation utility
  *	  functions.  These are functions that are not quite widely used
- *	  enough to justify going in utils/palloc.h, but are still part
+ *	  enough to justify going in utils/pgq_palloc.h, but are still part
  *	  of the API of the memory management subsystem.
  *
  *
@@ -28,7 +28,7 @@
  *		There is no guarantee that smaller allocations will succeed, but
  *		larger requests will be summarily denied.
  *
- * palloc() enforces MaxAllocSize, chosen to correspond to the limiting size
+ * pgq_palloc() enforces MaxAllocSize, chosen to correspond to the limiting size
  * of varlena objects under TOAST.  See VARSIZE_4B() and related macros in
  * postgres.h.  Many datatypes assume that any allocatable size can be
  * represented in a varlena header.  This limit also permits a caller to use
