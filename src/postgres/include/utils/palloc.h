@@ -100,7 +100,7 @@ extern void pgq_pfree(void *pointer);
  * Change size of allocation pointed to by "pointer" to have space for "count"
  * objects of type "type"
  */
-#define repalloc_array(pointer, type, count) ((type *) repalloc(pointer, sizeof(type) * (count)))
+#define repalloc_array(pointer, type, count) ((type *) pgq_repalloc(pointer, sizeof(type) * (count)))
 
 /*
  * The result of pgq_palloc() is always word-aligned, so we can skip testing

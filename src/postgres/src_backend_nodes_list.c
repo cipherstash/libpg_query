@@ -242,7 +242,7 @@ enlarge_list(List *list, int min_size)
 							   new_max_len * sizeof(ListCell));
 		memcpy(newelements, list->elements,
 			   list->length * sizeof(ListCell));
-		pfree(list->elements);
+		pgq_pfree(list->elements);
 		list->elements = newelements;
 #endif
 	}
@@ -589,7 +589,7 @@ list_delete_nth_cell(List *list, int n)
 		memcpy(&newelems[n], &list->elements[n + 1],
 			   (list->length - 1 - n) * sizeof(ListCell));
 		if (list->elements != list->initial_elements)
-			pfree(list->elements);
+			pgq_pfree(list->elements);
 		else
 		{
 			/*

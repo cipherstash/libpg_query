@@ -1612,7 +1612,7 @@ write_eventlog(int level, const char *line, int len)
 						 NULL);
 			/* XXX Try ReportEventA() when ReportEventW() fails? */
 
-			pfree(utf16);
+			pgq_pfree(utf16);
 			return;
 		}
 	}
