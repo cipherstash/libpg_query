@@ -1112,7 +1112,7 @@ MemoryContextStrdup(MemoryContext context, const char *string)
 }
 
 char *
-pstrdup(const char *in)
+pgq_pstrdup(const char *in)
 {
 	return MemoryContextStrdup(CurrentMemoryContext, in);
 }

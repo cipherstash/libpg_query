@@ -256,7 +256,7 @@ plpgsql_compile_inline(char *proc_source)
 									 ALLOCSET_DEFAULT_SIZES);
 	plpgsql_compile_tmp_cxt = MemoryContextSwitchTo(func_cxt);
 
-	function->fn_signature = pstrdup(func_name);
+	function->fn_signature = pgq_pstrdup(func_name);
 	function->fn_is_trigger = PLPGSQL_NOT_TRIGGER;
 	function->fn_input_collation = InvalidOid;
 	function->fn_cxt = func_cxt;
@@ -750,7 +750,7 @@ plpgsql_build_variable(const char *refname, int lineno, PLpgSQL_type *dtype,
 
 				var = pgq_palloc0(sizeof(PLpgSQL_var));
 				var->dtype = PLPGSQL_DTYPE_VAR;
-				var->refname = pstrdup(refname);
+				var->refname = pgq_pstrdup(refname);
 				var->lineno = lineno;
 				var->datatype = dtype;
 				/* other fields are left as 0, might be changed by caller */
@@ -807,7 +807,7 @@ plpgsql_build_record(const char *refname, int lineno,
 
 	rec = pgq_palloc0(sizeof(PLpgSQL_rec));
 	rec->dtype = PLPGSQL_DTYPE_REC;
-	rec->refname = pstrdup(refname);
+	rec->refname = pgq_pstrdup(refname);
 	rec->lineno = lineno;
 	/* other fields are left as 0, might be changed by caller */
 	rec->datatype = dtype;
@@ -854,7 +854,7 @@ plpgsql_build_recfield(PLpgSQL_rec *rec, const char *fldname)
 	/* nope, so make a new one */
 	recfield = pgq_palloc0(sizeof(PLpgSQL_recfield));
 	recfield->dtype = PLPGSQL_DTYPE_RECFIELD;
-	recfield->fieldname = pstrdup(fldname);
+	recfield->fieldname = pgq_pstrdup(fldname);
 	recfield->recparentno = rec->dno;
 	recfield->rectupledescid = INVALID_TUPLEDESC_IDENTIFIER;
 
@@ -879,7 +879,7 @@ plpgsql_build_recfield(PLpgSQL_rec *rec, const char *fldname)
  * It can be NULL if the type could not be a composite type, or if it was
  * identified by OID to begin with (e.g., it's a function argument type).
  */
-PLpgSQL_type * plpgsql_build_datatype(Oid typeOid, int32 typmod, Oid collation, TypeName *origtypname) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) pgq_palloc0(sizeof(PLpgSQL_type)); typ->typname = pstrdup("UNKNOWN"); typ->ttype = PLPGSQL_TTYPE_SCALAR; return typ; }
+PLpgSQL_type * plpgsql_build_datatype(Oid typeOid, int32 typmod, Oid collation, TypeName *origtypname) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) pgq_palloc0(sizeof(PLpgSQL_type)); typ->typname = pgq_pstrdup("UNKNOWN"); typ->ttype = PLPGSQL_TTYPE_SCALAR; return typ; }
 
 
 /*

@@ -177,7 +177,7 @@ makeAlias(const char *aliasname, List *colnames)
 {
 	Alias	   *a = makeNode(Alias);
 
-	a->aliasname = pstrdup(aliasname);
+	a->aliasname = pgq_pstrdup(aliasname);
 	a->colnames = colnames;
 
 	return a;

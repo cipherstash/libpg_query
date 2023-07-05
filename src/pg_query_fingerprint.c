@@ -87,7 +87,7 @@ _fingerprintString(FingerprintContext *ctx, const char *str)
 
 	if (ctx->write_tokens) {
 		FingerprintToken *token = pgq_palloc0(sizeof(FingerprintToken));
-		token->str = pstrdup(str);
+		token->str = pgq_pstrdup(str);
 		dlist_push_tail(&ctx->tokens, &token->list_node);
 	}
 }

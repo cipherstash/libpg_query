@@ -5286,7 +5286,7 @@ YY_RULE_SETUP
 					else
 					{
 						/* If NCHAR isn't a keyword, just return "n" */
-						yylval->str = pstrdup("n");
+						yylval->str = pgq_pstrdup("n");
 						yyextra->yyllocend = yytext - yyextra->scanbuf + yyleng;
 						return IDENT;
 					}
@@ -5581,7 +5581,7 @@ YY_RULE_SETUP
 #line 736 "scan.l"
 {
 					SET_YYLLOC();
-					yyextra->dolqstart = pstrdup(yytext);
+					yyextra->dolqstart = pgq_pstrdup(yytext);
 					BEGIN(xdolq);
 					startlit();
 				}
@@ -5914,7 +5914,7 @@ YY_RULE_SETUP
 					if (nchars >= NAMEDATALEN)
 						yyerror("operator too long");
 
-					yylval->str = pstrdup(yytext);
+					yylval->str = pgq_pstrdup(yytext);
 					return Op;
 				}
 	YY_BREAK
@@ -5940,7 +5940,7 @@ YY_RULE_SETUP
 #line 1000 "scan.l"
 {
 					SET_YYLLOC();
-					yylval->str = pstrdup(yytext);
+					yylval->str = pgq_pstrdup(yytext);
 					return FCONST;
 				}
 	YY_BREAK
@@ -5959,7 +5959,7 @@ YY_RULE_SETUP
 #line 1011 "scan.l"
 {
 					SET_YYLLOC();
-					yylval->str = pstrdup(yytext);
+					yylval->str = pgq_pstrdup(yytext);
 					return FCONST;
 				}
 	YY_BREAK
@@ -7181,7 +7181,7 @@ process_integer_literal(const char *token, YYSTYPE *lval)
 	if (*endptr != '\0' || errno == ERANGE)
 	{
 		/* integer too large (or contains decimal pt), treat it as a float */
-		lval->str = pstrdup(token);
+		lval->str = pgq_pstrdup(token);
 		return FCONST;
 	}
 	lval->ival = val;

@@ -127,7 +127,7 @@ extern Datum fmgr_security_definer(PG_FUNCTION_ARGS);
  * If *mod != NULL and *fn != NULL the function is implemented in an extension
  * shared object.
  *
- * The returned module and function names are pstrdup'ed into the current
+ * The returned module and function names are pgq_pstrdup'ed into the current
  * memory context.
  */
 

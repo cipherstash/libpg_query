@@ -196,7 +196,7 @@ static PLpgSQL_function *compile_create_function_stmt(CreateFunctionStmt* stmt)
 									 ALLOCSET_DEFAULT_SIZES);
 	plpgsql_compile_tmp_cxt = MemoryContextSwitchTo(func_cxt);
 
-	function->fn_signature = pstrdup(func_name);
+	function->fn_signature = pgq_pstrdup(func_name);
 	function->fn_is_trigger = PLPGSQL_NOT_TRIGGER;
 	function->fn_input_collation = InvalidOid;
 	function->fn_cxt = func_cxt;

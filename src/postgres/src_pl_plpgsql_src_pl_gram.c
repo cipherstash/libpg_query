@@ -2485,7 +2485,7 @@ yyreduce:
   case 11:
 #line 404 "pl_gram.y"
     {
-					(yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword));
+					(yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword));
 				;}
     break;
 
@@ -2670,7 +2670,7 @@ yyreduce:
 							*cp2++ = *cp1++;
 						}
 						strcpy(cp2, "'::pg_catalog.refcursor");
-						curname_def->query = pstrdup(buf);
+						curname_def->query = pgq_pstrdup(buf);
 						curname_def->parseMode = RAW_PARSE_PLPGSQL_EXPR;
 						new->default_val = curname_def;
 
@@ -2872,7 +2872,7 @@ yyreduce:
   case 43:
 #line 752 "pl_gram.y"
     {
-						(yyval.varname).name = pstrdup((yyvsp[(1) - (1)].keyword));
+						(yyval.varname).name = pgq_pstrdup((yyvsp[(1) - (1)].keyword));
 						(yyval.varname).lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
 						/*
 						 * Check to make sure name isn't already declared
@@ -2938,7 +2938,7 @@ yyreduce:
   case 49:
 #line 806 "pl_gram.y"
     {
-						(yyval.oid) = get_collation_oid(list_make1(makeString(pstrdup((yyvsp[(2) - (2)].keyword)))),
+						(yyval.oid) = get_collation_oid(list_make1(makeString(pgq_pstrdup((yyvsp[(2) - (2)].keyword)))),
 											   false);
 					;}
     break;
@@ -4190,7 +4190,7 @@ yyreduce:
 									if (tok == T_WORD)
 										new->condname = yylval.word.ident;
 									else if (plpgsql_token_is_unreserved_keyword(tok))
-										new->condname = pstrdup(yylval.keyword);
+										new->condname = pgq_pstrdup(yylval.keyword);
 									else
 										yyerror("syntax error");
 									plpgsql_recognize_err_condition(new->condname,
@@ -4814,7 +4814,7 @@ yyreduce:
   case 170:
 #line 2493 "pl_gram.y"
     {
-						(yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword));
+						(yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword));
 					;}
     break;
 
@@ -5259,7 +5259,7 @@ read_sql_construct(int until,
 	}
 
 	expr = pgq_palloc0(sizeof(PLpgSQL_expr));
-	expr->query = pstrdup(ds.data);
+	expr->query = pgq_pstrdup(ds.data);
 	expr->parseMode = parsemode;
 	expr->plan = NULL;
 	expr->paramnos = NULL;
@@ -5321,7 +5321,7 @@ read_datatype(int tok)
 	}
 	else if (plpgsql_token_is_unreserved_keyword(tok))
 	{
-		char	   *dtname = pstrdup(yylval.keyword);
+		char	   *dtname = pgq_pstrdup(yylval.keyword);
 
 		tok = yylex();
 		if (tok == '%')
@@ -5508,7 +5508,7 @@ make_execsql_stmt(int firsttoken, int location)
 		ds.data[--ds.len] = '\0';
 
 	expr = pgq_palloc0(sizeof(PLpgSQL_expr));
-	expr->query = pstrdup(ds.data);
+	expr->query = pgq_pstrdup(ds.data);
 	expr->parseMode = RAW_PARSE_DEFAULT;
 	expr->plan = NULL;
 	expr->paramnos = NULL;
@@ -6123,7 +6123,7 @@ plpgsql_sql_error_callback(void *arg)
  * This is handled the same as in check_sql_expr(), and we likewise
  * expect that the given string is a copy from the source text.
  */
-static PLpgSQL_type * parse_datatype(const char *string, int location) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) pgq_palloc0(sizeof(PLpgSQL_type)); typ->typname = pstrdup(string); typ->ttype = strcmp(string, "RECORD") == 0 ? PLPGSQL_TTYPE_REC : PLPGSQL_TTYPE_SCALAR; return typ; }
+static PLpgSQL_type * parse_datatype(const char *string, int location) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) pgq_palloc0(sizeof(PLpgSQL_type)); typ->typname = pgq_pstrdup(string); typ->ttype = strcmp(string, "RECORD") == 0 ? PLPGSQL_TTYPE_REC : PLPGSQL_TTYPE_SCALAR; return typ; }
 
 
 /*
@@ -6310,7 +6310,7 @@ read_cursor_args(PLpgSQL_var *cursor, int until)
 	}
 
 	expr = pgq_palloc0(sizeof(PLpgSQL_expr));
-	expr->query = pstrdup(ds.data);
+	expr->query = pgq_pstrdup(ds.data);
 	expr->parseMode = RAW_PARSE_PLPGSQL_EXPR;
 	expr->plan = NULL;
 	expr->paramnos = NULL;
@@ -6494,7 +6494,7 @@ make_case(int location, PLpgSQL_expr *t_expr,
 							 varname, expr->query);
 
 			pgq_pfree(expr->query);
-			expr->query = pstrdup(ds.data);
+			expr->query = pgq_pstrdup(ds.data);
 			/* Adjust expr's namespace to include the case variable */
 			expr->ns = plpgsql_ns_top();
 

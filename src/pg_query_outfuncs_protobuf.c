@@ -35,7 +35,7 @@
 	}
 #define WRITE_STRING_FIELD(outname, outname_json, fldname) \
 	if (node->fldname != NULL) { \
-		out->outname = pstrdup(node->fldname); \
+		out->outname = pgq_pstrdup(node->fldname); \
 	}
 
 #define WRITE_ENUM_FIELD(typename, outname, outname_json, fldname) \
@@ -199,7 +199,7 @@ _outAConst(PgQuery__AConst* out, const A_Const *node)
       case T_Float: {
         PgQuery__Float *value = pgq_palloc(sizeof(PgQuery__Float));
         pg_query__float__init(value);
-        value->fval = pstrdup(node->val.fval.fval);
+        value->fval = pgq_pstrdup(node->val.fval.fval);
 
         out->val_case = PG_QUERY__A__CONST__VAL_FVAL;
         out->fval = value;
@@ -217,7 +217,7 @@ _outAConst(PgQuery__AConst* out, const A_Const *node)
       case T_String: {
         PgQuery__String *value = pgq_palloc(sizeof(PgQuery__String));
 	pg_query__string__init(value);
-	value->sval = pstrdup(node->val.sval.sval);
+	value->sval = pgq_pstrdup(node->val.sval.sval);
 
 	out->val_case = PG_QUERY__A__CONST__VAL_SVAL;
 	out->sval = value;
@@ -226,7 +226,7 @@ _outAConst(PgQuery__AConst* out, const A_Const *node)
       case T_BitString: {
         PgQuery__BitString *value = pgq_palloc(sizeof(PgQuery__BitString));
 	pg_query__bit_string__init(value);
-	value->bsval = pstrdup(node->val.bsval.bsval);
+	value->bsval = pgq_pstrdup(node->val.bsval.bsval);
 
 	out->val_case = PG_QUERY__A__CONST__VAL_BSVAL;
 	out->bsval = value;

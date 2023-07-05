@@ -146,7 +146,7 @@ extern void MemoryContextRegisterResetCallback(MemoryContext context,
  * allocated in a context, not with malloc().
  */
 extern char *MemoryContextStrdup(MemoryContext context, const char *string);
-extern char *pstrdup(const char *in);
+extern char *pgq_pstrdup(const char *in);
 extern char *pnstrdup(const char *in, Size len);
 
 extern char *pchomp(const char *in);

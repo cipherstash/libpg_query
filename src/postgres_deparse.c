@@ -677,7 +677,7 @@ static void deparseSubqueryOp(StringInfo str, List *op)
 static void deparseGenericDefElemName(StringInfo str, const char *in)
 {
 	Assert(in != NULL);
-	char *val = pstrdup(in);
+	char *val = pgq_pstrdup(in);
 	for (unsigned char *p = (unsigned char *) val; *p; p++)
 		*p = pg_toupper(*p);
 	appendStringInfoString(str, val);

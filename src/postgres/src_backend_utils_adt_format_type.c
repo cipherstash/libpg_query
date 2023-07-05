@@ -97,7 +97,7 @@ static char *printTypmod(const char *typname, int32 typmod, Oid typmodout);
  *
  * The result is always a pgq_palloc'd string.
  */
-char * format_type_be(Oid type_oid) { return pstrdup("-"); }
+char * format_type_be(Oid type_oid) { return pgq_pstrdup("-"); }
 
 
 /*

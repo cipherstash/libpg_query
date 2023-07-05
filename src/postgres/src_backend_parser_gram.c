@@ -32978,7 +32978,7 @@ yyreduce:
 
   case 480:
 #line 3780 "gram.y"
-    { (yyval.str) = pstrdup("default"); ;}
+    { (yyval.str) = pgq_pstrdup("default"); ;}
     break;
 
   case 481:
@@ -36006,7 +36006,7 @@ yyreduce:
 
   case 840:
 #line 6293 "gram.y"
-    { (yyval.node) = (Node *) makeString(pstrdup((yyvsp[(1) - (1)].keyword))); ;}
+    { (yyval.node) = (Node *) makeString(pgq_pstrdup((yyvsp[(1) - (1)].keyword))); ;}
     break;
 
   case 841:
@@ -36026,7 +36026,7 @@ yyreduce:
 
   case 844:
 #line 6297 "gram.y"
-    { (yyval.node) = (Node *) makeString(pstrdup((yyvsp[(1) - (1)].keyword))); ;}
+    { (yyval.node) = (Node *) makeString(pgq_pstrdup((yyvsp[(1) - (1)].keyword))); ;}
     break;
 
   case 845:
@@ -37515,7 +37515,7 @@ yyreduce:
     {
 				AccessPriv *n = makeNode(AccessPriv);
 
-				n->priv_name = pstrdup((yyvsp[(1) - (2)].keyword));
+				n->priv_name = pgq_pstrdup((yyvsp[(1) - (2)].keyword));
 				n->cols = (yyvsp[(2) - (2)].list);
 				(yyval.accesspriv) = n;
 			;}
@@ -37526,7 +37526,7 @@ yyreduce:
     {
 				AccessPriv *n = makeNode(AccessPriv);
 
-				n->priv_name = pstrdup((yyvsp[(1) - (2)].keyword));
+				n->priv_name = pgq_pstrdup((yyvsp[(1) - (2)].keyword));
 				n->cols = (yyvsp[(2) - (2)].list);
 				(yyval.accesspriv) = n;
 			;}
@@ -37537,7 +37537,7 @@ yyreduce:
     {
 				AccessPriv *n = makeNode(AccessPriv);
 
-				n->priv_name = pstrdup((yyvsp[(1) - (2)].keyword));
+				n->priv_name = pgq_pstrdup((yyvsp[(1) - (2)].keyword));
 				n->cols = (yyvsp[(2) - (2)].list);
 				(yyval.accesspriv) = n;
 			;}
@@ -37547,7 +37547,7 @@ yyreduce:
 #line 7498 "gram.y"
     {
 				AccessPriv *n = makeNode(AccessPriv);
-				n->priv_name = pstrdup("alter system");
+				n->priv_name = pgq_pstrdup("alter system");
 				n->cols = NIL;
 				(yyval.accesspriv) = n;
 			;}
@@ -38419,7 +38419,7 @@ yyreduce:
     {
 					ObjectWithArgs *n = makeNode(ObjectWithArgs);
 
-					n->objname = list_make1(makeString(pstrdup((yyvsp[(1) - (1)].keyword))));
+					n->objname = list_make1(makeString(pgq_pstrdup((yyvsp[(1) - (1)].keyword))));
 					n->args_unspecified = true;
 					(yyval.objwithargs) = n;
 				;}
@@ -40742,7 +40742,7 @@ yyreduce:
 
   case 1345:
 #line 10093 "gram.y"
-    { (yyval.node) = (Node *) makeString(pstrdup((yyvsp[(1) - (1)].keyword))); ;}
+    { (yyval.node) = (Node *) makeString(pgq_pstrdup((yyvsp[(1) - (1)].keyword))); ;}
     break;
 
   case 1346:
@@ -41940,32 +41940,32 @@ yyreduce:
 
   case 1476:
 #line 11145 "gram.y"
-    { (yyval.str) = pstrdup("connection_limit"); ;}
+    { (yyval.str) = pgq_pstrdup("connection_limit"); ;}
     break;
 
   case 1477:
 #line 11146 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 1478:
 #line 11147 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 1479:
 #line 11148 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 1480:
 #line 11149 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 1481:
 #line 11150 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 1484:
@@ -48674,7 +48674,7 @@ yyreduce:
 					else
 					{
 						n = makeRoleSpec(ROLESPEC_CSTRING, (yylsp[(1) - (1)]));
-						n->rolename = pstrdup((yyvsp[(1) - (1)].str));
+						n->rolename = pgq_pstrdup((yyvsp[(1) - (1)].str));
 					}
 					(yyval.rolespec) = n;
 				;}
@@ -48772,12 +48772,12 @@ yyreduce:
 
   case 2323:
 #line 16704 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2324:
 #line 16705 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2325:
@@ -48787,12 +48787,12 @@ yyreduce:
 
   case 2326:
 #line 16711 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2327:
 #line 16712 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2328:
@@ -48802,17 +48802,17 @@ yyreduce:
 
   case 2329:
 #line 16718 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2330:
 #line 16719 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2331:
 #line 16720 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2332:
@@ -48822,22 +48822,22 @@ yyreduce:
 
   case 2333:
 #line 16727 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2334:
 #line 16728 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2335:
 #line 16729 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2336:
 #line 16730 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
   case 2337:
@@ -48847,7 +48847,7 @@ yyreduce:
 
   case 2338:
 #line 16737 "gram.y"
-    { (yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword)); ;}
+    { (yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword)); ;}
     break;
 
 
