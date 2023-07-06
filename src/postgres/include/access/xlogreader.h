@@ -255,7 +255,7 @@ struct XLogReaderState
 	/*
 	 * Queue of records that have been decoded.  This is a linked list that
 	 * usually consists of consecutive records in decode_buffer, but may also
-	 * contain oversized records allocated with palloc().
+	 * contain oversized records allocated with pgq_palloc().
 	 */
 	DecodedXLogRecord *decode_queue_head;	/* oldest decoded record */
 	DecodedXLogRecord *decode_queue_tail;	/* newest decoded record */

@@ -328,7 +328,7 @@
 			return false; \
 	} while (0)
 
-/* Compare a field that is a pointer to a simple palloc'd object of size sz */
+/* Compare a field that is a pointer to a simple pgq_palloc'd object of size sz */
 #define COMPARE_POINTER_FIELD(fldname, sz) \
 	do { \
 		if (memcmp(a->fldname, b->fldname, (sz)) != 0) \

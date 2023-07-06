@@ -298,12 +298,12 @@
  * exclude other known false positives.
  *
  * You should normally use MEMORY_CONTEXT_CHECKING with USE_VALGRIND;
- * instrumentation of repalloc() is inferior without it.
+ * instrumentation of pgq_repalloc() is inferior without it.
  */
 /* #define USE_VALGRIND */
 
 /*
- * Define this to cause pfree()'d memory to be cleared immediately, to
+ * Define this to cause pgq_pfree()'d memory to be cleared immediately, to
  * facilitate catching bugs that refer to already-freed values.
  * Right now, this gets defined automatically if --enable-cassert.
  */
@@ -321,7 +321,7 @@
 #endif
 
 /*
- * Define this to cause palloc()'d memory to be filled with random data, to
+ * Define this to cause pgq_palloc()'d memory to be filled with random data, to
  * facilitate catching code that depends on the contents of uninitialized
  * memory.  Caution: this is horrendously expensive.
  */

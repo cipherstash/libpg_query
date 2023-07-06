@@ -134,7 +134,7 @@ typedef struct TM_FailureData
  *
  * Represents the status of table tuples, referenced by table TID and taken by
  * index AM from index tuples.  State consists of high level parameters of the
- * deletion operation, plus two mutable palloc()'d arrays for information
+ * deletion operation, plus two mutable pgq_palloc()'d arrays for information
  * about the status of individual table tuples.  These are conceptually one
  * single array.  Using two arrays keeps the TM_IndexDelete struct small,
  * which makes sorting the first array (the deltids array) fast.

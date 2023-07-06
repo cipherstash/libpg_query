@@ -121,7 +121,7 @@ pq_writestring(StringInfoData *pg_restrict buf, const char *pg_restrict str)
 	buf->len += slen + 1;
 
 	if (p != str)
-		pfree(p);
+		pgq_pfree(p);
 }
 
 /* append a binary [u]int8 to a StringInfo buffer */

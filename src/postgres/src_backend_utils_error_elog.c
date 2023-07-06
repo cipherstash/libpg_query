@@ -631,29 +631,29 @@ errfinish(const char *filename, int lineno, const char *funcname)
 
 	/* Now free up subsidiary data attached to stack entry, and release it */
 	if (edata->message)
-		pfree(edata->message);
+		pgq_pfree(edata->message);
 	if (edata->detail)
-		pfree(edata->detail);
+		pgq_pfree(edata->detail);
 	if (edata->detail_log)
-		pfree(edata->detail_log);
+		pgq_pfree(edata->detail_log);
 	if (edata->hint)
-		pfree(edata->hint);
+		pgq_pfree(edata->hint);
 	if (edata->context)
-		pfree(edata->context);
+		pgq_pfree(edata->context);
 	if (edata->backtrace)
-		pfree(edata->backtrace);
+		pgq_pfree(edata->backtrace);
 	if (edata->schema_name)
-		pfree(edata->schema_name);
+		pgq_pfree(edata->schema_name);
 	if (edata->table_name)
-		pfree(edata->table_name);
+		pgq_pfree(edata->table_name);
 	if (edata->column_name)
-		pfree(edata->column_name);
+		pgq_pfree(edata->column_name);
 	if (edata->datatype_name)
-		pfree(edata->datatype_name);
+		pgq_pfree(edata->datatype_name);
 	if (edata->constraint_name)
-		pfree(edata->constraint_name);
+		pgq_pfree(edata->constraint_name);
 	if (edata->internalquery)
-		pfree(edata->internalquery);
+		pgq_pfree(edata->internalquery);
 
 	errordata_stack_depth--;
 
@@ -805,9 +805,9 @@ errcode(int sqlerrcode)
 		} \
 		/* Save the completed message into the stack item */ \
 		if (edata->targetfield) \
-			pfree(edata->targetfield); \
-		edata->targetfield = pstrdup(buf.data); \
-		pfree(buf.data); \
+			pgq_pfree(edata->targetfield); \
+		edata->targetfield = pgq_pstrdup(buf.data); \
+		pgq_pfree(buf.data); \
 	}
 
 /*
@@ -844,9 +844,9 @@ errcode(int sqlerrcode)
 		} \
 		/* Save the completed message into the stack item */ \
 		if (edata->targetfield) \
-			pfree(edata->targetfield); \
-		edata->targetfield = pstrdup(buf.data); \
-		pfree(buf.data); \
+			pgq_pfree(edata->targetfield); \
+		edata->targetfield = pgq_pstrdup(buf.data); \
+		pgq_pfree(buf.data); \
 	}
 
 
@@ -1170,7 +1170,7 @@ internalerrquery(const char *query)
 
 	if (edata->internalquery)
 	{
-		pfree(edata->internalquery);
+		pgq_pfree(edata->internalquery);
 		edata->internalquery = NULL;
 	}
 
@@ -1348,34 +1348,34 @@ CopyErrorData(void)
 	Assert(CurrentMemoryContext != ErrorContext);
 
 	/* Copy the struct itself */
-	newedata = (ErrorData *) palloc(sizeof(ErrorData));
+	newedata = (ErrorData *) pgq_palloc(sizeof(ErrorData));
 	memcpy(newedata, edata, sizeof(ErrorData));
 
 	/* Make copies of separately-allocated fields */
 	if (newedata->message)
-		newedata->message = pstrdup(newedata->message);
+		newedata->message = pgq_pstrdup(newedata->message);
 	if (newedata->detail)
-		newedata->detail = pstrdup(newedata->detail);
+		newedata->detail = pgq_pstrdup(newedata->detail);
 	if (newedata->detail_log)
-		newedata->detail_log = pstrdup(newedata->detail_log);
+		newedata->detail_log = pgq_pstrdup(newedata->detail_log);
 	if (newedata->hint)
-		newedata->hint = pstrdup(newedata->hint);
+		newedata->hint = pgq_pstrdup(newedata->hint);
 	if (newedata->context)
-		newedata->context = pstrdup(newedata->context);
+		newedata->context = pgq_pstrdup(newedata->context);
 	if (newedata->backtrace)
-		newedata->backtrace = pstrdup(newedata->backtrace);
+		newedata->backtrace = pgq_pstrdup(newedata->backtrace);
 	if (newedata->schema_name)
-		newedata->schema_name = pstrdup(newedata->schema_name);
+		newedata->schema_name = pgq_pstrdup(newedata->schema_name);
 	if (newedata->table_name)
-		newedata->table_name = pstrdup(newedata->table_name);
+		newedata->table_name = pgq_pstrdup(newedata->table_name);
 	if (newedata->column_name)
-		newedata->column_name = pstrdup(newedata->column_name);
+		newedata->column_name = pgq_pstrdup(newedata->column_name);
 	if (newedata->datatype_name)
-		newedata->datatype_name = pstrdup(newedata->datatype_name);
+		newedata->datatype_name = pgq_pstrdup(newedata->datatype_name);
 	if (newedata->constraint_name)
-		newedata->constraint_name = pstrdup(newedata->constraint_name);
+		newedata->constraint_name = pgq_pstrdup(newedata->constraint_name);
 	if (newedata->internalquery)
-		newedata->internalquery = pstrdup(newedata->internalquery);
+		newedata->internalquery = pgq_pstrdup(newedata->internalquery);
 
 	/* Use the calling context for string allocation */
 	newedata->assoc_context = CurrentMemoryContext;
@@ -1612,7 +1612,7 @@ write_eventlog(int level, const char *line, int len)
 						 NULL);
 			/* XXX Try ReportEventA() when ReportEventW() fails? */
 
-			pfree(utf16);
+			pgq_pfree(utf16);
 			return;
 		}
 	}

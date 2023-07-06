@@ -6,7 +6,7 @@
  * StringInfo provides an extensible string data type (currently limited to a
  * length of 1GB).  It can be used to buffer either ordinary C strings
  * (null-terminated text) or arbitrary binary data.  All storage is allocated
- * with palloc() (falling back to malloc in frontend code).
+ * with pgq_palloc() (falling back to malloc in frontend code).
  *
  * Portions Copyright (c) 1996-2022, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
@@ -20,7 +20,7 @@
 
 /*-------------------------
  * StringInfoData holds information about an extensible string.
- *		data	is the current buffer for the string (allocated with palloc).
+ *		data	is the current buffer for the string (allocated with pgq_palloc).
  *		len		is the current string length.  There is guaranteed to be
  *				a terminating '\0' at data[len], although this is not very
  *				useful when the string holds binary data rather than text.
@@ -48,20 +48,20 @@ typedef StringInfoData *StringInfo;
  * There are two ways to create a StringInfo object initially:
  *
  * StringInfo stringptr = makeStringInfo();
- *		Both the StringInfoData and the data buffer are palloc'd.
+ *		Both the StringInfoData and the data buffer are pgq_palloc'd.
  *
  * StringInfoData string;
  * initStringInfo(&string);
- *		The data buffer is palloc'd but the StringInfoData is just local.
+ *		The data buffer is pgq_palloc'd but the StringInfoData is just local.
  *		This is the easiest approach for a StringInfo object that will
  *		only live as long as the current routine.
  *
- * To destroy a StringInfo, pfree() the data buffer, and then pfree() the
- * StringInfoData if it was palloc'd.  There's no special support for this.
+ * To destroy a StringInfo, pgq_pfree() the data buffer, and then pgq_pfree() the
+ * StringInfoData if it was pgq_palloc'd.  There's no special support for this.
  *
  * NOTE: some routines build up a string using StringInfo, and then
  * release the StringInfoData but return the data string itself to their
- * caller.  At that point the data string looks like a plain palloc'd
+ * caller.  At that point the data string looks like a plain pgq_palloc'd
  * string.
  *-------------------------
  */

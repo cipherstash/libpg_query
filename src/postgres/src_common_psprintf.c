@@ -65,7 +65,7 @@ psprintf(const char *fmt,...)
 		 * Allocate result buffer.  Note that in frontend this maps to malloc
 		 * with exit-on-error.
 		 */
-		result = (char *) palloc(len);
+		result = (char *) pgq_palloc(len);
 
 		/* Try to format the data. */
 		errno = save_errno;
@@ -77,7 +77,7 @@ psprintf(const char *fmt,...)
 			return result;		/* success */
 
 		/* Release buffer and loop around to try again with larger len. */
-		pfree(result);
+		pgq_pfree(result);
 		len = newlen;
 	}
 }

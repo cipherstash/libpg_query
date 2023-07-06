@@ -28,7 +28,7 @@
  * The string-conversion functions in this file share some API quirks.
  * Note the following:
  *
- * The functions return a palloc'd, null-terminated string if conversion
+ * The functions return a pgq_palloc'd, null-terminated string if conversion
  * is required.  However, if no conversion is performed, the given source
  * string pointer is returned as-is.
  *
@@ -174,7 +174,7 @@ pg_get_client_encoding(void)
  * This function has a different API than the other conversion functions.
  * The caller should've looked up the conversion function using
  * FindDefaultConversionProc().  Unlike the other functions, the converted
- * result is not palloc'd.  It is written to the caller-supplied buffer
+ * result is not pgq_palloc'd.  It is written to the caller-supplied buffer
  * instead.
  *
  * src_encoding   - encoding to convert from
@@ -523,7 +523,7 @@ raw_pg_bind_textdomain_codeset(const char *domainname, int encoding)
  * APIs, but we don't do that.  Compel gettext to use database encoding or,
  * failing that, the LC_CTYPE encoding as it would on other platforms.
  *
- * This function is called before elog() and palloc() are usable.
+ * This function is called before elog() and pgq_palloc() are usable.
  */
 int
 pg_bind_textdomain_codeset(const char *domainname)
@@ -756,7 +756,7 @@ report_invalid_encoding(int encoding, const char *mbstr, int len)
 
 #ifdef WIN32
 /*
- * Convert from MessageEncoding to a palloc'ed, null-terminated utf16
+ * Convert from MessageEncoding to a pgq_palloc'ed, null-terminated utf16
  * string. The character length is also passed to utf16len if not
  * null. Returns NULL iff failed. Before MessageEncoding initialization, "str"
  * should be ASCII-only; this will function as though MessageEncoding is UTF8.
@@ -782,7 +782,7 @@ pgwin32_message_to_UTF16(const char *str, int len, int *utf16len)
 	 */
 	if (codepage != 0)
 	{
-		utf16 = (WCHAR *) palloc(sizeof(WCHAR) * (len + 1));
+		utf16 = (WCHAR *) pgq_palloc(sizeof(WCHAR) * (len + 1));
 		dstlen = MultiByteToWideChar(codepage, 0, str, len, utf16, len);
 		utf16[dstlen] = (WCHAR) 0;
 	}
@@ -806,17 +806,17 @@ pgwin32_message_to_UTF16(const char *str, int len, int *utf16len)
 		else
 			utf8 = (char *) str;
 
-		utf16 = (WCHAR *) palloc(sizeof(WCHAR) * (len + 1));
+		utf16 = (WCHAR *) pgq_palloc(sizeof(WCHAR) * (len + 1));
 		dstlen = MultiByteToWideChar(CP_UTF8, 0, utf8, len, utf16, len);
 		utf16[dstlen] = (WCHAR) 0;
 
 		if (utf8 != str)
-			pfree(utf8);
+			pgq_pfree(utf8);
 	}
 
 	if (dstlen == 0 && len > 0)
 	{
-		pfree(utf16);
+		pgq_pfree(utf16);
 		return NULL;			/* error */
 	}
 

@@ -511,7 +511,7 @@ extern void end_tup_output(TupOutputState *tstate);
 		values_[0] = PointerGetDatum(cstring_to_text(str_to_emit)); \
 		isnull_[0] = false; \
 		do_tup_output(tstate, values_, isnull_); \
-		pfree(DatumGetPointer(values_[0])); \
+		pgq_pfree(DatumGetPointer(values_[0])); \
 	} while (0)
 
 

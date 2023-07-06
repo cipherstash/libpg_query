@@ -52,7 +52,7 @@ index 882e081aae..f555ac6e6d 100644
  {integer}		{
  					SET_YYLLOC();
 @@ -1003,21 +995,20 @@ other			.
- 					yylval->str = pstrdup(yytext);
+ 					yylval->str = pgq_pstrdup(yytext);
  					return FCONST;
  				}
 -{realfail}		{

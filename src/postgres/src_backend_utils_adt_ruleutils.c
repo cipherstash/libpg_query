@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------
  * Symbols referenced in this file:
  * - quote_identifier
- * - quote_all_identifiers
+ * - pgq_quote_all_identifiers
  *--------------------------------------------------------------------
  */
 
@@ -328,7 +328,7 @@ typedef void (*rsv_callback) (Node *node, deparse_context *context,
 
 
 /* GUC parameters */
-__thread bool		quote_all_identifiers = false;
+__thread bool		pgq_quote_all_identifiers = false;
 
 
 
@@ -1598,7 +1598,7 @@ quote_identifier(const char *ident)
 		}
 	}
 
-	if (quote_all_identifiers)
+	if (pgq_quote_all_identifiers)
 		safe = false;
 
 	if (safe)
@@ -1620,7 +1620,7 @@ quote_identifier(const char *ident)
 	if (safe)
 		return ident;			/* no change needed */
 
-	result = (char *) palloc(strlen(ident) + nquotes + 2 + 1);
+	result = (char *) pgq_palloc(strlen(ident) + nquotes + 2 + 1);
 
 	optr = result;
 	*optr++ = '"';

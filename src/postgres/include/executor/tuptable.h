@@ -31,8 +31,8 @@
  * of slots are
  *
  * 1. physical tuple in a disk buffer page (TTSOpsBufferHeapTuple)
- * 2. physical tuple constructed in palloc'ed memory (TTSOpsHeapTuple)
- * 3. "minimal" physical tuple constructed in palloc'ed memory
+ * 2. physical tuple constructed in pgq_palloc'ed memory (TTSOpsHeapTuple)
+ * 3. "minimal" physical tuple constructed in pgq_palloc'ed memory
  *    (TTSOpsMinimalTuple)
  * 4. "virtual" tuple consisting of Datum/isnull arrays (TTSOpsVirtual)
  *
@@ -40,10 +40,10 @@
  * The first two cases are similar in that they both deal with "materialized"
  * tuples, but resource management is different.  For a tuple in a disk page
  * we need to hold a pin on the buffer until the TupleTableSlot's reference
- * to the tuple is dropped; while for a palloc'd tuple we usually want the
- * tuple pfree'd when the TupleTableSlot's reference is dropped.
+ * to the tuple is dropped; while for a pgq_palloc'd tuple we usually want the
+ * tuple pgq_pfree'd when the TupleTableSlot's reference is dropped.
  *
- * A "minimal" tuple is handled similarly to a palloc'd regular tuple.
+ * A "minimal" tuple is handled similarly to a pgq_palloc'd regular tuple.
  * At present, minimal tuples never are stored in buffers, so there is no
  * parallel to case 1.  Note that a minimal tuple has no "system columns".
  * (Actually, it could have an OID, but we have no need to access the OID.)
@@ -96,7 +96,7 @@
 #define			TTS_FLAG_EMPTY			(1 << 1)
 #define TTS_EMPTY(slot)	(((slot)->tts_flags & TTS_FLAG_EMPTY) != 0)
 
-/* should pfree tuple "owned" by the slot? */
+/* should pgq_pfree tuple "owned" by the slot? */
 #define			TTS_FLAG_SHOULDFREE		(1 << 2)
 #define TTS_SHOULDFREE(slot) (((slot)->tts_flags & TTS_FLAG_SHOULDFREE) != 0)
 
@@ -197,7 +197,7 @@ struct TupleTableSlotOps
 
 	/*
 	 * Return a copy of heap tuple representing the contents of the slot. The
-	 * copy needs to be palloc'd in the current memory context. The slot
+	 * copy needs to be pgq_palloc'd in the current memory context. The slot
 	 * itself is expected to remain unaffected. It is *not* expected to have
 	 * meaningful "system columns" in the copy. The copy is not be "owned" by
 	 * the slot i.e. the caller has to take responsibility to free memory
@@ -207,7 +207,7 @@ struct TupleTableSlotOps
 
 	/*
 	 * Return a copy of minimal tuple representing the contents of the slot.
-	 * The copy needs to be palloc'd in the current memory context. The slot
+	 * The copy needs to be pgq_palloc'd in the current memory context. The slot
 	 * itself is expected to remain unaffected. It is *not* expected to have
 	 * meaningful "system columns" in the copy. The copy is not be "owned" by
 	 * the slot i.e. the caller has to take responsibility to free memory

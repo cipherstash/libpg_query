@@ -45,9 +45,9 @@
  *
  *	Performance improvement from Tom Lane, 8/99: for extremely large request
  *	sizes, we do want to be able to give the memory back to free() as soon
- *	as it is pfree()'d.  Otherwise we risk tying up a lot of memory in
+ *	as it is pgq_pfree()'d.  Otherwise we risk tying up a lot of memory in
  *	freelist entries that might never be usable.  This is specially needed
- *	when the caller is repeatedly repalloc()'ing a block bigger and bigger;
+ *	when the caller is repeatedly pgq_repalloc()'ing a block bigger and bigger;
  *	the previous instances of the block were guaranteed to be wasted until
  *	AllocSetReset() under the old way.
  *
@@ -134,7 +134,7 @@ typedef void *AllocPointer;
  * Note: header.isReset means there is nothing for AllocSetReset to do.
  * This is different from the aset being physically empty (empty blocks list)
  * because we will still have a keeper block.  It's also different from the set
- * being logically empty, because we don't attempt to detect pfree'ing the
+ * being logically empty, because we don't attempt to detect pgq_pfree'ing the
  * last active chunk.
  */
 typedef struct AllocSetContext
@@ -159,9 +159,9 @@ typedef AllocSetContext *AllocSet;
  * AllocBlock
  *		An AllocBlock is the unit of memory that is obtained by aset.c
  *		from malloc().  It contains one or more AllocChunks, which are
- *		the units requested by palloc() and freed by pfree().  AllocChunks
+ *		the units requested by pgq_palloc() and freed by pgq_pfree().  AllocChunks
  *		cannot be returned to malloc() individually, instead they are put
- *		on freelists by pfree() and re-used by the next palloc() that has
+ *		on freelists by pgq_pfree() and re-used by the next pgq_palloc() that has
  *		a matching request size.
  *
  *		AllocBlockData is the header data for a block --- the usable space
@@ -1273,8 +1273,8 @@ AllocSetRealloc(MemoryContext context, void *pointer, Size size)
 		 * it's not worth being smarter.  (At one time we tried to avoid
 		 * memcpy when it was possible to enlarge the chunk in-place, but that
 		 * turns out to misbehave unpleasantly for repeated cycles of
-		 * palloc/repalloc/pfree: the eventually freed chunks go into the
-		 * wrong freelist for the next initial palloc request, and so we leak
+		 * pgq_palloc/pgq_repalloc/pgq_pfree: the eventually freed chunks go into the
+		 * wrong freelist for the next initial pgq_palloc request, and so we leak
 		 * memory indefinitely.  See pgsql-hackers archives for 2007-08-11.)
 		 */
 		AllocPointer newPointer;
@@ -1501,7 +1501,7 @@ AllocSetCheck(MemoryContext context)
 			/*
 			 * If chunk is allocated, check for correct aset pointer. (If it's
 			 * free, the aset is the freelist pointer, which we can't check as
-			 * easily...)  Note this is an incomplete test, since palloc(0)
+			 * easily...)  Note this is an incomplete test, since pgq_palloc(0)
 			 * produces an allocated chunk with requested_size == 0.
 			 */
 			if (dsize > 0 && chunk->aset != (void *) set)

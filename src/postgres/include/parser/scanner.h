@@ -95,7 +95,7 @@ typedef struct core_yy_extra_type
 	 * necessarily null-terminated, but there always IS room to add a trailing
 	 * null at offset literallen.  We store a null only when we need it.
 	 */
-	char	   *literalbuf;		/* palloc'd expandable buffer */
+	char	   *literalbuf;		/* pgq_palloc'd expandable buffer */
 	int			literallen;		/* actual current string length */
 	int			literalalloc;	/* current allocated buffer size */
 

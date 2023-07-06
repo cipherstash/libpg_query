@@ -656,7 +656,7 @@ typedef struct NullableDatum
  *		Returns datum representation for a 64-bit integer.
  *
  * Note: if int64 is pass by reference, this function returns a reference
- * to palloc'd space.
+ * to pgq_palloc'd space.
  */
 
 #ifdef USE_FLOAT8_BYVAL
@@ -683,7 +683,7 @@ extern Datum Int64GetDatum(int64 X);
  *		Returns datum representation for a 64-bit unsigned integer.
  *
  * Note: if int64 is pass by reference, this function returns a reference
- * to palloc'd space.
+ * to pgq_palloc'd space.
  */
 
 #ifdef USE_FLOAT8_BYVAL
@@ -763,7 +763,7 @@ DatumGetFloat8(Datum X)
  *		Returns datum representation for an 8-byte floating point number.
  *
  * Note: if float8 is pass by reference, this function returns a reference
- * to palloc'd space.
+ * to pgq_palloc'd space.
  */
 
 #ifdef USE_FLOAT8_BYVAL

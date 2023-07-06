@@ -1163,7 +1163,7 @@ typedef struct PLpgSQL_plugin
 
 typedef struct PLword
 {
-	char	   *ident;			/* palloc'd converted identifier */
+	char	   *ident;			/* pgq_palloc'd converted identifier */
 	bool		quoted;			/* Was it double-quoted? */
 } PLword;
 

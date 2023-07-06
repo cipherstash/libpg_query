@@ -9,25 +9,25 @@
  * - MemoryContextSetParent
  * - MemoryContextCallResetCallbacks
  * - MemoryContextResetOnly
- * - repalloc
+ * - pgq_repalloc
  * - MemoryContextStats
  * - MemoryContextStatsDetail
  * - MemoryContextStatsInternal
  * - MemoryContextStatsPrint
- * - pfree
- * - pstrdup
+ * - pgq_pfree
+ * - pgq_pstrdup
  * - MemoryContextStrdup
  * - MemoryContextAlloc
  * - palloc
  * - MemoryContextAllocZeroAligned
  * - MemoryContextAllocZero
- * - palloc0
+ * - pgq_palloc0
  * - MemoryContextCreate
  * - MemoryContextInit
  * - MemoryContextAllowInCriticalSection
  * - CurrentMemoryContext
  * - MemoryContextDelete
- * - palloc0
+ * - pgq_palloc0
  * - MemoryContextAllocExtended
  *--------------------------------------------------------------------
  */
@@ -967,7 +967,7 @@ MemoryContextAllocExtended(MemoryContext context, Size size, int flags)
 
 
 void *
-palloc(Size size)
+pgq_palloc(Size size)
 {
 	/* duplicates MemoryContextAlloc to avoid increased overhead */
 	void	   *ret;
@@ -998,7 +998,7 @@ palloc(Size size)
 }
 
 void *
-palloc0(Size size)
+pgq_palloc0(Size size)
 {
 	/* duplicates MemoryContextAllocZero to avoid increased overhead */
 	void	   *ret;
@@ -1033,11 +1033,11 @@ palloc0(Size size)
 
 
 /*
- * pfree
+ * pgq_pfree
  *		Release an allocated chunk.
  */
 void
-pfree(void *pointer)
+pgq_pfree(void *pointer)
 {
 	MemoryContext context = GetMemoryChunkContext(pointer);
 
@@ -1046,11 +1046,11 @@ pfree(void *pointer)
 }
 
 /*
- * repalloc
+ * pgq_repalloc
  *		Adjust the size of a previously allocated chunk.
  */
 void *
-repalloc(void *pointer, Size size)
+pgq_repalloc(void *pointer, Size size)
 {
 	MemoryContext context = GetMemoryChunkContext(pointer);
 	void	   *ret;
@@ -1112,14 +1112,14 @@ MemoryContextStrdup(MemoryContext context, const char *string)
 }
 
 char *
-pstrdup(const char *in)
+pgq_pstrdup(const char *in)
 {
 	return MemoryContextStrdup(CurrentMemoryContext, in);
 }
 
 /*
  * pnstrdup
- *		Like pstrdup(), but append null byte to a
+ *		Like pgq_pstrdup(), but append null byte to a
  *		not-necessarily-null-terminated input string.
  */
 

@@ -436,8 +436,8 @@
  * if possible, so there's not really much problem anyhow, at least if
  * you're building with gcc.
  */
-#define YYMALLOC palloc
-#define YYFREE   pfree
+#define YYMALLOC pgq_palloc
+#define YYFREE   pgq_pfree
 
 
 typedef struct
@@ -2485,7 +2485,7 @@ yyreduce:
   case 11:
 #line 404 "pl_gram.y"
     {
-					(yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword));
+					(yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword));
 				;}
     break;
 
@@ -2494,7 +2494,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_block *new;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_block));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_block));
 
 						new->cmd_type	= PLPGSQL_STMT_BLOCK;
 						new->lineno		= plpgsql_location_to_lineno((yylsp[(2) - (6)]));
@@ -2651,7 +2651,7 @@ yyreduce:
 																		  NULL),
 												   true);
 
-						curname_def = palloc0(sizeof(PLpgSQL_expr));
+						curname_def = pgq_palloc0(sizeof(PLpgSQL_expr));
 
 						/* Note: refname has been truncated to NAMEDATALEN */
 						cp1 = new->refname;
@@ -2670,7 +2670,7 @@ yyreduce:
 							*cp2++ = *cp1++;
 						}
 						strcpy(cp2, "'::pg_catalog.refcursor");
-						curname_def->query = pstrdup(buf);
+						curname_def->query = pgq_pstrdup(buf);
 						curname_def->parseMode = RAW_PARSE_PLPGSQL_EXPR;
 						new->default_val = curname_def;
 
@@ -2725,14 +2725,14 @@ yyreduce:
 						int			i;
 						ListCell   *l;
 
-						new = palloc0(sizeof(PLpgSQL_row));
+						new = pgq_palloc0(sizeof(PLpgSQL_row));
 						new->dtype = PLPGSQL_DTYPE_ROW;
 						new->refname = "(unnamed row)";
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->rowtupdesc = NULL;
 						new->nfields = list_length((yyvsp[(2) - (3)].list));
-						new->fieldnames = palloc(new->nfields * sizeof(char *));
-						new->varnos = palloc(new->nfields * sizeof(int));
+						new->fieldnames = pgq_palloc(new->nfields * sizeof(char *));
+						new->varnos = pgq_palloc(new->nfields * sizeof(int));
 
 						i = 0;
 						foreach (l, (yyvsp[(2) - (3)].list))
@@ -2872,7 +2872,7 @@ yyreduce:
   case 43:
 #line 752 "pl_gram.y"
     {
-						(yyval.varname).name = pstrdup((yyvsp[(1) - (1)].keyword));
+						(yyval.varname).name = pgq_pstrdup((yyvsp[(1) - (1)].keyword));
 						(yyval.varname).lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
 						/*
 						 * Check to make sure name isn't already declared
@@ -2938,7 +2938,7 @@ yyreduce:
   case 49:
 #line 806 "pl_gram.y"
     {
-						(yyval.oid) = get_collation_oid(list_make1(makeString(pstrdup((yyvsp[(2) - (2)].keyword)))),
+						(yyval.oid) = get_collation_oid(list_make1(makeString(pgq_pstrdup((yyvsp[(2) - (2)].keyword)))),
 											   false);
 					;}
     break;
@@ -3114,7 +3114,7 @@ yyreduce:
 						PLpgSQL_stmt_perform *new;
 						int			startloc;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_perform));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_perform));
 						new->cmd_type = PLPGSQL_STMT_PERFORM;
 						new->lineno   = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -3150,7 +3150,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_call *new;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_call));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_call));
 						new->cmd_type = PLPGSQL_STMT_CALL;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -3172,7 +3172,7 @@ yyreduce:
 						/* use the same structures as for CALL, for simplicity */
 						PLpgSQL_stmt_call *new;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_call));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_call));
 						new->cmd_type = PLPGSQL_STMT_CALL;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -3212,7 +3212,7 @@ yyreduce:
 						}
 
 						check_assignable((yyvsp[(1) - (1)].wdatum).datum, (yylsp[(1) - (1)]));
-						new = palloc0(sizeof(PLpgSQL_stmt_assign));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_assign));
 						new->cmd_type = PLPGSQL_STMT_ASSIGN;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -3234,7 +3234,7 @@ yyreduce:
 						PLpgSQL_stmt_getdiag *new;
 						ListCell	   *lc;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_getdiag));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_getdiag));
 						new->cmd_type = PLPGSQL_STMT_GETDIAG;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (5)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -3331,7 +3331,7 @@ yyreduce:
     {
 						PLpgSQL_diag_item *new;
 
-						new = palloc(sizeof(PLpgSQL_diag_item));
+						new = pgq_palloc(sizeof(PLpgSQL_diag_item));
 						new->target = (yyvsp[(1) - (3)].datum)->dno;
 						new->kind = (yyvsp[(3) - (3)].ival);
 
@@ -3427,7 +3427,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_if *new;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_if));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_if));
 						new->cmd_type = PLPGSQL_STMT_IF;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (8)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -3452,7 +3452,7 @@ yyreduce:
     {
 						PLpgSQL_if_elsif *new;
 
-						new = palloc0(sizeof(PLpgSQL_if_elsif));
+						new = pgq_palloc0(sizeof(PLpgSQL_if_elsif));
 						new->lineno = plpgsql_location_to_lineno((yylsp[(2) - (4)]));
 						new->cond = (yyvsp[(3) - (4)].expr);
 						new->stmts = (yyvsp[(4) - (4)].list);
@@ -3515,7 +3515,7 @@ yyreduce:
   case 109:
 #line 1268 "pl_gram.y"
     {
-						PLpgSQL_case_when *new = palloc(sizeof(PLpgSQL_case_when));
+						PLpgSQL_case_when *new = pgq_palloc(sizeof(PLpgSQL_case_when));
 
 						new->lineno	= plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->expr = (yyvsp[(2) - (3)].expr);
@@ -3552,7 +3552,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_loop *new;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_loop));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_loop));
 						new->cmd_type = PLPGSQL_STMT_LOOP;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(2) - (3)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -3571,7 +3571,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_while *new;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_while));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_while));
 						new->cmd_type = PLPGSQL_STMT_WHILE;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(2) - (4)]));
 						new->stmtid	= ++plpgsql_curr_compile->nstatements;
@@ -3638,7 +3638,7 @@ yyreduce:
 														"LOOP or USING",
 														&term);
 
-							new = palloc0(sizeof(PLpgSQL_stmt_dynfors));
+							new = pgq_palloc0(sizeof(PLpgSQL_stmt_dynfors));
 							new->cmd_type = PLPGSQL_STMT_DYNFORS;
 							new->stmtid = ++plpgsql_curr_compile->nstatements;
 							if ((yyvsp[(1) - (2)].forvariable).row)
@@ -3684,7 +3684,7 @@ yyreduce:
 							PLpgSQL_stmt_forc *new;
 							PLpgSQL_var	*cursor = (PLpgSQL_var *) yylval.wdatum.datum;
 
-							new = (PLpgSQL_stmt_forc *) palloc0(sizeof(PLpgSQL_stmt_forc));
+							new = (PLpgSQL_stmt_forc *) pgq_palloc0(sizeof(PLpgSQL_stmt_forc));
 							new->cmd_type = PLPGSQL_STMT_FORC;
 							new->stmtid = ++plpgsql_curr_compile->nstatements;
 							new->curvar = cursor->dno;
@@ -3804,7 +3804,7 @@ yyreduce:
 																				  NULL),
 														   true);
 
-								new = palloc0(sizeof(PLpgSQL_stmt_fori));
+								new = pgq_palloc0(sizeof(PLpgSQL_stmt_fori));
 								new->cmd_type = PLPGSQL_STMT_FORI;
 								new->stmtid	= ++plpgsql_curr_compile->nstatements;
 								new->var = fvar;
@@ -3832,7 +3832,7 @@ yyreduce:
 								check_sql_expr(expr1->query, expr1->parseMode,
 											   expr1loc);
 
-								new = palloc0(sizeof(PLpgSQL_stmt_fors));
+								new = pgq_palloc0(sizeof(PLpgSQL_stmt_fors));
 								new->cmd_type = PLPGSQL_STMT_FORS;
 								new->stmtid = ++plpgsql_curr_compile->nstatements;
 								if ((yyvsp[(1) - (2)].forvariable).row)
@@ -3922,7 +3922,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_foreach_a *new;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_foreach_a));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_foreach_a));
 						new->cmd_type = PLPGSQL_STMT_FOREACH_A;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(2) - (8)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -3975,7 +3975,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_exit *new;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_exit));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_exit));
 						new->cmd_type = PLPGSQL_STMT_EXIT;
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
 						new->is_exit = (yyvsp[(1) - (3)].boolean);
@@ -4071,7 +4071,7 @@ yyreduce:
 						PLpgSQL_stmt_raise *new;
 						int			tok;
 
-						new = palloc(sizeof(PLpgSQL_stmt_raise));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_raise));
 
 						new->cmd_type = PLPGSQL_STMT_RAISE;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
@@ -4190,7 +4190,7 @@ yyreduce:
 									if (tok == T_WORD)
 										new->condname = yylval.word.ident;
 									else if (plpgsql_token_is_unreserved_keyword(tok))
-										new->condname = pstrdup(yylval.keyword);
+										new->condname = pgq_pstrdup(yylval.keyword);
 									else
 										yyerror("syntax error");
 									plpgsql_recognize_err_condition(new->condname,
@@ -4217,7 +4217,7 @@ yyreduce:
 						PLpgSQL_stmt_assert	*new;
 						int			tok;
 
-						new = palloc(sizeof(PLpgSQL_stmt_assert));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_assert));
 
 						new->cmd_type = PLPGSQL_STMT_ASSERT;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
@@ -4307,7 +4307,7 @@ yyreduce:
 												  true, true, true,
 												  NULL, &endtoken);
 
-						new = palloc(sizeof(PLpgSQL_stmt_dynexecute));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_dynexecute));
 						new->cmd_type = PLPGSQL_STMT_DYNEXECUTE;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -4364,7 +4364,7 @@ yyreduce:
 						PLpgSQL_stmt_open *new;
 						int			tok;
 
-						new = palloc0(sizeof(PLpgSQL_stmt_open));
+						new = pgq_palloc0(sizeof(PLpgSQL_stmt_open));
 						new->cmd_type = PLPGSQL_STMT_OPEN;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (2)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -4493,7 +4493,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_close *new;
 
-						new = palloc(sizeof(PLpgSQL_stmt_close));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_close));
 						new->cmd_type = PLPGSQL_STMT_CLOSE;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -4516,7 +4516,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_commit *new;
 
-						new = palloc(sizeof(PLpgSQL_stmt_commit));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_commit));
 						new->cmd_type = PLPGSQL_STMT_COMMIT;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -4531,7 +4531,7 @@ yyreduce:
     {
 						PLpgSQL_stmt_rollback *new;
 
-						new = palloc(sizeof(PLpgSQL_stmt_rollback));
+						new = pgq_palloc(sizeof(PLpgSQL_stmt_rollback));
 						new->cmd_type = PLPGSQL_STMT_ROLLBACK;
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (3)]));
 						new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -4613,7 +4613,7 @@ yyreduce:
 						 * current block.
 						 */
 						int			lineno = plpgsql_location_to_lineno((yylsp[(1) - (1)]));
-						PLpgSQL_exception_block *new = palloc(sizeof(PLpgSQL_exception_block));
+						PLpgSQL_exception_block *new = pgq_palloc(sizeof(PLpgSQL_exception_block));
 						PLpgSQL_variable *var;
 
 						var = plpgsql_build_variable("sqlstate", lineno,
@@ -4667,7 +4667,7 @@ yyreduce:
     {
 						PLpgSQL_exception *new;
 
-						new = palloc0(sizeof(PLpgSQL_exception));
+						new = pgq_palloc0(sizeof(PLpgSQL_exception));
 						new->lineno = plpgsql_location_to_lineno((yylsp[(1) - (4)]));
 						new->conditions = (yyvsp[(2) - (4)].condition);
 						new->action = (yyvsp[(4) - (4)].list);
@@ -4717,7 +4717,7 @@ yyreduce:
 								if (strspn(sqlstatestr, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != 5)
 									yyerror("invalid SQLSTATE code");
 
-								new = palloc(sizeof(PLpgSQL_condition));
+								new = pgq_palloc(sizeof(PLpgSQL_condition));
 								new->sqlerrstate =
 									MAKE_SQLSTATE(sqlstatestr[0],
 												  sqlstatestr[1],
@@ -4814,7 +4814,7 @@ yyreduce:
   case 170:
 #line 2493 "pl_gram.y"
     {
-						(yyval.str) = pstrdup((yyvsp[(1) - (1)].keyword));
+						(yyval.str) = pgq_pstrdup((yyvsp[(1) - (1)].keyword));
 					;}
     break;
 
@@ -5258,14 +5258,14 @@ read_sql_construct(int until,
 			ds.data[--ds.len] = '\0';
 	}
 
-	expr = palloc0(sizeof(PLpgSQL_expr));
-	expr->query = pstrdup(ds.data);
+	expr = pgq_palloc0(sizeof(PLpgSQL_expr));
+	expr->query = pgq_pstrdup(ds.data);
 	expr->parseMode = parsemode;
 	expr->plan = NULL;
 	expr->paramnos = NULL;
 	expr->target_param = -1;
 	expr->ns = plpgsql_ns_top();
-	pfree(ds.data);
+	pgq_pfree(ds.data);
 
 	if (valid_sql)
 		check_sql_expr(expr->query, expr->parseMode, startlocation);
@@ -5321,7 +5321,7 @@ read_datatype(int tok)
 	}
 	else if (plpgsql_token_is_unreserved_keyword(tok))
 	{
-		char	   *dtname = pstrdup(yylval.keyword);
+		char	   *dtname = pgq_pstrdup(yylval.keyword);
 
 		tok = yylex();
 		if (tok == '%')
@@ -5402,7 +5402,7 @@ read_datatype(int tok)
 
 	result = parse_datatype(type_name, startlocation);
 
-	pfree(ds.data);
+	pgq_pfree(ds.data);
 
 	plpgsql_push_back_token(tok);
 
@@ -5507,18 +5507,18 @@ make_execsql_stmt(int firsttoken, int location)
 	while (ds.len > 0 && scanner_isspace(ds.data[ds.len - 1]))
 		ds.data[--ds.len] = '\0';
 
-	expr = palloc0(sizeof(PLpgSQL_expr));
-	expr->query = pstrdup(ds.data);
+	expr = pgq_palloc0(sizeof(PLpgSQL_expr));
+	expr->query = pgq_pstrdup(ds.data);
 	expr->parseMode = RAW_PARSE_DEFAULT;
 	expr->plan = NULL;
 	expr->paramnos = NULL;
 	expr->target_param = -1;
 	expr->ns = plpgsql_ns_top();
-	pfree(ds.data);
+	pgq_pfree(ds.data);
 
 	check_sql_expr(expr->query, expr->parseMode, location);
 
-	execsql = palloc0(sizeof(PLpgSQL_stmt_execsql));
+	execsql = pgq_palloc0(sizeof(PLpgSQL_stmt_execsql));
 	execsql->cmd_type = PLPGSQL_STMT_EXECSQL;
 	execsql->lineno = plpgsql_location_to_lineno(location);
 	execsql->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -5545,7 +5545,7 @@ read_fetch_direction(void)
 	 * We create the PLpgSQL_stmt_fetch struct here, but only fill in
 	 * the fields arising from the optional direction clause
 	 */
-	fetch = (PLpgSQL_stmt_fetch *) palloc0(sizeof(PLpgSQL_stmt_fetch));
+	fetch = (PLpgSQL_stmt_fetch *) pgq_palloc0(sizeof(PLpgSQL_stmt_fetch));
 	fetch->cmd_type = PLPGSQL_STMT_FETCH;
 	fetch->stmtid = ++plpgsql_curr_compile->nstatements;
 	/* set direction defaults: */
@@ -5700,7 +5700,7 @@ make_return_stmt(int location)
 
   Assert(plpgsql_curr_compile->fn_rettype == VOIDOID);
 
-	new = palloc0(sizeof(PLpgSQL_stmt_return));
+	new = pgq_palloc0(sizeof(PLpgSQL_stmt_return));
 	new->cmd_type = PLPGSQL_STMT_RETURN;
 	new->lineno   = plpgsql_location_to_lineno(location);
 	new->expr	  = NULL;
@@ -5731,7 +5731,7 @@ make_return_next_stmt(int location)
 				 errmsg("cannot use RETURN NEXT in a non-SETOF function"),
 				 parser_errposition(location)));
 
-	new = palloc0(sizeof(PLpgSQL_stmt_return_next));
+	new = pgq_palloc0(sizeof(PLpgSQL_stmt_return_next));
 	new->cmd_type = PLPGSQL_STMT_RETURN_NEXT;
 	new->lineno = plpgsql_location_to_lineno(location);
 	new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -5795,7 +5795,7 @@ make_return_query_stmt(int location)
 				 errmsg("cannot use RETURN QUERY in a non-SETOF function"),
 				 parser_errposition(location)));
 
-	new = palloc0(sizeof(PLpgSQL_stmt_return_query));
+	new = pgq_palloc0(sizeof(PLpgSQL_stmt_return_query));
 	new->cmd_type = PLPGSQL_STMT_RETURN_QUERY;
 	new->lineno = plpgsql_location_to_lineno(location);
 	new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -5986,14 +5986,14 @@ read_into_scalar_list(char *initial_name,
 	 */
 	plpgsql_push_back_token(tok);
 
-	row = palloc0(sizeof(PLpgSQL_row));
+	row = pgq_palloc0(sizeof(PLpgSQL_row));
 	row->dtype = PLPGSQL_DTYPE_ROW;
 	row->refname = "(unnamed row)";
 	row->lineno = plpgsql_location_to_lineno(initial_location);
 	row->rowtupdesc = NULL;
 	row->nfields = nfields;
-	row->fieldnames = palloc(sizeof(char *) * nfields);
-	row->varnos = palloc(sizeof(int) * nfields);
+	row->fieldnames = pgq_palloc(sizeof(char *) * nfields);
+	row->varnos = pgq_palloc(sizeof(int) * nfields);
 	while (--nfields >= 0)
 	{
 		row->fieldnames[nfields] = fieldnames[nfields];
@@ -6021,14 +6021,14 @@ make_scalar_list1(char *initial_name,
 
 	check_assignable(initial_datum, location);
 
-	row = palloc0(sizeof(PLpgSQL_row));
+	row = pgq_palloc0(sizeof(PLpgSQL_row));
 	row->dtype = PLPGSQL_DTYPE_ROW;
 	row->refname = "(unnamed row)";
 	row->lineno = lineno;
 	row->rowtupdesc = NULL;
 	row->nfields = 1;
-	row->fieldnames = palloc(sizeof(char *));
-	row->varnos = palloc(sizeof(int));
+	row->fieldnames = pgq_palloc(sizeof(char *));
+	row->varnos = pgq_palloc(sizeof(int));
 	row->fieldnames[0] = initial_name;
 	row->varnos[0] = initial_datum->dno;
 
@@ -6123,7 +6123,7 @@ plpgsql_sql_error_callback(void *arg)
  * This is handled the same as in check_sql_expr(), and we likewise
  * expect that the given string is a copy from the source text.
  */
-static PLpgSQL_type * parse_datatype(const char *string, int location) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) palloc0(sizeof(PLpgSQL_type)); typ->typname = pstrdup(string); typ->ttype = strcmp(string, "RECORD") == 0 ? PLPGSQL_TTYPE_REC : PLPGSQL_TTYPE_SCALAR; return typ; }
+static PLpgSQL_type * parse_datatype(const char *string, int location) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) pgq_palloc0(sizeof(PLpgSQL_type)); typ->typname = pgq_pstrdup(string); typ->ttype = strcmp(string, "RECORD") == 0 ? PLPGSQL_TTYPE_REC : PLPGSQL_TTYPE_SCALAR; return typ; }
 
 
 /*
@@ -6200,7 +6200,7 @@ read_cursor_args(PLpgSQL_var *cursor, int until)
 	 * Read the arguments, one by one.
 	 */
 	row = (PLpgSQL_row *) plpgsql_Datums[cursor->cursor_explicit_argrow];
-	argv = (char **) palloc0(row->nfields * sizeof(char *));
+	argv = (char **) pgq_palloc0(row->nfields * sizeof(char *));
 
 	for (argc = 0; argc < row->nfields; argc++)
 	{
@@ -6309,14 +6309,14 @@ read_cursor_args(PLpgSQL_var *cursor, int until)
 			appendStringInfoString(&ds, ", ");
 	}
 
-	expr = palloc0(sizeof(PLpgSQL_expr));
-	expr->query = pstrdup(ds.data);
+	expr = pgq_palloc0(sizeof(PLpgSQL_expr));
+	expr->query = pgq_pstrdup(ds.data);
 	expr->parseMode = RAW_PARSE_PLPGSQL_EXPR;
 	expr->plan = NULL;
 	expr->paramnos = NULL;
 	expr->target_param = -1;
 	expr->ns = plpgsql_ns_top();
-	pfree(ds.data);
+	pgq_pfree(ds.data);
 
 	/* Next we'd better find the until token */
 	tok = yylex();
@@ -6342,7 +6342,7 @@ read_raise_options(void)
 		if ((tok = yylex()) == 0)
 			yyerror("unexpected end of function definition");
 
-		opt = (PLpgSQL_raise_option *) palloc(sizeof(PLpgSQL_raise_option));
+		opt = (PLpgSQL_raise_option *) pgq_palloc(sizeof(PLpgSQL_raise_option));
 
 		if (tok_is_keyword(tok, &yylval,
 						   K_ERRCODE, "errcode"))
@@ -6433,7 +6433,7 @@ make_case(int location, PLpgSQL_expr *t_expr,
 {
 	PLpgSQL_stmt_case *new;
 
-	new = palloc(sizeof(PLpgSQL_stmt_case));
+	new = pgq_palloc(sizeof(PLpgSQL_stmt_case));
 	new->cmd_type = PLPGSQL_STMT_CASE;
 	new->lineno = plpgsql_location_to_lineno(location);
 	new->stmtid = ++plpgsql_curr_compile->nstatements;
@@ -6493,12 +6493,12 @@ make_case(int location, PLpgSQL_expr *t_expr,
 			appendStringInfo(&ds, "\"%s\" IN (%s)",
 							 varname, expr->query);
 
-			pfree(expr->query);
-			expr->query = pstrdup(ds.data);
+			pgq_pfree(expr->query);
+			expr->query = pgq_pstrdup(ds.data);
 			/* Adjust expr's namespace to include the case variable */
 			expr->ns = plpgsql_ns_top();
 
-			pfree(ds.data);
+			pgq_pfree(ds.data);
 		}
 	}
 

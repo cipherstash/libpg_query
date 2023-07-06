@@ -87,7 +87,7 @@ static char *printTypmod(const char *typname, int32 typmod, Oid typmodout);
  * Note that TYPEMOD_GIVEN is not interchangeable with "typemod == -1";
  * see the comments above for format_type().
  *
- * Returns a palloc'd string, or NULL.
+ * Returns a pgq_palloc'd string, or NULL.
  */
 
 
@@ -95,9 +95,9 @@ static char *printTypmod(const char *typname, int32 typmod, Oid typmodout);
  * This version is for use within the backend in error messages, etc.
  * One difference is that it will fail for an invalid type.
  *
- * The result is always a palloc'd string.
+ * The result is always a pgq_palloc'd string.
  */
-char * format_type_be(Oid type_oid) { return pstrdup("-"); }
+char * format_type_be(Oid type_oid) { return pgq_pstrdup("-"); }
 
 
 /*

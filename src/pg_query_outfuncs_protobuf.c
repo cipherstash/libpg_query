@@ -14,7 +14,7 @@
 
 #define OUT_NODE(typename, typename_c, typename_underscore, typename_underscore_upcase, typename_cast, fldname) \
   { \
-    PgQuery__##typename_c *__node = palloc(sizeof(PgQuery__##typename_c)); \
+    PgQuery__##typename_c *__node = pgq_palloc(sizeof(PgQuery__##typename_c)); \
 	pg_query__##typename_underscore##__init(__node); \
     _out##typename_c(__node, (const typename_cast *) obj); \
 	out->fldname = __node; \
@@ -29,13 +29,13 @@
 
 #define WRITE_CHAR_FIELD(outname, outname_json, fldname) \
 	if (node->fldname != 0) { \
-		out->outname = palloc(sizeof(char) * 2); \
+		out->outname = pgq_palloc(sizeof(char) * 2); \
 		out->outname[0] = node->fldname; \
 		out->outname[1] = '\0'; \
 	}
 #define WRITE_STRING_FIELD(outname, outname_json, fldname) \
 	if (node->fldname != NULL) { \
-		out->outname = pstrdup(node->fldname); \
+		out->outname = pgq_pstrdup(node->fldname); \
 	}
 
 #define WRITE_ENUM_FIELD(typename, outname, outname_json, fldname) \
@@ -44,10 +44,10 @@
 #define WRITE_LIST_FIELD(outname, outname_json, fldname) \
 	if (node->fldname != NULL) { \
 	  out->n_##outname = list_length(node->fldname); \
-	  out->outname = palloc(sizeof(PgQuery__Node*) * out->n_##outname); \
+	  out->outname = pgq_palloc(sizeof(PgQuery__Node*) * out->n_##outname); \
 	  for (int i = 0; i < out->n_##outname; i++) \
       { \
-	    PgQuery__Node *__node = palloc(sizeof(PgQuery__Node)); \
+	    PgQuery__Node *__node = pgq_palloc(sizeof(PgQuery__Node)); \
 	    pg_query__node__init(__node); \
 	    out->outname[i] = __node; \
 	    _outNode(out->outname[i], list_nth(node->fldname, i)); \
@@ -60,14 +60,14 @@
 		int x = 0; \
 		int i = 0; \
 		out->n_##outname = bms_num_members(node->fldname); \
-		out->outname = palloc(sizeof(PgQuery__Node*) * out->n_##outname); \
+		out->outname = pgq_palloc(sizeof(PgQuery__Node*) * out->n_##outname); \
 		while ((x = bms_first_member(node->fldname)) >= 0) \
 			out->outname[i++] = x; \
     }
 
 #define WRITE_NODE_FIELD(outname, outname_json, fldname) \
 	{ \
-		PgQuery__Node *__node = palloc(sizeof(PgQuery__Node)); \
+		PgQuery__Node *__node = pgq_palloc(sizeof(PgQuery__Node)); \
 		pg_query__node__init(__node); \
 		out->outname = __node; \
 		_outNode(out->outname, &node->fldname); \
@@ -75,7 +75,7 @@
 
 #define WRITE_NODE_PTR_FIELD(outname, outname_json, fldname) \
 	if (node->fldname != NULL) { \
-		PgQuery__Node *__node = palloc(sizeof(PgQuery__Node)); \
+		PgQuery__Node *__node = pgq_palloc(sizeof(PgQuery__Node)); \
 		pg_query__node__init(__node); \
 		out->outname = __node; \
 		_outNode(out->outname, node->fldname); \
@@ -83,7 +83,7 @@
 
 #define WRITE_SPECIFIC_NODE_FIELD(typename, typename_underscore, outname, outname_json, fldname) \
 	{ \
-		PgQuery__##typename *__node = palloc(sizeof(PgQuery__##typename)); \
+		PgQuery__##typename *__node = pgq_palloc(sizeof(PgQuery__##typename)); \
 		pg_query__##typename_underscore##__init(__node); \
 		_out##typename(__node, &node->fldname); \
 		out->outname = __node; \
@@ -91,7 +91,7 @@
 
 #define WRITE_SPECIFIC_NODE_PTR_FIELD(typename, typename_underscore, outname, outname_json, fldname) \
 	if (node->fldname != NULL) { \
-		PgQuery__##typename *__node = palloc(sizeof(PgQuery__##typename)); \
+		PgQuery__##typename *__node = pgq_palloc(sizeof(PgQuery__##typename)); \
 		pg_query__##typename_underscore##__init(__node); \
 		_out##typename(__node, node->fldname); \
 		out->outname = __node; \
@@ -105,10 +105,10 @@ _outList(PgQuery__List* out, const List *node)
 	const ListCell *lc;
 	int i = 0;
 	out->n_items = list_length(node);
-	out->items = palloc(sizeof(PgQuery__Node*) * out->n_items);
+	out->items = pgq_palloc(sizeof(PgQuery__Node*) * out->n_items);
     foreach(lc, node)
     {
-		out->items[i] = palloc(sizeof(PgQuery__Node));
+		out->items[i] = pgq_palloc(sizeof(PgQuery__Node));
 		pg_query__node__init(out->items[i]);
 	    _outNode(out->items[i], lfirst(lc));
 		i++;
@@ -121,10 +121,10 @@ _outIntList(PgQuery__IntList* out, const List *node)
 	const ListCell *lc;
 	int i = 0;
 	out->n_items = list_length(node);
-	out->items = palloc(sizeof(PgQuery__Node*) * out->n_items);
+	out->items = pgq_palloc(sizeof(PgQuery__Node*) * out->n_items);
     foreach(lc, node)
     {
-		out->items[i] = palloc(sizeof(PgQuery__Node));
+		out->items[i] = pgq_palloc(sizeof(PgQuery__Node));
 		pg_query__node__init(out->items[i]);
 	    _outNode(out->items[i], lfirst(lc));
 		i++;
@@ -137,10 +137,10 @@ _outOidList(PgQuery__OidList* out, const List *node)
 	const ListCell *lc;
 	int i = 0;
 	out->n_items = list_length(node);
-	out->items = palloc(sizeof(PgQuery__Node*) * out->n_items);
+	out->items = pgq_palloc(sizeof(PgQuery__Node*) * out->n_items);
     foreach(lc, node)
     {
-		out->items[i] = palloc(sizeof(PgQuery__Node));
+		out->items[i] = pgq_palloc(sizeof(PgQuery__Node));
 		pg_query__node__init(out->items[i]);
 	    _outNode(out->items[i], lfirst(lc));
 		i++;
@@ -188,7 +188,7 @@ _outAConst(PgQuery__AConst* out, const A_Const *node)
   if (!node->isnull) {
     switch (nodeTag(&node->val.node)) {
       case T_Integer: {
-        PgQuery__Integer *value = palloc(sizeof(PgQuery__Integer));
+        PgQuery__Integer *value = pgq_palloc(sizeof(PgQuery__Integer));
         pg_query__integer__init(value);
         value->ival = node->val.ival.ival;
 
@@ -197,16 +197,16 @@ _outAConst(PgQuery__AConst* out, const A_Const *node)
         break;
       }
       case T_Float: {
-        PgQuery__Float *value = palloc(sizeof(PgQuery__Float));
+        PgQuery__Float *value = pgq_palloc(sizeof(PgQuery__Float));
         pg_query__float__init(value);
-        value->fval = pstrdup(node->val.fval.fval);
+        value->fval = pgq_pstrdup(node->val.fval.fval);
 
         out->val_case = PG_QUERY__A__CONST__VAL_FVAL;
         out->fval = value;
         break;
       }
       case T_Boolean: {
-        PgQuery__Boolean *value = palloc(sizeof(PgQuery__Boolean));
+        PgQuery__Boolean *value = pgq_palloc(sizeof(PgQuery__Boolean));
         pg_query__boolean__init(value);
         value->boolval = node->val.boolval.boolval;
 
@@ -215,18 +215,18 @@ _outAConst(PgQuery__AConst* out, const A_Const *node)
         break;
       }
       case T_String: {
-        PgQuery__String *value = palloc(sizeof(PgQuery__String));
+        PgQuery__String *value = pgq_palloc(sizeof(PgQuery__String));
 	pg_query__string__init(value);
-	value->sval = pstrdup(node->val.sval.sval);
+	value->sval = pgq_pstrdup(node->val.sval.sval);
 
 	out->val_case = PG_QUERY__A__CONST__VAL_SVAL;
 	out->sval = value;
 	break;
       }
       case T_BitString: {
-        PgQuery__BitString *value = palloc(sizeof(PgQuery__BitString));
+        PgQuery__BitString *value = pgq_palloc(sizeof(PgQuery__BitString));
 	pg_query__bit_string__init(value);
-	value->bsval = pstrdup(node->val.bsval.bsval);
+	value->bsval = pgq_pstrdup(node->val.bsval.bsval);
 
 	out->val_case = PG_QUERY__A__CONST__VAL_BSVAL;
 	out->bsval = value;
@@ -278,10 +278,10 @@ pg_query_nodes_to_protobuf(const void *obj)
 	else
 	{
 		parse_result.n_stmts = list_length(obj);
-		parse_result.stmts = palloc(sizeof(PgQuery__RawStmt*) * parse_result.n_stmts);
+		parse_result.stmts = pgq_palloc(sizeof(PgQuery__RawStmt*) * parse_result.n_stmts);
 		foreach(lc, obj)
 		{
-			parse_result.stmts[i] = palloc(sizeof(PgQuery__RawStmt));
+			parse_result.stmts[i] = pgq_palloc(sizeof(PgQuery__RawStmt));
 			pg_query__raw_stmt__init(parse_result.stmts[i]);
 			_outRawStmt(parse_result.stmts[i], lfirst(lc));
 			i++;

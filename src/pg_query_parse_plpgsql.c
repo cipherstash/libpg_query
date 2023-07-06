@@ -31,7 +31,7 @@ static void add_dummy_return(PLpgSQL_function *function)
 	{
 		PLpgSQL_stmt_block *new;
 
-		new = palloc0(sizeof(PLpgSQL_stmt_block));
+		new = pgq_palloc0(sizeof(PLpgSQL_stmt_block));
 		new->cmd_type = PLPGSQL_STMT_BLOCK;
 		new->body = list_make1(function->action);
 
@@ -42,7 +42,7 @@ static void add_dummy_return(PLpgSQL_function *function)
 	{
 		PLpgSQL_stmt_return *new;
 
-		new = palloc0(sizeof(PLpgSQL_stmt_return));
+		new = pgq_palloc0(sizeof(PLpgSQL_stmt_return));
 		new->cmd_type = PLPGSQL_STMT_RETURN;
 		new->expr = NULL;
 		new->retvarno = function->out_param_varno;
@@ -97,7 +97,7 @@ static PLpgSQL_function *compile_do_stmt(DoStmt* stmt)
 	assert(proc_source != NULL);
 
 	if(strcmp(language, "plpgsql") != 0) {
-		return (PLpgSQL_function *) palloc0(sizeof(PLpgSQL_function));
+		return (PLpgSQL_function *) pgq_palloc0(sizeof(PLpgSQL_function));
 	}
 	return plpgsql_compile_inline(proc_source);
 
@@ -144,7 +144,7 @@ static PLpgSQL_function *compile_create_function_stmt(CreateFunctionStmt* stmt)
 	assert(proc_source != NULL);
 
 	if(strcmp(language, "plpgsql") != 0) { 
-		return (PLpgSQL_function *) palloc0(sizeof(PLpgSQL_function));
+		return (PLpgSQL_function *) pgq_palloc0(sizeof(PLpgSQL_function));
 	}
 
 	if (stmt->returnType != NULL) {
@@ -183,7 +183,7 @@ static PLpgSQL_function *compile_create_function_stmt(CreateFunctionStmt* stmt)
 	plpgsql_check_syntax = true;
 
 	/* Function struct does not live past current statement */
-	function = (PLpgSQL_function *) palloc0(sizeof(PLpgSQL_function));
+	function = (PLpgSQL_function *) pgq_palloc0(sizeof(PLpgSQL_function));
 
 	plpgsql_curr_compile = function;
 
@@ -196,7 +196,7 @@ static PLpgSQL_function *compile_create_function_stmt(CreateFunctionStmt* stmt)
 									 ALLOCSET_DEFAULT_SIZES);
 	plpgsql_compile_tmp_cxt = MemoryContextSwitchTo(func_cxt);
 
-	function->fn_signature = pstrdup(func_name);
+	function->fn_signature = pgq_pstrdup(func_name);
 	function->fn_is_trigger = PLPGSQL_NOT_TRIGGER;
 	function->fn_input_collation = InvalidOid;
 	function->fn_cxt = func_cxt;
@@ -416,7 +416,7 @@ static bool stmts_walker(Node *node, plStmts *state)
 		if (state->stmts_count >= state->stmts_buf_size)
 		{
 			state->stmts_buf_size *= 2;
-			state->stmts = (Node**) repalloc(state->stmts, state->stmts_buf_size * sizeof(Node*));
+			state->stmts = (Node**) pgq_repalloc(state->stmts, state->stmts_buf_size * sizeof(Node*));
 		}
 		state->stmts[state->stmts_count] = (Node *) node;
 		state->stmts_count++;
@@ -457,7 +457,7 @@ PgQueryPlpgsqlParseResult pg_query_parse_plpgsql(const char* input)
 	}
 
 	statements.stmts_buf_size = 100;
-	statements.stmts = (Node**) palloc(statements.stmts_buf_size * sizeof(Node*));
+	statements.stmts = (Node**) pgq_palloc(statements.stmts_buf_size * sizeof(Node*));
 	statements.stmts_count = 0;
 
 	stmts_walker((Node*) parse_result.tree, &statements);
@@ -500,7 +500,7 @@ PgQueryPlpgsqlParseResult pg_query_parse_plpgsql(const char* input)
 				result.plpgsql_funcs = new_out;
 			}
 
-			pfree(func_json);
+			pgq_pfree(func_json);
 		}
 	}
 

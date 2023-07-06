@@ -5286,7 +5286,7 @@ YY_RULE_SETUP
 					else
 					{
 						/* If NCHAR isn't a keyword, just return "n" */
-						yylval->str = pstrdup("n");
+						yylval->str = pgq_pstrdup("n");
 						yyextra->yyllocend = yytext - yyextra->scanbuf + yyleng;
 						return IDENT;
 					}
@@ -5581,7 +5581,7 @@ YY_RULE_SETUP
 #line 736 "scan.l"
 {
 					SET_YYLLOC();
-					yyextra->dolqstart = pstrdup(yytext);
+					yyextra->dolqstart = pgq_pstrdup(yytext);
 					BEGIN(xdolq);
 					startlit();
 				}
@@ -5603,7 +5603,7 @@ YY_RULE_SETUP
 {
 					if (strcmp(yytext, yyextra->dolqstart) == 0)
 					{
-						pfree(yyextra->dolqstart);
+						pgq_pfree(yyextra->dolqstart);
 						yyextra->dolqstart = NULL;
 						BEGIN(INITIAL);
 						yylval->str = litbufdup(yyscanner);
@@ -5914,7 +5914,7 @@ YY_RULE_SETUP
 					if (nchars >= NAMEDATALEN)
 						yyerror("operator too long");
 
-					yylval->str = pstrdup(yytext);
+					yylval->str = pgq_pstrdup(yytext);
 					return Op;
 				}
 	YY_BREAK
@@ -5940,7 +5940,7 @@ YY_RULE_SETUP
 #line 1000 "scan.l"
 {
 					SET_YYLLOC();
-					yylval->str = pstrdup(yytext);
+					yylval->str = pgq_pstrdup(yytext);
 					return FCONST;
 				}
 	YY_BREAK
@@ -5959,7 +5959,7 @@ YY_RULE_SETUP
 #line 1011 "scan.l"
 {
 					SET_YYLLOC();
-					yylval->str = pstrdup(yytext);
+					yylval->str = pgq_pstrdup(yytext);
 					return FCONST;
 				}
 	YY_BREAK
@@ -7081,7 +7081,7 @@ scanner_init(const char *str,
 	/*
 	 * Make a scan buffer with special termination needed by flex.
 	 */
-	yyext->scanbuf = (char *) palloc(slen + 2);
+	yyext->scanbuf = (char *) pgq_palloc(slen + 2);
 	yyext->scanbuflen = slen;
 	memcpy(yyext->scanbuf, str, slen);
 	yyext->scanbuf[slen] = yyext->scanbuf[slen + 1] = YY_END_OF_BUFFER_CHAR;
@@ -7089,7 +7089,7 @@ scanner_init(const char *str,
 
 	/* initialize literal buffer to a reasonable but expansible size */
 	yyext->literalalloc = 1024;
-	yyext->literalbuf = (char *) palloc(yyext->literalalloc);
+	yyext->literalbuf = (char *) pgq_palloc(yyext->literalalloc);
 	yyext->literallen = 0;
 
 	return scanner;
@@ -7113,9 +7113,9 @@ scanner_finish(core_yyscan_t yyscanner)
 	 * represent a nontrivial amount of space.  The 8K cutoff is arbitrary.
 	 */
 	if (yyextra->scanbuflen >= 8192)
-		pfree(yyextra->scanbuf);
+		pgq_pfree(yyextra->scanbuf);
 	if (yyextra->literalalloc >= 8192)
-		pfree(yyextra->literalbuf);
+		pgq_pfree(yyextra->literalbuf);
 }
 
 
@@ -7126,7 +7126,7 @@ addlit(char *ytext, int yleng, core_yyscan_t yyscanner)
 	if ((yyextra->literallen + yleng) >= yyextra->literalalloc)
 	{
 		yyextra->literalalloc = pg_nextpower2_32(yyextra->literallen + yleng + 1);
-		yyextra->literalbuf = (char *) repalloc(yyextra->literalbuf,
+		yyextra->literalbuf = (char *) pgq_repalloc(yyextra->literalbuf,
 												yyextra->literalalloc);
 	}
 	/* append new data */
@@ -7142,7 +7142,7 @@ addlitchar(unsigned char ychar, core_yyscan_t yyscanner)
 	if ((yyextra->literallen + 1) >= yyextra->literalalloc)
 	{
 		yyextra->literalalloc *= 2;
-		yyextra->literalbuf = (char *) repalloc(yyextra->literalbuf,
+		yyextra->literalbuf = (char *) pgq_repalloc(yyextra->literalbuf,
 												yyextra->literalalloc);
 	}
 	/* append new data */
@@ -7160,7 +7160,7 @@ litbufdup(core_yyscan_t yyscanner)
 	int			llen = yyextra->literallen;
 	char	   *new;
 
-	new = palloc(llen + 1);
+	new = pgq_palloc(llen + 1);
 	memcpy(new, yyextra->literalbuf, llen);
 	new[llen] = '\0';
 	return new;
@@ -7181,7 +7181,7 @@ process_integer_literal(const char *token, YYSTYPE *lval)
 	if (*endptr != '\0' || errno == ERANGE)
 	{
 		/* integer too large (or contains decimal pt), treat it as a float */
-		lval->str = pstrdup(token);
+		lval->str = pgq_pstrdup(token);
 		return FCONST;
 	}
 	lval->ival = val;
@@ -7278,16 +7278,16 @@ check_escape_warning(core_yyscan_t yyscanner)
 void *
 core_yyalloc(yy_size_t bytes, core_yyscan_t yyscanner)
 {
-	return palloc(bytes);
+	return pgq_palloc(bytes);
 }
 
 void *
 core_yyrealloc(void *ptr, yy_size_t bytes, core_yyscan_t yyscanner)
 {
 	if (ptr)
-		return repalloc(ptr, bytes);
+		return pgq_repalloc(ptr, bytes);
 	else
-		return palloc(bytes);
+		return pgq_palloc(bytes);
 }
 
 

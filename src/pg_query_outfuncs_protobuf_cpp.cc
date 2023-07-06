@@ -167,7 +167,7 @@ _outAConst(pg_query::A_Const* out_node, const A_Const *node)
 			}
 			case T_Float: {
 				pg_query::Float *value = new pg_query::Float();
-				value->set_fval(pstrdup(node->val.fval.fval));
+				value->set_fval(pgq_pstrdup(node->val.fval.fval));
 				out_node->set_allocated_fval(value);
 				break;
 			}
@@ -179,13 +179,13 @@ _outAConst(pg_query::A_Const* out_node, const A_Const *node)
 			}
 			case T_String: {
 				pg_query::String *value = new pg_query::String();
-				value->set_sval(pstrdup(node->val.sval.sval));
+				value->set_sval(pgq_pstrdup(node->val.sval.sval));
 				out_node->set_allocated_sval(value);
 				break;
 			}
 			case T_BitString: {
 				pg_query::BitString *value = new pg_query::BitString();
-				value->set_bsval(pstrdup(node->val.bsval.bsval));
+				value->set_bsval(pgq_pstrdup(node->val.bsval.bsval));
 				out_node->set_allocated_bsval(value);
 				break;
 			}
@@ -253,7 +253,7 @@ pg_query_nodes_to_json(const void *obj)
 	pg_query::ParseResult parse_result;
 
 	if (obj == NULL)
-		return pstrdup("{}");
+		return pgq_pstrdup("{}");
 
 	parse_result.set_version(PG_VERSION_NUM);
 	foreach(lc, (List*) obj)
@@ -264,5 +264,5 @@ pg_query_nodes_to_json(const void *obj)
 	std::string output;
 	google::protobuf::util::MessageToJsonString(parse_result, &output);
 
-	return pstrdup(output.c_str());
+	return pgq_pstrdup(output.c_str());
 }

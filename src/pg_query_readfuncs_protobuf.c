@@ -25,7 +25,7 @@
 
 #define READ_STRING_FIELD(outname, outname_json, fldname) \
 	if (msg->outname != NULL && strlen(msg->outname) > 0) { \
-		node->fldname = pstrdup(msg->outname); \
+		node->fldname = pgq_pstrdup(msg->outname); \
 	}
 
 #define READ_ENUM_FIELD(typename, outname, outname_json, fldname) \
@@ -77,7 +77,7 @@ static Node * _readNode(PgQuery__Node *msg);
 static String *
 _readString(PgQuery__String* msg)
 {
-	return makeString(pstrdup(msg->sval));
+	return makeString(pgq_pstrdup(msg->sval));
 }
 
 #include "pg_query_enum_defs.c"
@@ -102,13 +102,13 @@ static Node * _readNode(PgQuery__Node *msg)
 		case PG_QUERY__NODE__NODE_INTEGER:
 			return (Node *) makeInteger(msg->integer->ival);
 		case PG_QUERY__NODE__NODE_FLOAT:
-			return (Node *) makeFloat(pstrdup(msg->float_->fval));
+			return (Node *) makeFloat(pgq_pstrdup(msg->float_->fval));
 		case PG_QUERY__NODE__NODE_BOOLEAN:
 			return (Node *) makeBoolean(msg->boolean->boolval);
 		case PG_QUERY__NODE__NODE_STRING:
-			return (Node *) makeString(pstrdup(msg->string->sval));
+			return (Node *) makeString(pgq_pstrdup(msg->string->sval));
 		case PG_QUERY__NODE__NODE_BIT_STRING:
-			return (Node *) makeBitString(pstrdup(msg->bit_string->bsval));
+			return (Node *) makeBitString(pgq_pstrdup(msg->bit_string->bsval));
 		case PG_QUERY__NODE__NODE_A_CONST: {
 			A_Const *ac = makeNode(A_Const);
 			ac->location = msg->a_const->location;
@@ -121,16 +121,16 @@ static Node * _readNode(PgQuery__Node *msg)
 						ac->val.ival = *makeInteger(msg->a_const->ival->ival);
 						break;
 					case PG_QUERY__A__CONST__VAL_FVAL:
-						ac->val.fval = *makeFloat(pstrdup(msg->a_const->fval->fval));
+						ac->val.fval = *makeFloat(pgq_pstrdup(msg->a_const->fval->fval));
 						break;
 					case PG_QUERY__A__CONST__VAL_BOOLVAL:
 						ac->val.boolval = *makeBoolean(msg->a_const->boolval->boolval);
 						break;
 					case PG_QUERY__A__CONST__VAL_SVAL:
-						ac->val.sval = *makeString(pstrdup(msg->a_const->sval->sval));
+						ac->val.sval = *makeString(pgq_pstrdup(msg->a_const->sval->sval));
 						break;
 					case PG_QUERY__A__CONST__VAL_BSVAL:
-						ac->val.bsval = *makeBitString(pstrdup(msg->a_const->bsval->bsval));
+						ac->val.bsval = *makeBitString(pgq_pstrdup(msg->a_const->bsval->bsval));
 						break;
 					case PG_QUERY__A__CONST__VAL__NOT_SET:
 					case _PG_QUERY__A__CONST__VAL__CASE_IS_INT_SIZE:

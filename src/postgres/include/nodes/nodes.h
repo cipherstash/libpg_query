@@ -573,7 +573,7 @@ typedef struct Node
 #else
 
 /*
- *	There is no way to dereference the palloc'ed pointer to assign the
+ *	There is no way to dereference the pgq_palloc'ed pointer to assign the
  *	tag, and also return the pointer itself, so we need a holder variable.
  *	Fortunately, this macro isn't recursive so we just define
  *	a global variable for this purpose.

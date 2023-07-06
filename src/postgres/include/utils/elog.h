@@ -362,7 +362,7 @@ extern PGDLLIMPORT __thread  sigjmp_buf *PG_exception_stack;
 
 /*
  * ErrorData holds the data accumulated during any one ereport() cycle.
- * Any non-NULL pointers must point to palloc'd data.
+ * Any non-NULL pointers must point to pgq_palloc'd data.
  * (The const pointers are an exception; we assume they point at non-freeable
  * constant strings.)
  */

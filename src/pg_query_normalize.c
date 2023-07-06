@@ -215,7 +215,7 @@ fill_in_constant_lengths(pgssConstLocations *jstate, const char *query)
  * *query_len_p contains the input string length, and is updated with
  * the result string length (which cannot be longer) on exit.
  *
- * Returns a palloc'd string.
+ * Returns a pgq_palloc'd string.
  */
 static char *
 generate_normalized_query(pgssConstLocations *jstate, int query_loc, int* query_len_p, int encoding)
@@ -247,7 +247,7 @@ generate_normalized_query(pgssConstLocations *jstate, int query_loc, int* query_
 	norm_query_buflen = query_len + jstate->clocations_count * 10;
 
 	/* Allocate result buffer */
-	norm_query = palloc(norm_query_buflen + 1);
+	norm_query = pgq_palloc(norm_query_buflen + 1);
 
 	for (i = 0; i < jstate->clocations_count; i++)
 	{
@@ -310,7 +310,7 @@ static void RecordConstLocation(pgssConstLocations *jstate, int location)
 		{
 			jstate->clocations_buf_size *= 2;
 			jstate->clocations = (pgssLocationLen *)
-				repalloc(jstate->clocations,
+				pgq_repalloc(jstate->clocations,
 						 jstate->clocations_buf_size *
 						 sizeof(pgssLocationLen));
 		}
@@ -326,7 +326,7 @@ static void RecordConstLocation(pgssConstLocations *jstate, int location)
 			jstate->param_refs_count++;
 			if (jstate->param_refs_count >= jstate->param_refs_buf_size) {
 				jstate->param_refs_buf_size *= 2;
-				jstate->param_refs = (int *) repalloc(jstate->param_refs, jstate->param_refs_buf_size * sizeof(int));
+				jstate->param_refs = (int *) pgq_repalloc(jstate->param_refs, jstate->param_refs_buf_size * sizeof(int));
 			}
 		}
 		jstate->clocations_count++;
@@ -377,7 +377,7 @@ static bool const_record_walker(Node *node, pgssConstLocations *jstate)
 					jstate->param_refs_count++;
 					if (jstate->param_refs_count >= jstate->param_refs_buf_size) {
 						jstate->param_refs_buf_size *= 2;
-						jstate->param_refs = (int *) repalloc(jstate->param_refs, jstate->param_refs_buf_size * sizeof(int));
+						jstate->param_refs = (int *) pgq_repalloc(jstate->param_refs, jstate->param_refs_buf_size * sizeof(int));
 					}
 				}
 			}
@@ -439,10 +439,10 @@ static bool const_record_walker(Node *node, pgssConstLocations *jstate)
 				foreach(lc, stmt->targetList)
 				{
 					ResTarget *res_target = lfirst_node(ResTarget, lc);
-					FpAndParamRefs *fp_and_param_refs = palloc0(sizeof(FpAndParamRefs));
+					FpAndParamRefs *fp_and_param_refs = pgq_palloc0(sizeof(FpAndParamRefs));
 
 					/* Save all param refs we encounter or assign */
-					jstate->param_refs = palloc0(1 * sizeof(int));
+					jstate->param_refs = pgq_palloc0(1 * sizeof(int));
 					jstate->param_refs_buf_size = 1;
 					jstate->param_refs_count = 0;
 
@@ -579,7 +579,7 @@ PgQueryNormalizeResult pg_query_normalize(const char* input)
 		/* Set up workspace for constant recording */
 		jstate.clocations_buf_size = 32;
 		jstate.clocations = (pgssLocationLen *)
-			palloc(jstate.clocations_buf_size * sizeof(pgssLocationLen));
+			pgq_palloc(jstate.clocations_buf_size * sizeof(pgssLocationLen));
 		jstate.clocations_count = 0;
 		jstate.highest_normalize_param_id = 1;
 		jstate.highest_extern_param_id = 0;

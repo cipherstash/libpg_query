@@ -1036,7 +1036,7 @@ extern void ExceptionalCondition(const char *conditionName,
  * MemSetAligned is the same as MemSet except it omits the test to see if
  * "start" is word-aligned.  This is okay to use if the caller knows a-priori
  * that the pointer is suitably aligned (typically, because he just got it
- * from palloc(), which always delivers a max-aligned pointer).
+ * from pgq_palloc(), which always delivers a max-aligned pointer).
  */
 #define MemSetAligned(start, val, len) \
 	do \

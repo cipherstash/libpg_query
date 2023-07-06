@@ -64,7 +64,7 @@ initStringInfo(StringInfo str)
 {
 	int			size = 1024;	/* initial default buffer size */
 
-	str->data = (char *) palloc(size);
+	str->data = (char *) pgq_palloc(size);
 	str->maxlen = size;
 	resetStringInfo(str);
 }
@@ -330,7 +330,7 @@ enlargeStringInfo(StringInfo str, int needed)
 	if (newlen > (int) MaxAllocSize)
 		newlen = (int) MaxAllocSize;
 
-	str->data = (char *) repalloc(str->data, newlen);
+	str->data = (char *) pgq_repalloc(str->data, newlen);
 
 	str->maxlen = newlen;
 }

@@ -86,8 +86,8 @@ _fingerprintString(FingerprintContext *ctx, const char *str)
 	}
 
 	if (ctx->write_tokens) {
-		FingerprintToken *token = palloc0(sizeof(FingerprintToken));
-		token->str = pstrdup(str);
+		FingerprintToken *token = pgq_palloc0(sizeof(FingerprintToken));
+		token->str = pgq_pstrdup(str);
 		dlist_push_tail(&ctx->tokens, &token->list_node);
 	}
 }
@@ -177,7 +177,7 @@ _fingerprintList(FingerprintContext *ctx, const List *node, const void *parent, 
 		}
 		else
 		{
-			listsort_items = palloc0(node->length * sizeof(FingerprintListsortItem*));
+			listsort_items = pgq_palloc0(node->length * sizeof(FingerprintListsortItem*));
 			listsort_items_size = 0;
 			ListCell *lc;
 			bool found;
@@ -185,7 +185,7 @@ _fingerprintList(FingerprintContext *ctx, const List *node, const void *parent, 
 			foreach(lc, node)
 			{
 				FingerprintContext fctx;
-				FingerprintListsortItem* lctx = palloc0(sizeof(FingerprintListsortItem));
+				FingerprintListsortItem* lctx = pgq_palloc0(sizeof(FingerprintListsortItem));
 
 				_fingerprintInitContext(&fctx, ctx, false);
 				_fingerprintNode(&fctx, lfirst(lc), parent, field_name, depth + 1);

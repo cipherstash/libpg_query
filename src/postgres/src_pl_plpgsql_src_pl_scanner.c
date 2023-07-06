@@ -386,7 +386,7 @@ internal_yylex(TokenAuxData *auxdata)
 		/* The core returns PARAM as ival, but we treat it like IDENT */
 		else if (token == PARAM)
 		{
-			auxdata->lval.str = pstrdup(yytext);
+			auxdata->lval.str = pgq_pstrdup(yytext);
 		}
 
 		else if (token == SQL_COMMENT || token == C_COMMENT)

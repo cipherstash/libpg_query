@@ -410,7 +410,7 @@ SH_ALLOCATE(SH_TYPE * type, Size size)
 static inline void
 SH_FREE(SH_TYPE * type, void *pointer)
 {
-	pfree(pointer);
+	pgq_pfree(pointer);
 }
 
 #endif
@@ -458,7 +458,7 @@ SH_SCOPE void
 SH_DESTROY(SH_TYPE * tb)
 {
 	SH_FREE(tb, tb->data);
-	pfree(tb);
+	pgq_pfree(tb);
 }
 
 /* reset the contents of a previously created hash table */
@@ -1059,7 +1059,7 @@ SH_STAT(SH_TYPE * tb)
 	double		fillfactor;
 	uint32		i;
 
-	uint32	   *collisions = (uint32 *) palloc0(tb->size * sizeof(uint32));
+	uint32	   *collisions = (uint32 *) pgq_palloc0(tb->size * sizeof(uint32));
 	uint32		total_collisions = 0;
 	uint32		max_collisions = 0;
 	double		avg_collisions;

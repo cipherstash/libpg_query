@@ -200,7 +200,7 @@ typedef void (*aminitparallelscan_function) (void *target);
 typedef void (*amparallelrescan_function) (IndexScanDesc scan);
 
 /*
- * API struct for an index AM.  Note this must be stored in a single palloc'd
+ * API struct for an index AM.  Note this must be stored in a single pgq_palloc'd
  * chunk of memory.
  */
 typedef struct IndexAmRoutine

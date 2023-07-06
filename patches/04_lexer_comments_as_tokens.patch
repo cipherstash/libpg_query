@@ -117,7 +117,7 @@ index 9cea2e42ac..a0b86ac587 100644
 +++ b/src/pl/plpgsql/src/pl_scanner.c
 @@ -342,6 +342,11 @@ internal_yylex(TokenAuxData *auxdata)
  		{
- 			auxdata->lval.str = pstrdup(yytext);
+ 			auxdata->lval.str = pgq_pstrdup(yytext);
  		}
 +
 +		else if (token == SQL_COMMENT || token == C_COMMENT)

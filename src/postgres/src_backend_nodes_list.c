@@ -131,7 +131,7 @@ new_list(NodeTag type, int min_size)
 
 	/*
 	 * Normally, we set up a list with some extra cells, to allow it to grow
-	 * without a repalloc.  Prefer cell counts chosen to make the total
+	 * without a pgq_repalloc.  Prefer cell counts chosen to make the total
 	 * allocation a power-of-2, since palloc would round it up to that anyway.
 	 * (That stops being true for very large allocations, but very long lists
 	 * are infrequent, so it doesn't seem worth special logic for such cases.)
@@ -156,7 +156,7 @@ new_list(NodeTag type, int min_size)
 	max_size = min_size;
 #endif
 
-	newlist = (List *) palloc(offsetof(List, initial_elements) +
+	newlist = (List *) pgq_palloc(offsetof(List, initial_elements) +
 							  max_size * sizeof(ListCell));
 	newlist->type = type;
 	newlist->length = min_size;
@@ -212,7 +212,7 @@ enlarge_list(List *list, int min_size)
 
 		/*
 		 * We must not move the list header, so it's unsafe to try to reclaim
-		 * the initial_elements[] space via repalloc.  In debugging builds,
+		 * the initial_elements[] space via pgq_repalloc.  In debugging builds,
 		 * however, we can clear that space and/or mark it inaccessible.
 		 * (wipe_mem includes VALGRIND_MAKE_MEM_NOACCESS.)
 		 */
@@ -227,12 +227,12 @@ enlarge_list(List *list, int min_size)
 	else
 	{
 #ifndef DEBUG_LIST_MEMORY_USAGE
-		/* Normally, let repalloc deal with enlargement */
-		list->elements = (ListCell *) repalloc(list->elements,
+		/* Normally, let pgq_repalloc deal with enlargement */
+		list->elements = (ListCell *) pgq_repalloc(list->elements,
 											   new_max_len * sizeof(ListCell));
 #else
 		/*
-		 * repalloc() might enlarge the space in-place, which we don't want
+		 * pgq_repalloc() might enlarge the space in-place, which we don't want
 		 * for debugging purposes, so forcibly move the data somewhere else.
 		 */
 		ListCell   *newelements;
@@ -242,7 +242,7 @@ enlarge_list(List *list, int min_size)
 							   new_max_len * sizeof(ListCell));
 		memcpy(newelements, list->elements,
 			   list->length * sizeof(ListCell));
-		pfree(list->elements);
+		pgq_pfree(list->elements);
 		list->elements = newelements;
 #endif
 	}
@@ -589,7 +589,7 @@ list_delete_nth_cell(List *list, int n)
 		memcpy(&newelems[n], &list->elements[n + 1],
 			   (list->length - 1 - n) * sizeof(ListCell));
 		if (list->elements != list->initial_elements)
-			pfree(list->elements);
+			pgq_pfree(list->elements);
 		else
 		{
 			/*
@@ -864,11 +864,11 @@ list_free_private(List *list, bool deep)
 	if (deep)
 	{
 		for (int i = 0; i < list->length; i++)
-			pfree(lfirst(&list->elements[i]));
+			pgq_pfree(lfirst(&list->elements[i]));
 	}
 	if (list->elements != list->initial_elements)
-		pfree(list->elements);
-	pfree(list);
+		pgq_pfree(list->elements);
+	pgq_pfree(list);
 }
 
 /*

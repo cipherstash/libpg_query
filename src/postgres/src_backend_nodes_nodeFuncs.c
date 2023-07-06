@@ -816,7 +816,7 @@ leftmostLoc(int loc1, int loc2)
  */
 
 #define FLATCOPY(newnode, node, nodetype)  \
-	( (newnode) = (nodetype *) palloc(sizeof(nodetype)), \
+	( (newnode) = (nodetype *) pgq_palloc(sizeof(nodetype)), \
 	  memcpy((newnode), (node), sizeof(nodetype)) )
 #define MUTATE(newfield, oldfield, fieldtype)  \
 		( (newfield) = (fieldtype) mutator((Node *) (oldfield), context) )

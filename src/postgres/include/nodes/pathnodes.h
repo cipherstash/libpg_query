@@ -1621,7 +1621,7 @@ typedef struct NestPath
  * for the inner input, and/or a Material node for the inner input.  We could
  * represent these nodes by separate path nodes, but considering how many
  * different merge paths are investigated during a complex join problem,
- * it seems better to avoid unnecessary palloc overhead.
+ * it seems better to avoid unnecessary pgq_palloc overhead.
  *
  * path_mergeclauses lists the clauses (in the form of RestrictInfos)
  * that will be used in the merge.

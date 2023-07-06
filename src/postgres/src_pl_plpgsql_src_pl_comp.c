@@ -191,8 +191,8 @@ static void delete_function(PLpgSQL_function *func);
  *
  * Because palloc()'d storage will not be immediately freed, temporary
  * allocations should either be performed in a short-lived memory
- * context or explicitly pfree'd. Since not all backend functions are
- * careful about pfree'ing their allocations, it is also wise to
+ * context or explicitly pgq_pfree'd. Since not all backend functions are
+ * careful about pgq_pfree'ing their allocations, it is also wise to
  * switch into a short-term context before calling into the
  * backend. An appropriate context for performing short-term
  * allocations is the plpgsql_compile_tmp_cxt.
@@ -243,7 +243,7 @@ plpgsql_compile_inline(char *proc_source)
 	plpgsql_check_syntax = check_function_bodies;
 
 	/* Function struct does not live past current statement */
-	function = (PLpgSQL_function *) palloc0(sizeof(PLpgSQL_function));
+	function = (PLpgSQL_function *) pgq_palloc0(sizeof(PLpgSQL_function));
 
 	plpgsql_curr_compile = function;
 
@@ -256,7 +256,7 @@ plpgsql_compile_inline(char *proc_source)
 									 ALLOCSET_DEFAULT_SIZES);
 	plpgsql_compile_tmp_cxt = MemoryContextSwitchTo(func_cxt);
 
-	function->fn_signature = pstrdup(func_name);
+	function->fn_signature = pgq_pstrdup(func_name);
 	function->fn_is_trigger = PLPGSQL_NOT_TRIGGER;
 	function->fn_input_collation = InvalidOid;
 	function->fn_cxt = func_cxt;
@@ -395,7 +395,7 @@ add_dummy_return(PLpgSQL_function *function)
 	{
 		PLpgSQL_stmt_block *new;
 
-		new = palloc0(sizeof(PLpgSQL_stmt_block));
+		new = pgq_palloc0(sizeof(PLpgSQL_stmt_block));
 		new->cmd_type = PLPGSQL_STMT_BLOCK;
 		new->stmtid = ++function->nstatements;
 		new->body = list_make1(function->action);
@@ -407,7 +407,7 @@ add_dummy_return(PLpgSQL_function *function)
 	{
 		PLpgSQL_stmt_return *new;
 
-		new = palloc0(sizeof(PLpgSQL_stmt_return));
+		new = pgq_palloc0(sizeof(PLpgSQL_stmt_return));
 		new->cmd_type = PLPGSQL_STMT_RETURN;
 		new->stmtid = ++function->nstatements;
 		new->expr = NULL;
@@ -748,9 +748,9 @@ plpgsql_build_variable(const char *refname, int lineno, PLpgSQL_type *dtype,
 				/* Ordinary scalar datatype */
 				PLpgSQL_var *var;
 
-				var = palloc0(sizeof(PLpgSQL_var));
+				var = pgq_palloc0(sizeof(PLpgSQL_var));
 				var->dtype = PLPGSQL_DTYPE_VAR;
-				var->refname = pstrdup(refname);
+				var->refname = pgq_pstrdup(refname);
 				var->lineno = lineno;
 				var->datatype = dtype;
 				/* other fields are left as 0, might be changed by caller */
@@ -805,9 +805,9 @@ plpgsql_build_record(const char *refname, int lineno,
 {
 	PLpgSQL_rec *rec;
 
-	rec = palloc0(sizeof(PLpgSQL_rec));
+	rec = pgq_palloc0(sizeof(PLpgSQL_rec));
 	rec->dtype = PLPGSQL_DTYPE_REC;
-	rec->refname = pstrdup(refname);
+	rec->refname = pgq_pstrdup(refname);
 	rec->lineno = lineno;
 	/* other fields are left as 0, might be changed by caller */
 	rec->datatype = dtype;
@@ -852,9 +852,9 @@ plpgsql_build_recfield(PLpgSQL_rec *rec, const char *fldname)
 	}
 
 	/* nope, so make a new one */
-	recfield = palloc0(sizeof(PLpgSQL_recfield));
+	recfield = pgq_palloc0(sizeof(PLpgSQL_recfield));
 	recfield->dtype = PLPGSQL_DTYPE_RECFIELD;
-	recfield->fieldname = pstrdup(fldname);
+	recfield->fieldname = pgq_pstrdup(fldname);
 	recfield->recparentno = rec->dno;
 	recfield->rectupledescid = INVALID_TUPLEDESC_IDENTIFIER;
 
@@ -879,7 +879,7 @@ plpgsql_build_recfield(PLpgSQL_rec *rec, const char *fldname)
  * It can be NULL if the type could not be a composite type, or if it was
  * identified by OID to begin with (e.g., it's a function argument type).
  */
-PLpgSQL_type * plpgsql_build_datatype(Oid typeOid, int32 typmod, Oid collation, TypeName *origtypname) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) palloc0(sizeof(PLpgSQL_type)); typ->typname = pstrdup("UNKNOWN"); typ->ttype = PLPGSQL_TTYPE_SCALAR; return typ; }
+PLpgSQL_type * plpgsql_build_datatype(Oid typeOid, int32 typmod, Oid collation, TypeName *origtypname) { PLpgSQL_type *typ; typ = (PLpgSQL_type *) pgq_palloc0(sizeof(PLpgSQL_type)); typ->typname = pgq_pstrdup("UNKNOWN"); typ->ttype = PLPGSQL_TTYPE_SCALAR; return typ; }
 
 
 /*
@@ -949,7 +949,7 @@ plpgsql_parse_err_condition(char *condname)
 	 */
 	if (strcmp(condname, "others") == 0)
 	{
-		new = palloc(sizeof(PLpgSQL_condition));
+		new = pgq_palloc(sizeof(PLpgSQL_condition));
 		new->sqlerrstate = 0;
 		new->condname = condname;
 		new->next = NULL;
@@ -961,7 +961,7 @@ plpgsql_parse_err_condition(char *condname)
 	{
 		if (strcmp(condname, exception_label_map[i].label) == 0)
 		{
-			new = palloc(sizeof(PLpgSQL_condition));
+			new = pgq_palloc(sizeof(PLpgSQL_condition));
 			new->sqlerrstate = exception_label_map[i].sqlerrstate;
 			new->condname = condname;
 			new->next = prev;
@@ -1005,7 +1005,7 @@ plpgsql_adddatum(PLpgSQL_datum *newdatum)
 	if (plpgsql_nDatums == datums_alloc)
 	{
 		datums_alloc *= 2;
-		plpgsql_Datums = repalloc(plpgsql_Datums, sizeof(PLpgSQL_datum *) * datums_alloc);
+		plpgsql_Datums = pgq_repalloc(plpgsql_Datums, sizeof(PLpgSQL_datum *) * datums_alloc);
 	}
 
 	newdatum->dno = plpgsql_nDatums;
@@ -1023,7 +1023,7 @@ plpgsql_finish_datums(PLpgSQL_function *function)
 	int			i;
 
 	function->ndatums = plpgsql_nDatums;
-	function->datums = palloc(sizeof(PLpgSQL_datum *) * plpgsql_nDatums);
+	function->datums = pgq_palloc(sizeof(PLpgSQL_datum *) * plpgsql_nDatums);
 	for (i = 0; i < plpgsql_nDatums; i++)
 	{
 		function->datums[i] = plpgsql_Datums[i];
@@ -1088,7 +1088,7 @@ plpgsql_add_initdatums(int **varnos)
 	{
 		if (n > 0)
 		{
-			*varnos = (int *) palloc(sizeof(int) * n);
+			*varnos = (int *) pgq_palloc(sizeof(int) * n);
 
 			n = 0;
 			for (i = datums_last; i < plpgsql_nDatums; i++)
