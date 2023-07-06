@@ -4,7 +4,7 @@
 
 #include "postgres_deparse.h"
 
-PgQueryDeparseResult pg_query_deparse_protobuf(PgQueryProtobuf parse_tree)
+__attribute__ ((visibility ("default"))) PgQueryDeparseResult pg_query_deparse_protobuf(PgQueryProtobuf parse_tree)
 {
 	PgQueryDeparseResult result = {0};
 	StringInfoData str;
@@ -54,7 +54,7 @@ PgQueryDeparseResult pg_query_deparse_protobuf(PgQueryProtobuf parse_tree)
 	return result;
 }
 
-void pg_query_free_deparse_result(PgQueryDeparseResult result)
+__attribute__ ((visibility ("default"))) void pg_query_free_deparse_result(PgQueryDeparseResult result)
 {
 	if (result.error) {
 		pg_query_free_error(result.error);

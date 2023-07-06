@@ -61,7 +61,7 @@ static void pg_query_thread_exit(void *key)
 	pg_query_free_top_memory_context(context);
 }
 
-void pg_query_exit(void)
+__attribute__ ((visibility ("default"))) void pg_query_exit(void)
 {
 	pg_query_free_top_memory_context(TopMemoryContext);
 }

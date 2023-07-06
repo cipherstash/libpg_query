@@ -439,7 +439,7 @@ static bool stmts_walker(Node *node, plStmts *state)
 	return result;
 }
 
-PgQueryPlpgsqlParseResult pg_query_parse_plpgsql(const char* input)
+__attribute__ ((visibility ("default"))) PgQueryPlpgsqlParseResult pg_query_parse_plpgsql(const char* input)
 {
 	MemoryContext ctx = NULL;
 	PgQueryPlpgsqlParseResult result = {0};
@@ -513,7 +513,7 @@ PgQueryPlpgsqlParseResult pg_query_parse_plpgsql(const char* input)
 	return result;
 }
 
-void pg_query_free_plpgsql_parse_result(PgQueryPlpgsqlParseResult result)
+__attribute__ ((visibility ("default"))) void pg_query_free_plpgsql_parse_result(PgQueryPlpgsqlParseResult result)
 {
 	if (result.error) {
 		pg_query_free_error(result.error);

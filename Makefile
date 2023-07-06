@@ -33,7 +33,7 @@ SRC_FILES := $(wildcard src/*.c src/postgres/*.c) vendor/protobuf-c/protobuf-c.c
 NOT_OBJ_FILES := src/pg_query_enum_defs.o src/pg_query_fingerprint_defs.o src/pg_query_fingerprint_conds.o src/pg_query_outfuncs_defs.o src/pg_query_outfuncs_conds.o src/pg_query_readfuncs_defs.o src/pg_query_readfuncs_conds.o src/postgres/guc-file.o src/postgres/scan.o src/pg_query_json_helper.o
 OBJ_FILES := $(filter-out $(NOT_OBJ_FILES), $(SRC_FILES:.c=.o))
 
-override CFLAGS += -g -I. -I./vendor -I./src/postgres/include -Wall -Wno-unused-function -Wno-unused-value -Wno-unused-variable -fno-strict-aliasing -fwrapv -fPIC
+override CFLAGS += -g -I. -I./vendor -I./src/postgres/include -Wall -Wno-unused-function -Wno-unused-value -Wno-unused-variable -fno-strict-aliasing -fwrapv -fPIC -fvisibility=hidden
 
 override PG_CONFIGURE_FLAGS += -q --without-readline --without-zlib
 
@@ -74,7 +74,7 @@ VALGRIND_MEMCHECK = valgrind --leak-check=full --gen-suppressions=all \
   --log-file=test/valgrind.log --trace-children=yes --show-leak-kinds=all \
   --error-exitcode=1 --errors-for-leak-kinds=all
 
-CC ?= cc
+CC ?= gcc
 
 # Experimental use of Protobuf C++ library, primarily used to validate JSON output matches Protobuf JSON mapping
 CXX_SRC_FILES := src/pg_query_outfuncs_protobuf_cpp.cc protobuf/pg_query.pb.cc

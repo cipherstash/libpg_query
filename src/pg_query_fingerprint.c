@@ -384,12 +384,12 @@ PgQueryFingerprintResult pg_query_fingerprint_with_opts(const char* input, bool 
 	return result;
 }
 
-PgQueryFingerprintResult pg_query_fingerprint(const char* input)
+__attribute__ ((visibility ("default"))) PgQueryFingerprintResult pg_query_fingerprint(const char* input)
 {
 	return pg_query_fingerprint_with_opts(input, false);
 }
 
-void pg_query_free_fingerprint_result(PgQueryFingerprintResult result)
+__attribute__ ((visibility ("default"))) void pg_query_free_fingerprint_result(PgQueryFingerprintResult result)
 {
 	if (result.error) {
 		free(result.error->message);

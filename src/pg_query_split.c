@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-PgQuerySplitResult pg_query_split_with_scanner(const char* input)
+__attribute__ ((visibility ("default"))) PgQuerySplitResult pg_query_split_with_scanner(const char* input)
 {
   MemoryContext ctx = NULL;
   PgQuerySplitResult result = {0};
@@ -162,7 +162,7 @@ PgQuerySplitResult pg_query_split_with_scanner(const char* input)
   return result;
 }
 
-PgQuerySplitResult pg_query_split_with_parser(const char* input)
+__attribute__ ((visibility ("default"))) PgQuerySplitResult pg_query_split_with_parser(const char* input)
 {
 	MemoryContext ctx = NULL;
 	PgQueryInternalParsetreeAndError parsetree_and_error;
@@ -204,7 +204,7 @@ PgQuerySplitResult pg_query_split_with_parser(const char* input)
 	return result;
 }
 
-void pg_query_free_split_result(PgQuerySplitResult result)
+__attribute__ ((visibility ("default"))) void pg_query_free_split_result(PgQuerySplitResult result)
 {
 	if (result.error) {
 		pg_query_free_error(result.error);

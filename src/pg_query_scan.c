@@ -23,7 +23,7 @@ struct yyguts_t
   size_t yyleng_r;
 };
 
-PgQueryScanResult pg_query_scan(const char* input)
+__attribute__ ((visibility ("default"))) PgQueryScanResult pg_query_scan(const char* input)
 {
   MemoryContext ctx = NULL;
   PgQueryScanResult result = {0};
@@ -163,7 +163,7 @@ PgQueryScanResult pg_query_scan(const char* input)
   return result;
 }
 
-void pg_query_free_scan_result(PgQueryScanResult result)
+__attribute__ ((visibility ("default"))) void pg_query_free_scan_result(PgQueryScanResult result)
 {
   if (result.error) {
     pg_query_free_error(result.error);

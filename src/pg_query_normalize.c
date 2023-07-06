@@ -558,7 +558,7 @@ static bool const_record_walker(Node *node, pgssConstLocations *jstate)
 	return false;
 }
 
-PgQueryNormalizeResult pg_query_normalize(const char* input)
+__attribute__ ((visibility ("default"))) PgQueryNormalizeResult pg_query_normalize(const char* input)
 {
 	MemoryContext ctx = NULL;
 	PgQueryNormalizeResult result = {0};
@@ -621,7 +621,7 @@ PgQueryNormalizeResult pg_query_normalize(const char* input)
 	return result;
 }
 
-void pg_query_free_normalize_result(PgQueryNormalizeResult result)
+__attribute__ ((visibility ("default"))) void pg_query_free_normalize_result(PgQueryNormalizeResult result)
 {
   if (result.error) {
     free(result.error->message);

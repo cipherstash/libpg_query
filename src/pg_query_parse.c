@@ -83,7 +83,7 @@ PgQueryInternalParsetreeAndError pg_query_raw_parse(const char* input)
 	return result;
 }
 
-PgQueryParseResult pg_query_parse(const char* input)
+__attribute__ ((visibility ("default"))) PgQueryParseResult pg_query_parse(const char* input)
 {
 	MemoryContext ctx = NULL;
 	PgQueryInternalParsetreeAndError parsetree_and_error;
@@ -107,7 +107,7 @@ PgQueryParseResult pg_query_parse(const char* input)
 	return result;
 }
 
-PgQueryProtobufParseResult pg_query_parse_protobuf(const char* input)
+__attribute__ ((visibility ("default"))) PgQueryProtobufParseResult pg_query_parse_protobuf(const char* input)
 {
 	MemoryContext ctx = NULL;
 	PgQueryInternalParsetreeAndError parsetree_and_error;
@@ -127,7 +127,7 @@ PgQueryProtobufParseResult pg_query_parse_protobuf(const char* input)
 	return result;
 }
 
-void pg_query_free_parse_result(PgQueryParseResult result)
+__attribute__ ((visibility ("default"))) void pg_query_free_parse_result(PgQueryParseResult result)
 {
 	if (result.error) {
 		pg_query_free_error(result.error);
@@ -137,7 +137,7 @@ void pg_query_free_parse_result(PgQueryParseResult result)
 	free(result.stderr_buffer);
 }
 
-void pg_query_free_protobuf_parse_result(PgQueryProtobufParseResult result)
+__attribute__ ((visibility ("default"))) void pg_query_free_protobuf_parse_result(PgQueryProtobufParseResult result)
 {
 	if (result.error) {
 		pg_query_free_error(result.error);
